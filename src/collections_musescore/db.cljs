@@ -1,4 +1,12 @@
-(ns collections-musescore.db)
+(ns collections-musescore.db
+(:require
+ [re-frame.core :refer [dispatch dispatch-sync reg-cofx]])
+  [cljs.spec.alpha :as s]
+  )
+
+(def ::collections (s/and
+                    (s/map-of ::id ::todo)
+                    #(instance? PersistentTreeMap %)))
 
 (def ls-key "collections-musescore")                         ;; localstore key
 
@@ -11,7 +19,7 @@
   [todos]
   (.setItem js/localStorage ls-key (str todos)))     ;; sorted-map written as an EDN map
 
-(re-frame/reg-cofx
+(reg-cofx
   :local-store-collections
   (fn [cofx _]
       ;; put the localstore todos into the coeffect under :local-store-todos
