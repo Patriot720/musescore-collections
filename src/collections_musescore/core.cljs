@@ -5,13 +5,12 @@
             [secretary.core :as secretary]
             [collections-musescore.events] ;; These two are only required to make the compiler
             [collections-musescore.subs]   ;; load them (see docs/App-Structure.md)
-            [collections-musescore.views])
+            [collections-musescore.views :as views])
   (:import [goog History]
            [goog.history EventType]))
 
 (enable-console-print!)
 
-(println "This text is printed from src/collections-musescore/core.cljs. Go ahead and edit it and see reloading in action.")
 
 ;; define your app data so that it doesn't get over-written on reload
 
@@ -33,11 +32,12 @@
                    (fn [event] (secretary/dispatch! (.-token event))))
     (.setEnabled true)))
 
+
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
   ;; your application
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
   )
 
-(reagent/render-component [hello-world]
+(reagent/render-component [views/main]
                           (. js/document (getElementById "app")))
