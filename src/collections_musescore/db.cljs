@@ -2,7 +2,7 @@
 (:require
  [re-frame.core :refer [dispatch dispatch-sync reg-cofx]])
   [cljs.spec.alpha :as s]
-  )
+  ))
 
 (def ::collections (s/and
                     (s/map-of ::id ::todo)
