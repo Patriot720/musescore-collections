@@ -1,10 +1,20 @@
 (ns collections-musescore.events
-  (:require [collections-musescore.db :as db]))
+  (:require [collections-musescore.db :as db]
+            [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path]]
+            [cljs.spec.alpha :as s]))
 
+(defn check-and-throw
+  "Throws an exception if `db` doesn't match the Spec `a-spec`."
+  [a-spec db]
+  (when-not (s/valid? a-spec db)
+    (throw (ex-info (str "spec check failed: " (s/explain-str a-spec db)) {}))))
+
+(def check-spec-interceptor (after (partial check-and-throw :todomvc.db/db)))
 
 (def ->local-store (after db/->local-store))
 (def collections-interceptors [(path :collections)
                                ->local-store])
+
 (reg-event-fx                 ;; part of the re-frame API
  :initialise-db              ;; event id being handled
 
