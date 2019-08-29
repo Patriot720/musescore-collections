@@ -14,14 +14,6 @@
 
 ;; define your app data so that it doesn't get over-written on reload
 
-(defonce app-state (reagent/atom {:text "Hello world!"}))
-
-
-(defn hello-world []
-  [:div
-   [:h1 (:text @app-state)]
-   [:h3 "Edit this and watch it change!"]])
-
 
 ; (defroute "/" [] (dispatch [:set-showing :all]))
 ; (defroute "/:filter" [filter] (dispatch [:set-showing (keyword filter)]))
