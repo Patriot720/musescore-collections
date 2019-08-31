@@ -1,4 +1,4 @@
-(ns collections-musescore.tests.test-runner
+(ns tests.test-runner
   (:require [cljs.test :refer-macros [run-tests]]
             [tests.core]))
 
@@ -10,4 +10,6 @@
   []
   (run-tests
    'tests.core))
+
+(defn rat [] (run-all-tests))
 

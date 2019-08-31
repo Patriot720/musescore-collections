@@ -1,6 +1,5 @@
-(ns collections-musescore.tests.core
-(:require [cljs.test :refer-macros [run-tests]])
-  )
+(ns tests.core
+  (:require [cljs.test :refer-macros [deftest is]]))
 
-(deftest failing-test
-  (is (= 0 1)))
+(deftest successful-test
+  (is (= 1 1)))
