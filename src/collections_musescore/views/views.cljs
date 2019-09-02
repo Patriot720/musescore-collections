@@ -1,4 +1,4 @@
-(ns collections-musescore.views)
+(ns collections-musescore.views.views)
 (def dummy-collection {:title "SightRead"
                        :scores [{:title "Roses of castemire"
                                  :url "https://musescore.com/user/158751/scores/2163051"}
@@ -8,6 +8,7 @@
                                  :title "stuff of gods"}
                                 {:title "cool beans"
                                  :url "https://musescore.com/user/158751/scores/2163051"}]})
+
 (def dummy-collections [dummy-collection dummy-collection])
 
 (defn score-view [score]

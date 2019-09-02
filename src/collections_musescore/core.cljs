@@ -5,7 +5,7 @@
             [secretary.core :as secretary]
             [collections-musescore.events] ;; These two are only required to make the compiler
             [collections-musescore.subs]   ;; load them (see docs/App-Structure.md)
-            [collections-musescore.views :as views])
+            [collections-musescore.views.views :as views])
   (:import [goog History]
            [goog.history EventType]))
 
