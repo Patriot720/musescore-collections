@@ -14,8 +14,10 @@
                  [re-frame "0.10.9"]]
 
   :plugins [[lein-figwheel "0.5.19"]
+            [lein-less "1.7.5"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
-
+  :less {:source-paths ["src/less/"]
+         :target-path "resources/public/css/"}
   :source-paths ["src"]
 
   :cljsbuild {:builds
