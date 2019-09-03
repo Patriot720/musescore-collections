@@ -8,11 +8,11 @@
 
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/clojurescript "1.10.520"]
-                 [cljsjs/react-motion "0.5.2-0"]
                  [org.clojure/core.async  "0.4.500"]
                  [reagent "0.8.1"]
                  [clj-commons/secretary "1.2.4"]
-                 [re-frame "0.10.9"]]
+                 [re-frame "0.10.9"]
+                 [cljsjs/react-motion "0.5.2-0"]]
 
   :plugins [[lein-figwheel "0.5.19"]
             [lein-less "1.7.5"]

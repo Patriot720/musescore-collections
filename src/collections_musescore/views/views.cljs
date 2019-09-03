@@ -1,4 +1,7 @@
-(ns collections-musescore.views.views)
+(ns collections-musescore.views.views
+  (:require
+   [collections-musescore.views.motion :as m]))
+
 (def dummy-collection {:title "SightRead"
                        :scores [{:title "Roses of castemire"
                                  :url "https://musescore.com/user/158751/scores/2163051"}
@@ -30,4 +33,5 @@
 
 
 (defn main []
-  [:div.container [collections-view dummy-collections]])
+  ; [:div.container [collections-view dummy-collections]]
+  [m/on-click-destroy-motion])
