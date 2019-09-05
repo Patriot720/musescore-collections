@@ -1,19 +1,45 @@
 (ns collections-musescore.views.motion-test
-  (:require [collections-musescore.views.motion :refer [TransitionMotion spring]]))
+  (:require
+   [reagent.core :as reagent]
+   [collections-musescore.views.motion :refer [TransitionMotion spring]]))
 
-(defn closing-div [{[style clicked?] :children}]
-  [:div {:on-click #(reset! clicked? true)
+(def dummy-stuff (reagent/atom [{:id 2
+                                 :title "nice"}
+                                {:id 3
+                                 :title "cool"}]))
+
+(defn remove-item [key stuff & args]
+  (swap! stuff (fn [stuff]
+                 (remove #(= (:id %) (int key)) stuff))))
+
+(defn list-div [key style]
+  [:div {:on-click (partial remove-item key dummy-stuff)
+         :key key
          :style {:background-color "black"
                  :height (.-height style)
                  :opacity (.-opacity style)}} "nice"])
 
-(def closing-div-comp (reagent/reactify-component closing-div))
+(defn closing-divs [{[items] :children}]
+  [:div
+   (for [item items
+         :let [key (.-key item)
+               style (.-style item)]]
+     ^{:key key} [list-div key style])])
 
-(defn on-click-destroy-motion []
-  (let [clicked? (reagent/atom false)]
-    (fn []
-      [Motion
-       {:style {:height (if @clicked? (spring 0) 60)
-                :opacity (if @clicked? (spring 0) 1)}}
-       (fn [style]
-         (reagent/create-element closing-div-comp #js {} [style clicked?]))])))
+(def closing-divs-comp (reagent/reactify-component closing-divs))
+
+(defn will-leave []
+  #js {:height (spring 0) :opacity (spring 0)})
+
+(defn ->motionConfig [stuff]
+  (map
+   (fn [{:keys [id]}]
+     {:key (str id) :style {:opacity 1
+                            :height 30}}) stuff))
+
+(defn on-click-destroy-div []
+  [TransitionMotion
+   {:willLeave will-leave
+    :styles (->motionConfig @dummy-stuff)}
+   (fn [styles]
+     (reagent/create-element closing-divs-comp #js {} [styles]))])
