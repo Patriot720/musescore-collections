@@ -1,6 +1,6 @@
 (ns collections-musescore.views.views
   (:require
-   [collections-musescore.views.motion-test :as m]))
+   [collections-musescore.views.animation-test :as m]))
 
 (def dummy-collection {:title "SightRead"
                        :scores [{:title "Roses of castemire"
@@ -34,4 +34,4 @@
 
 (defn main []
   ; [:div.container [collections-view dummy-collections]]
-  [m/on-click-destroy-div])
+  [m/home])

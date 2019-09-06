@@ -10,9 +10,9 @@
                  [org.clojure/clojurescript "1.10.520"]
                  [org.clojure/core.async  "0.4.500"]
                  [reagent "0.8.1"]
+                 [cljsjs/react-transition-group "4.2.1-0"]
                  [clj-commons/secretary "1.2.4"]
-                 [re-frame "0.10.9"]
-                 [cljsjs/react-motion "0.5.2-0"]]
+                 [re-frame "0.10.9"]]
 
   :plugins [[lein-figwheel "0.5.19"]
             [lein-less "1.7.5"]

@@ -9,8 +9,7 @@
 (defn run-all-tests
   []
   (run-tests
-   'tests.core
-   'tests.motion-test-test))
+   'tests.core))
 
 (defn rat [] (run-all-tests))
 
