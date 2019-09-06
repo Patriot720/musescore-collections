@@ -1,6 +1,7 @@
 (ns collections-musescore.views.views
   (:require
-   [collections-musescore.views.animation-test :as m]))
+   [reagent.core :as reagent]
+   [collections-musescore.views.animation :as animation]))
 
 (def dummy-collection {:title "SightRead"
                        :scores [{:title "Roses of castemire"
@@ -12,26 +13,32 @@
                                 {:title "cool beans"
                                  :url "https://musescore.com/user/158751/scores/2163051"}]})
 
-(def dummy-collections [dummy-collection dummy-collection])
+(def dummy-collections (reagent/atom [dummy-collection dummy-collection]))
 
-(defn score-view [score]
-  [:li [:a {:href (:url score) :target "_blank"} (:title score)]])
+(defn remove-score [scores score-title]
+  (remove (fn [item]
+            (= (:title item) score-title)) scores))
 
-(defn scores-view [scores]
-  [:ul
-   (for [score scores]
-     ^{:key (gensym (:title score))} [score-view score])])
+(defn remove-score-from-collections [collections collection-title score-title]
+  (swap! collections (fn [collections]
+                       (map (fn [collection]
+                              (if (= (:title collection) collection-title)
+                                (update collection :scores remove-score score-title) collection)) collections))))
 
-(defn collection-view [collection]
-  [:div [:h1 (:title collection)]
-   [scores-view (:scores collection)]])
+(defn score-view [{:keys [title url]}]
+  [:li [:a {:href url :target "_blank"} title]])
 
 (defn collections-view [collections]
   [:div.collections.is-half
-   (for [collection collections]
-     ^{:key (gensym (:title collection))} [collection-view collection])])
+   (for [collection collections
+         :let [scores (:scores collection)
+               title (:title collection)]]
+     ^{:key (gensym title)}
+     [:div [:h1 (:title collection)]
+      [:ul
+       (for [score scores]
+         ^{:key (gensym (:title score))} [score-view score])]])])
 
 
 (defn main []
-  ; [:div.container [collections-view dummy-collections]]
-  [m/home])
+  [collections-view @dummy-collections])
