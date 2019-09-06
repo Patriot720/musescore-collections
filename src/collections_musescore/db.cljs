@@ -4,14 +4,21 @@
    [cljs.reader]
    [cljs.spec.alpha :as s]))
 
-(def ::collections (s/and
-                    (s/map-of ::id ::todo)
-                    #(instance? PersistentTreeMap %)))
+(def ::title string?)
+(def url-regex
+  #"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)")
+(def ::url (s/and string? #(re-matches url-regex %)))
+
+(def ::score (s/map-of ::title))
+(def ::scores (s/coll-of ::score))
+(def ::collection (s/map-of ::title ::scores))
+(def ::collections
+  (s/coll-of ::collection))
 
 (def ls-key "collections-musescore")                         ;; localstore key
 
 (def default-db           ;; what gets put into app-db by default.
-  {:collections   (sorted-map)  ;; an empty list of todos. Use the (int) :id as the key
+  {:collections   []  ;; an empty list of todos. Use the (int) :id as the key
    })
 
 (defn ->local-store
