@@ -25,20 +25,22 @@
                               (if (= (:title collection) collection-title)
                                 (update collection :scores remove-score score-title) collection)) collections))))
 
-(defn score-view [{:keys [title url]}]
-  [:li [:a {:href url :target "_blank"} title]])
+(defn score-view [{:keys [title url]}])
 
-(defn collections-view [collections]
+(defn collections-view [collections-atom]
   [:div.collections.is-half
-   (for [collection collections
-         :let [scores (:scores collection)
-               title (:title collection)]]
-     ^{:key (gensym title)}
+   (for [collection @collections-atom
+         :let [scores (:scores collection)]]
+     ^{:key (gensym (:title collection))}
      [:div [:h1 (:title collection)]
       [:ul
        (for [score scores]
-         ^{:key (gensym (:title score))} [score-view score])]])])
+         ^{:key (gensym (:title score))}
+         [:li
+          [:a {:href (:url score) :target "_blank"} (:title score)]
+          [:button {:on-click
+                    #(remove-score-from-collections collections-atom (:title collection) (:title score))} "DELETE"]])]])])
 
 
 (defn main []
-  [collections-view @dummy-collections])
+  [collections-view dummy-collections])
