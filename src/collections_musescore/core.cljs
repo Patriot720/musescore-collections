@@ -18,6 +18,8 @@
 ; (defroute "/" [] (dispatch [:set-showing :all]))
 ; (defroute "/:filter" [filter] (dispatch [:set-showing (keyword filter)]))
 
+(dispatch-sync [:initialise-db])
+
 (def history
   (doto (History.)
     (events/listen EventType.NAVIGATE

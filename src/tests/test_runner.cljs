@@ -1,7 +1,8 @@
 (ns tests.test-runner
   (:require [cljs.test :refer-macros [run-tests]]
             [tests.core]
-            [tests.views-test]))
+            [tests.views-test]
+            [tests.db-spec-test]))
 
 ;; This isn't strictly necessary, but is a good idea depending
 ;; upon your application's ultimate runtime engine.
@@ -11,7 +12,8 @@
   []
   (run-tests
    'tests.core
-   'tests.views-test))
+   'tests.views-test
+   'tests.db-spec-test))
 
 (defn rat [] (run-all-tests))
 

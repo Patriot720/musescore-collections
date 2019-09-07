@@ -1,6 +1,7 @@
 (ns collections-musescore.views.views
   (:require
    [reagent.core :as reagent]
+   [re-frame.core :refer [subscribe dispatch]]
    [collections-musescore.views.animation :as animation]))
 
 (def dummy-collection {:title "SightRead"
@@ -43,4 +44,4 @@
 
 
 (defn main []
-  [collections-view dummy-collections])
+  [collections-view (subscribe [:collections])])
