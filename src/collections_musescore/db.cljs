@@ -7,14 +7,14 @@
 (s/def ::title string?)
 ; (ss//def url-regex
 ; s/  #"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)")
-(s/def ::url (s/and string?))
+(s/def ::url string?)
 
-(s/def ::score (s/map-of ::title ::url))
-(s/def ::scores #(or  empty? (s/coll-of ::score)))
-(s/def ::collection #(or  empty? (s/map-of ::title ::scores)))
+(s/def ::score (s/or :map (s/keys :req-un [::title ::url]) :nil nil?))
+(s/def ::scores (s/or  :empty empty? :coll-of (s/coll-of ::score)))
+(s/def ::collection (s/or  :empty empty? :coll-of (s/keys :req-un [::title ::scores])))
 (s/def ::collections
   (s/coll-of ::collection))
-(s/def ::db (s/keys :req [::collections]))
+(s/def ::db (s/keys :req-un [::collections]))
 (def ls-key "collections-musescore")                         ;; localstore key
 
 (def default-db           ;; what gets put into app-db by default.
