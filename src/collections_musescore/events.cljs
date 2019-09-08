@@ -9,7 +9,7 @@
   (when-not (s/valid? a-spec db)
     (throw (ex-info (str "spec check failed: " (s/explain-str a-spec db)) {}))))
 
-(def check-spec-interceptor (after (partial check-and-throw :collections-musescore.db/collections)))
+(def check-spec-interceptor (after (partial check-and-throw :collections-musescore.db/db)))
 
 (def ->local-store (after db/->local-store))
 (def collections-interceptors [(path :collections)
