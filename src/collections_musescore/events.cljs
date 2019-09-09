@@ -21,11 +21,13 @@
 (defrecord Collection [title scores])
 (defrecord Score [title url])
 
+(defn add-collection [collections [_ title]]
+  (conj collections (->Collection title [])))
+
 (reg-event-db
  :add-collection
  collections-interceptors
- (fn [collections [_ title]]
-   (conj collections (->Collection title []))))
+ add-collection)
 
 (reg-event-fx                 ;; part of the re-frame API
  :initialise-db              ;; event id being handled

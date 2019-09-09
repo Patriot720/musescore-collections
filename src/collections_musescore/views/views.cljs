@@ -28,8 +28,24 @@
 
 (defn score-view [{:keys [title url]}])
 
+
+(defn add-collection []
+  (let [title (reagent/atom "")
+        save #(dispatch [:add-collection @title])
+        stop #(reset! title "")]
+    (fn []
+      [:div
+       [:input
+        {:on-change   #(reset! title (-> % .-target .-value))
+         :on-key-down #(case (.-which %)
+                         13 (save)
+                         27 (stop)
+                         nil)}]
+       [:button {:on-click #(save)} "ADD"]])))
+
 (defn collections-view [collections-atom]
   [:div.collections.is-half
+   [add-collection]
    (for [collection @collections-atom
          :let [scores (:scores collection)]]
      ^{:key (gensym (:title collection))}
@@ -41,7 +57,5 @@
           [:a {:href (:url score) :target "_blank"} (:title score)]
           [:button {:on-click
                     #(remove-score-from-collections collections-atom (:title collection) (:title score))} "DELETE"]])]])])
-
-
 (defn main []
   [collections-view (subscribe [:collections])])
