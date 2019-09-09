@@ -58,4 +58,5 @@
           [:button {:on-click
                     #(remove-score-from-collections collections-atom (:title collection) (:title score))} "DELETE"]])]])])
 (defn main []
+  (println @(subscribe [:collections]))
   [collections-view (subscribe [:collections])])

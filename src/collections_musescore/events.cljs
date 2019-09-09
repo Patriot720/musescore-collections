@@ -38,4 +38,4 @@
 
   ;; the event handler (function) being registered
  (fn [{:keys [db local-store-collections]} _]                  ;; take 2 values from coeffects. Ignore event vector itself.
-   {:db (assoc db/default-db :collections local-store-collections)}))   ;; all hail the new state to be put in app-db
+   {:db (assoc db/default-db :collections (if (empty?  local-store-collections) [] local-store-collections))}))   ;; all hail the new state to be put in app-db
