@@ -26,13 +26,16 @@
   [collections]
   (.setItem js/localStorage ls-key (str collections)))     ;; sorted-map written as an EDN map
 
+(defn get-from-local-store []
+  (some->> (.getItem js/localStorage ls-key)
+           (cljs.reader/read-string)    ;; EDN map -> map
+           ))
+
+(defn local-store-collections-cofx  [cofx _]
+      ;; put the localstore todos into the coeffect under :local-store-todos
+  (assoc cofx :local-store-collections
+             ;; read in todos from localstore, and process into a sorted map
+         (get-from-local-store)))
 (reg-cofx
  :local-store-collections
- (fn [cofx _]
-      ;; put the localstore todos into the coeffect under :local-store-todos
-   (assoc cofx :local-store-collections
-             ;; read in todos from localstore, and process into a sorted map
-          (into (sorted-map)
-                (some->> (.getItem js/localStorage ls-key)
-                         (cljs.reader/read-string)    ;; EDN map -> map
-                         )))))
+ local-store-collections-cofx)

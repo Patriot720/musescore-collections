@@ -19,10 +19,14 @@
   (count collections))
 
 (defrecord Collection [title scores])
+(defn collection [title scores]
+  (into {} (->Collection title scores)))
 (defrecord Score [title url])
+(defn score [title url]
+  (into {} (->Score title url)))
 
 (defn add-collection [collections [_ title]]
-  (conj collections (->Collection title [])))
+  (conj collections (collection title [])))
 
 (reg-event-db
  :add-collection

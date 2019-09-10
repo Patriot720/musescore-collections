@@ -1,8 +1,9 @@
 (ns tests.db-spec-test
-  (:require [cljs.test :refer-macros [testing deftest is]]
-            [collections-musescore.db :as db]
-            [collections-musescore.events :as events]
-            [cljs.spec.alpha :as s]))
+  (:require 
+   [cljs.test :refer-macros [testing deftest is]]
+   [collections-musescore.db :as db]
+   [collections-musescore.events :as events]
+   [cljs.spec.alpha :as s]))
 
 (deftest this_spec_should_not_throw_errors
   (is (true? (s/valid? ::db/db  {:collections {}}))))
@@ -23,8 +24,8 @@
   (is (true? (s/valid? ::db/score nil))))
 
 (deftest record-collections-should-be-valid
-  (is (true? (s/valid? ::db/collection (events/->Collection "Nice" []))))
-  (is (true? (s/valid? ::db/collections [(events/->Collection "Nice" [])]))))
+  (is (true? (s/valid? ::db/collection (events/collection "Nice" []))))
+  (is (true? (s/valid? ::db/collections [(events/collection "Nice" [])]))))
 
 
 (deftest score-should-be-valid

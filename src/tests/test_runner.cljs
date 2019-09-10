@@ -3,6 +3,7 @@
             [tests.core]
             [tests.views-test]
             [tests.db-spec-test]
+            [tests.db-test]
             [tests.events-test]))
 
 ;; This isn't strictly necessary, but is a good idea depending
@@ -15,7 +16,9 @@
    'tests.core
    'tests.events-test
    'tests.views-test
+   'tests.db-test
    'tests.db-spec-test))
+
 
 (defn rat [] (run-all-tests))
 
