@@ -1,8 +1,8 @@
 (ns tests.db-test
   (:require [cljs.test :refer-macros [testing deftest is]]
             [collections-musescore.db :as db]
-            [collections-musescore.events :as events]
-            [cljs.spec.alpha :as s]))
+            ; [collections-musescore.events :as events]
+            ))
 
 (deftest shitty-test
   (db/->local-store [{:title "nice" :scores []} {:title "nice" :scores []}])

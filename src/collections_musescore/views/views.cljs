@@ -1,8 +1,7 @@
 (ns collections-musescore.views.views
   (:require
    [reagent.core :as reagent]
-   [re-frame.core :refer [subscribe dispatch]]
-   [collections-musescore.views.animation :as animation]))
+   [re-frame.core :refer [subscribe dispatch]]))
 
 (def dummy-collection {:title "SightRead"
                        :scores [{:title "Roses of castemire"
@@ -26,7 +25,7 @@
                               (if (= (:title collection) collection-title)
                                 (update collection :scores remove-score score-title) collection)) collections))))
 
-(defn score-view [{:keys [title url]}])
+; (defn score-view [{:keys [title url]}])
 
 
 (defn add-collection []

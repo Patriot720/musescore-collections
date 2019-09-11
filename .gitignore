@@ -1,4 +1,5 @@
 /resources/public/js/compiled/**
+.joker
 /resources/public/css/**
 figwheel_server.log
 pom.xml
