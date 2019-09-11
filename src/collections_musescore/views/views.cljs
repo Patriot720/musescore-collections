@@ -43,6 +43,26 @@
                          nil)}]
        [:button {:on-click #(save)} "ADD"]])))
 
+
+(defn add-score [collection-title]
+  (let [title (reagent/atom  "")
+        url (reagent/atom  "")
+        save #(dispatch [:add-score @title])
+        stop #(reset! title "")]
+    (fn [collection-title]
+      [:div
+       [:label "Score name"]
+       [:input
+        {:on-change   #(reset! title (-> % .-target .-value))}]
+       [:label "URL"]
+       [:input
+        {:on-change   #(reset! url (-> % .-target .-value))
+         :on-key-down #(case (.-which %)
+                         13 (save)
+                         27 (stop)
+                         nil)}]
+       [:button {:on-click #(save)} "ADD"]])))
+
 (defn collections-view [collections-atom]
   [:div.collections.is-half
    [add-collection]

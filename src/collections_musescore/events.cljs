@@ -28,6 +28,19 @@
 (defn add-collection [collections [_ title]]
   (conj collections (collection title [])))
 
+(defn- add-score-to-collection [collection title url]
+  (update collection :scores #(conj % (score title url))))
+
+(defn- collection-title-equals? [collection title]
+  (= (:title collection) title))
+
+(defn add-score [collections [_ title score-title url]]
+  (map (fn [item]
+         (if (collection-title-equals? item title)
+           (add-score-to-collection item score-title url)
+           item)) collections))
+; TODO slow should really do ID map instead of array
+
 (reg-event-db
  :add-collection
  collections-interceptors
