@@ -40,7 +40,10 @@
            (add-score-to-collection item score-title url)
            item)) collections))
 ; TODO slow should really do ID map instead of array
-
+(reg-event-db
+ :add-score
+ collections-interceptors
+ add-score)
 (reg-event-db
  :add-collection
  collections-interceptors

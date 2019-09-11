@@ -47,7 +47,7 @@
 (defn add-score [collection-title]
   (let [title (reagent/atom  "")
         url (reagent/atom  "")
-        save #(dispatch [:add-score @title])
+        save #(dispatch [:add-score collection-title @title @url])
         stop #(reset! title "")]
     (fn [collection-title]
       [:div
@@ -70,6 +70,7 @@
          :let [scores (:scores collection)]]
      ^{:key (gensym (:title collection))}
      [:div [:h1 (:title collection)]
+      [add-score (:title collection)]
       [:ul
        (for [score scores]
          ^{:key (gensym (:title score))}
