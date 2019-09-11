@@ -1,4 +1,6 @@
 /resources/public/js/compiled/**
+.joker
+/resources/public/css/**
 figwheel_server.log
 pom.xml
 *jar
@@ -11,3 +13,4 @@ pom.xml
 .lein-plugins/
 .repl
 .nrepl-port
+node-modules/

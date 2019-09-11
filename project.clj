@@ -10,12 +10,15 @@
                  [org.clojure/clojurescript "1.10.520"]
                  [org.clojure/core.async  "0.4.500"]
                  [reagent "0.8.1"]
+                 [cljsjs/react-transition-group "4.2.1-0"]
                  [clj-commons/secretary "1.2.4"]
                  [re-frame "0.10.9"]]
 
   :plugins [[lein-figwheel "0.5.19"]
+            [lein-less "1.7.5"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
-
+  :less {:source-paths ["src/less/"]
+         :target-path "resources/public/css/"}
   :source-paths ["src"]
 
   :cljsbuild {:builds
@@ -36,6 +39,7 @@
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/collections_musescore.js"
                            :output-dir "resources/public/js/compiled/out"
+                          ;  :npm-deps {"react-motion" "0.5.2"}
                            :source-map-timestamp true
                            ;; To console.log CLJS data-structures make sure you enable devtools in Chrome
                            ;; https://github.com/binaryage/cljs-devtools
