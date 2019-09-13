@@ -15,30 +15,37 @@
 (def collections-interceptors [(path :collections)
                                ->local-store])
 
-(defn allocate-collection-id [collections]
-  (count collections))
 
-(defrecord Collection [title scores])
-(defn collection [title scores]
-  (into {} (->Collection title scores)))
-(defrecord Score [title url])
-(defn score [title url]
-  (into {} (->Score title url)))
+(defrecord Collection [id title scores])
+(defn collection [id title scores]
+  (into {} (->Collection id title scores)))
+(defrecord Score [id title url])
+(defn score [id title url]
+  (into {} (->Score id title url)))
+(defn- get-next-id [array]
+  (count array))
+
+(defn allocate-next-id
+  "Returns the next todo id.
+  Assumes todos are sorted.
+  Returns one more than the current largest id."
+  [todos]
+  ((fnil inc 0) (last (keys todos))))
 
 (defn add-collection [collections [_ title]]
-  (conj collections (collection title [])))
+  (let [id (allocate-next-id collections)]
+    (assoc collections id (collection id title {}))))
 
 (defn- add-score-to-collection [collection title url]
-  (update collection :scores #(conj % (score title url))))
+  (let [id (allocate-next-id (:scores collection))]
+    (assoc-in collection [:scores id]  (score id title url))))
 
-(defn- collection-title-equals? [collection title]
-  (= (:title collection) title))
+; (defn- collection-title-equals? [collection title]
+;   (= (:title collection) title))
 
-(defn add-score [collections [_ title score-title url]]
-  (map (fn [item]
-         (if (collection-title-equals? item title)
-           (add-score-to-collection item score-title url)
-           item)) collections))
+(defn add-score [collections [_ id score-title url]]
+  (update collections id add-score-to-collection score-title url))
+
 ; TODO slow should really do ID map instead of array
 (reg-event-db
  :add-score
@@ -58,17 +65,13 @@
 
   ;; the event handler (function) being registered
  (fn [{:keys [db local-store-collections]} _]                  ;; take 2 values from coeffects. Ignore event vector itself.
-   {:db (assoc db/default-db :collections (if (empty?  local-store-collections) [] local-store-collections))}))   ;; all hail the new state to be put in app-db
+   {:db (assoc db/default-db :collections  local-store-collections)}))   ;; all hail the new state to be put in app-db
 
-(defn remove-score [scores score-title]
-  (println score-title)
-  (remove (fn [item]
-            (= (:title item) score-title)) scores))
+(defn remove-score [scores score-id]
+  (dissoc scores score-id))
 
-(defn remove-score-from-collections [collections [_ collection-title score-title]]
-  (map (fn [collection]
-         (if (= (:title collection) collection-title)
-           (update collection :scores remove-score score-title) collection)) collections))
+(defn remove-score-from-collections [collections [_ collection-id score-id]]
+  (update-in collections [collection-id :scores] dissoc score-id))
 
 (reg-event-db
  :remove-score

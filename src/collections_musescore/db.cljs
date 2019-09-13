@@ -10,10 +10,10 @@
 (s/def ::url string?)
 
 (s/def ::score (s/or :map (s/keys :req-un [::title ::url]) :nil nil?))
-(s/def ::scores (s/or  :empty empty? :coll-of (s/coll-of ::score)))
+(s/def ::scores (s/or  :empty empty? :map-of (s/map-of number? ::score)))
 (s/def ::collection (s/or  :empty empty? :coll-of (s/keys :req-un [::title ::scores])))
 (s/def ::collections
-  (s/coll-of ::collection))
+  (s/map-of number? ::collection))
 (s/def ::db (s/keys :req-un [::collections]))
 (def ls-key "collections-musescore")                         ;; localstore key
 
