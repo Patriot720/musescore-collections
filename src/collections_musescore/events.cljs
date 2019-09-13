@@ -59,3 +59,18 @@
   ;; the event handler (function) being registered
  (fn [{:keys [db local-store-collections]} _]                  ;; take 2 values from coeffects. Ignore event vector itself.
    {:db (assoc db/default-db :collections (if (empty?  local-store-collections) [] local-store-collections))}))   ;; all hail the new state to be put in app-db
+
+(defn remove-score [scores score-title]
+  (println score-title)
+  (remove (fn [item]
+            (= (:title item) score-title)) scores))
+
+(defn remove-score-from-collections [collections [_ collection-title score-title]]
+  (map (fn [collection]
+         (if (= (:title collection) collection-title)
+           (update collection :scores remove-score score-title) collection)) collections))
+
+(reg-event-db
+ :remove-score
+ collections-interceptors
+ remove-score-from-collections)

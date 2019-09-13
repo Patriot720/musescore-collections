@@ -1,6 +1,7 @@
 (ns collections-musescore.views.views
   (:require
    [reagent.core :as reagent]
+   [collections-musescore.views.animation :refer [css-transition transition-group]]
    [re-frame.core :refer [subscribe dispatch]]))
 
 (def dummy-collection {:title "SightRead"
@@ -15,20 +16,11 @@
 
 (def dummy-collections (reagent/atom [dummy-collection dummy-collection]))
 
-(defn remove-score [scores score-title]
-  (remove (fn [item]
-            (= (:title item) score-title)) scores))
-
-(defn remove-score-from-collections [collections collection-title score-title]
-  (swap! collections (fn [collections]
-                       (map (fn [collection]
-                              (if (= (:title collection) collection-title)
-                                (update collection :scores remove-score score-title) collection)) collections))))
 
 ; (defn score-view [{:keys [title url]}])
 
 
-(defn add-collection []
+(defn add-collection-button []
   (let [title (reagent/atom "")
         save #(dispatch [:add-collection @title])
         stop #(reset! title "")]
@@ -62,20 +54,30 @@
                          nil)}]
        [:button {:on-click #(save)} "ADD"]])))
 
+(defn score-view [collection-title {:keys [title url]}]
+  [:li
+   [:a {:href url :target "_blank"} title]
+   [:button {:on-click
+             #(dispatch [:remove-score collection-title title])} "DELETE"]])
+
+(defn collection-view [{:keys [title scores]}]
+  [:div [:h1 title]
+   [add-score title]
+   [:ul
+    [transition-group {}
+     (for [score scores]
+       ^{:key (gensym (:title score))}
+       [css-transition {:id (:title score) :classNames "score" :timeout 200} [score-view title score]])]]])
+
 (defn collections-view [collections-atom]
   [:div.collections.is-half
-   [add-collection]
-   (for [collection @collections-atom
-         :let [scores (:scores collection)]]
-     ^{:key (gensym (:title collection))}
-     [:div [:h1 (:title collection)]
-      [add-score (:title collection)]
-      [:ul
-       (for [score scores]
-         ^{:key (gensym (:title score))}
-         [:li
-          [:a {:href (:url score) :target "_blank"} (:title score)]
-          [:button {:on-click
-                    #(remove-score-from-collections collections-atom (:title collection) (:title score))} "DELETE"]])]])])
+   [add-collection-button]
+   [:ul
+    [transition-group {}
+     (for [collection @collections-atom]
+       ^{:key (gensym (:title collection))}
+       [css-transition {:id (:title collection) :classNames "score" :timeout 200}
+        [collection-view collection]])]]])
+
 (defn main []
   [collections-view (subscribe [:collections])])
