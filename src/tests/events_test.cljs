@@ -25,3 +25,30 @@
          [{:title "nice"
            :scores [{:title "some_score"
                      :url "url"}]}])))
+
+
+(defn count-equals [item expected-count]
+  (= (count item)
+     expected-count))
+
+(def dummy-collection {:title "nice"
+                       :scores [{:title "url"
+                                 :url "nice"}
+                                {:title ":url"
+                                 :url "nice"}
+                                {:title ":url"
+                                 :url "nice"}]})
+
+(deftest remove-score-from-collection-test
+  (is (= (count (events/remove-score (:scores dummy-collection) "url")) 2)))
+
+(deftest remove-score-from-collection
+  (let [dummy-collections [{:title "nice"
+                            :scores [{:title "some_title"
+                                      :url "nice"}
+                                     {:title ":url"
+                                      :url "nice"}
+                                     {:title ":url"
+                                      :url "nice"}]}]]
+
+    (is (= (-> (events/remove-score-from-collections dummy-collections [nil "nice" "some_title"]) first :scores count) 2))))
