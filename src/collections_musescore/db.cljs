@@ -18,7 +18,7 @@
 (def ls-key "collections-musescore")                         ;; localstore key
 
 (def default-db           ;; what gets put into app-db by default.
-  {:collections   []  ;; an empty list of todos. Use the (int) :id as the key
+  {:collections   {}  ;; an empty list of todos. Use the (int) :id as the key
    })
 
 (defn ->local-store
@@ -27,9 +27,9 @@
   (.setItem js/localStorage ls-key (str collections)))     ;; sorted-map written as an EDN map
 
 (defn get-from-local-store []
-  (some->> (.getItem js/localStorage ls-key)
-           (cljs.reader/read-string)    ;; EDN map -> map
-           ))
+  (into {} (some->> (.getItem js/localStorage ls-key)
+                    (cljs.reader/read-string)    ;; EDN map -> map
+                    )))
 
 (defn local-store-collections-cofx  [cofx _]
       ;; put the localstore todos into the coeffect under :local-store-todos

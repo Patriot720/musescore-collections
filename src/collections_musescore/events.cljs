@@ -12,7 +12,8 @@
 (def check-spec-interceptor (after (partial check-and-throw :collections-musescore.db/db)))
 
 (def ->local-store (after db/->local-store))
-(def collections-interceptors [(path :collections)
+(def collections-interceptors [check-spec-interceptor
+                               (path :collections)
                                ->local-store])
 
 
@@ -44,6 +45,7 @@
 ;   (= (:title collection) title))
 
 (defn add-score [collections [_ id score-title url]]
+  (println id)
   (update collections id add-score-to-collection score-title url))
 
 ; TODO slow should really do ID map instead of array

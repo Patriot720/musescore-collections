@@ -18,10 +18,10 @@
        [:button {:on-click #(save)} "ADD"]])))
 
 
-(defn add-score-form [collection-title]
+(defn add-score-form [collection-id]
   (let [title (reagent/atom  "")
         url (reagent/atom  "")
-        save #(dispatch [:add-score collection-title @title @url])
+        save #(dispatch [:add-score collection-id @title @url])
         stop #(reset! title "")]
     (fn [collection-title]
       [:div

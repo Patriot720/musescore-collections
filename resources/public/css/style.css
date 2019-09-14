@@ -1,6 +1,18 @@
 /* some style */
+html {
+  background: url("beanstalk-dark.png");
+}
+body {
+  color: #BBB !important;
+}
 .collections {
-  background: #DDD;
+  overflow: hidden;
+  background: #0C154A;
+  transition: all 130ms ease-in;
+}
+.collections ul.scores {
+  overflow: hidden;
+  transition: all 130ms ease-in;
 }
 .collections li {
   list-style: none;
@@ -15,20 +27,20 @@
   text-align: center;
   vertical-align: middle;
   line-height: 100px;
-  color: black;
+}
+.score {
+  transform-origin: top center;
+  transition: transform 0.3s ease-in-out;
 }
 .score-enter {
-  height: 0;
-  transition: height 0.27s ease-out;
+  transform: scaleY(0);
 }
 .score-exit {
-  height: 2em;
+  transform: scaleY(1);
 }
 .score-exit-active {
-  height: 0;
-  transition: height 0.27s ease-out;
+  transform: scaleY(0);
 }
 .score-enter-active {
-  height: 2em;
-  opacity: 1;
+  transform: scaleY(1);
 }

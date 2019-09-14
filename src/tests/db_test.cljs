@@ -5,9 +5,12 @@
             ))
 
 (deftest shitty-test
-  (db/->local-store [{:title "nice" :scores []} {:title "nice" :scores []}])
-  (is (= (db/get-from-local-store) [{:title "nice" :scores []}
-                                    {:title "nice" :scores []}])))
+  (db/->local-store {1 {:title "nice" :scores {}} 2 {:title "nice" :scores {}}})
+  (is (= (db/get-from-local-store) {1 {:title "nice" :scores {}}
+                                    2 {:title "nice" :scores {}}})))
+(deftest empty-local-store-test
+  (db/->local-store nil)
+  (is (= (db/get-from-local-store) {})))
 
 ; (deftest localstore-test
 ;   (is (= (db/get-from-local-store) [{:title "nice" :scores []}])))
