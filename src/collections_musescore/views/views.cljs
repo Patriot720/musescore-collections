@@ -38,18 +38,10 @@
 (defn collections-view [collections-atom]
 
   [:section.section
-   [:> mui/Button "WAT"]
-  ;  [:> mui/Button
-  ;   {:variant "contained"
-  ;    :color "primary"}
-  ;   "Update value property"
-  ;   [:> mui-icons/AddBox]]
-;
-
-   [:div.collections.container.box
+   [:> mui/Container
     [inputs/add-collection-form]
-    [:ul
-     [transition-group {:component "ul" :className "collections"}
+    [:> mui/Paper
+     [transition-group {:component "ul"}
       (for [collection (vals @collections-atom)
             :let [id (:id collection)]]
         ^{:key (str "collection_" id)}
