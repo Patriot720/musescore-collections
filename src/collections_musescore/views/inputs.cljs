@@ -3,19 +3,23 @@
    [reagent.core :as reagent]
    [re-frame.core :refer [subscribe dispatch]]))
 
+(defn input-wrap [label & stuff]
+  (into [:div.box [:div.field.is-grouped
+                   [:label.label label]]] stuff))
+
 (defn add-collection-form []
   (let [title (reagent/atom "")
         save #(dispatch [:add-collection @title])
         stop #(reset! title "")]
     (fn []
-      [:div
-       [:input
+      [input-wrap "Add collection"
+       [:input.input
         {:on-change   #(reset! title (-> % .-target .-value))
          :on-key-down #(case (.-which %)
                          13 (save)
                          27 (stop)
                          nil)}]
-       [:button {:on-click #(save)} "ADD"]])))
+       [:button.button.is-primary {:on-click #(save)} "ADD"]])))
 
 
 (defn add-score-form [collection-id]
@@ -24,15 +28,14 @@
         save #(dispatch [:add-score collection-id @title @url])
         stop #(reset! title "")]
     (fn [collection-title]
-      [:div
-       [:label "Score name"]
-       [:input
+      [input-wrap "Add score"
+       [:input.input
         {:on-change   #(reset! title (-> % .-target .-value))}]
        [:label "URL"]
-       [:input
+       [:input.input
         {:on-change   #(reset! url (-> % .-target .-value))
          :on-key-down #(case (.-which %)
                          13 (save)
                          27 (stop)
                          nil)}]
-       [:button {:on-click #(save)} "ADD"]])))
+       [:button.button.is-primary {:on-click #(save)} "ADD"]])))

@@ -48,7 +48,14 @@
   (println id)
   (update collections id add-score-to-collection score-title url))
 
+(defn remove-collection [collections [_ id]]
+  (dissoc collections id))
+
 ; TODO slow should really do ID map instead of array
+(reg-event-db
+ :remove-collection
+ collections-interceptors
+ remove-collection)
 (reg-event-db
  :add-score
  collections-interceptors
