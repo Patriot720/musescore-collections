@@ -1,9 +1,21 @@
 (ns collections-musescore.views.views
   (:require
    [reagent.core :as reagent]
+   ["@material-ui/core" :as mui]
+   ["@material-ui/core/styles" :refer [createMuiTheme withStyles]]
+   ["@material-ui/core/colors" :as mui-colors]
+   ["@material-ui/icons" :as mui-icons]
    [collections-musescore.views.animation :refer [css-transition transition-group]]
    [collections-musescore.views.inputs :as inputs]
    [re-frame.core :refer [subscribe dispatch]]))
+
+(set! *warn-on-infer* true)
+
+(defn event-value
+  [^js/Event e]
+  (let [^js/HTMLInputElement el (.-target e)]
+    (.-value el)))
+
 
 (defn score-view [collection-id {:keys [id title url]}]
   [:li.score
@@ -24,7 +36,16 @@
        [css-transition {:id (:id score) :classNames "score" :timeout 300} [score-view id score]])]]])
 
 (defn collections-view [collections-atom]
+
   [:section.section
+   [:> mui/Button "WAT"]
+  ;  [:> mui/Button
+  ;   {:variant "contained"
+  ;    :color "primary"}
+  ;   "Update value property"
+  ;   [:> mui-icons/AddBox]]
+;
+
    [:div.collections.container.box
     [inputs/add-collection-form]
     [:ul

@@ -10,6 +10,10 @@
                  [org.clojure/clojurescript "1.10.520"]
                  [org.clojure/core.async  "0.4.500"]
                  [reagent "0.8.1"]
+                 [cljsjs/react "16.9.0-0"]
+                 [cljsjs/react-dom "16.9.0-0"]
+                 [cljsjs/material-ui "4.4.1-0"]
+                 [cljsjs/material-ui-icons "4.4.1-0"]
                  [cljsjs/react-transition-group "4.2.1-0"]
                  [clj-commons/secretary "1.2.4"]
                  [re-frame "0.10.9"]]
@@ -39,6 +43,8 @@
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/collections_musescore.js"
                            :output-dir "resources/public/js/compiled/out"
+                           :npm-deps false
+                           :infer-externs true
                           ;  :npm-deps {"react-motion" "0.5.2"}
                            :source-map-timestamp true
                            ;; To console.log CLJS data-structures make sure you enable devtools in Chrome
