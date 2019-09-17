@@ -5,7 +5,6 @@
    ["@material-ui/core/styles" :refer [createMuiTheme withStyles]]
    ["@material-ui/core/colors" :as mui-colors]
    ["@material-ui/icons" :as mui-icons]
-   [collections-musescore.views.animation :refer [css-transition transition-group]]
    [collections-musescore.views.inputs :as inputs]
    [re-frame.core :refer [subscribe dispatch]]))
 
@@ -33,13 +32,11 @@
        [:> mui/Card
         [:> mui/CardContent
          [:> mui/Typography {:variant "h3"} title]
-
          [inputs/add-score-form id]
          [:ul.scores
-          [transition-group {:component "ul" :className "scores-div"}
-           (for [score (vals scores)]
-             ^{:key (:id score)}
-             [css-transition {:id (:id score) :classNames "score" :timeout 300} [score-view id score]])]]
+          (for [score (vals scores)]
+            ^{:key (:id score)}
+            [score-view id score])]
          [:> mui/CardActions
           [:> mui/Button  ; TODO to button class
            {:variant "contained"
