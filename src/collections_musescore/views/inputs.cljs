@@ -14,7 +14,7 @@
         save #(dispatch [:add-collection @title])
         stop #(reset! title "")]
     (fn []
-      [:div
+      [:> mui/Grid {:item true}
        [text-field
         {:value @title
          :label "Add collection"
@@ -35,19 +35,20 @@
         save #(dispatch [:add-score collection-id @title @url])
         stop #(reset! title "")]
     (fn [collection-title]
-      [:div
-       [text-field
-        {:value @title
-         :label "Add score"
-         :on-change   #(reset! title (-> % .-target .-value))}]
-       [text-field
-        {:label "url"
-         :value @url
-         :on-change   #(reset! url (-> % .-target .-value))
-         :on-key-down #(case (.-which %)
-                         13 (save)
-                         27 (stop)
-                         nil)}]
-       [:> mui/Button {:variant "contained"
-                       :color "primary"
-                       :on-click #(save)} "ADD"]])))
+      [:> mui/Grid {:container true
+                    :spacing 3}
+       [:> mui/Grid {:item true} [text-field
+                                  {:value @title
+                                   :label "Add score"
+                                   :on-change   #(reset! title (-> % .-target .-value))}]]
+       [:> mui/Grid {:item true} [text-field
+                                  {:label "url"
+                                   :value @url
+                                   :on-change   #(reset! url (-> % .-target .-value))
+                                   :on-key-down #(case (.-which %)
+                                                   13 (save)
+                                                   27 (stop)
+                                                   nil)}]]
+       [:> mui/Grid {:item true} [:> mui/Button {:variant "contained"
+                                                 :color "primary"
+                                                 :on-click #(save)} "ADD"]]])))

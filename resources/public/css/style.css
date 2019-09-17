@@ -10,6 +10,9 @@ html {
 .collections ul.scores {
   overflow: hidden;
 }
+.right-button {
+  margin-left: 5px;
+}
 .score {
   transform-origin: top center;
   transition: all 0.3s ease-in-out;
