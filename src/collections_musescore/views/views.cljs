@@ -55,7 +55,7 @@
   [:section.section
    [:> mui/Container
     [inputs/add-collection-form]
-    [:> mui/Paper {:elevation 0}
+    [:> mui/Paper {:className "paper-transition"}
      [:> mui/Box {:p 4}
       [:<>
        [:> mui/Grid {:container true :spacing 3}

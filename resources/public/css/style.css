@@ -10,6 +10,12 @@ html {
 .collections ul.scores {
   overflow: hidden;
 }
+.paper-transition {
+  transition: all 0.3s ease-out;
+}
+.MuiGrid-root {
+  transition: flex 0.3s ease-out;
+}
 .right-button {
   margin-left: 5px;
 }
