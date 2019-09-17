@@ -15,8 +15,6 @@
   (let [^js/HTMLInputElement el (.-target e)]
     (.-value el)))
 
-(defn styles [^js/Mui.Theme theme]
-  #js {:right-icon #js {:marginLeft (.spacing theme 1)}})
 
 (defn score-view [collection-id {:keys [id title url]}]
   [:li.score
@@ -25,10 +23,16 @@
     [:button.button.is-danger {:on-click
                                #(dispatch [:remove-score collection-id id])} "DELETE"]]])
 
-(defn collection-view [{:keys [id title scores]}]
-  (let [state (reagent/atom true)]
+(defn remove-collection [id collection-exists? animation-length]
+  (reset! collection-exists? false)
+  (js/setTimeout #(dispatch [:remove-collection id]) animation-length))
+
+(defn collection-view []
+  (let [collection-exists? (reagent/atom true)
+        animation-length 100]
+
     (fn [{:keys [id title scores]}]
-      [:> mui/Fade {:in @state :timeout 100}
+      [:> mui/Fade {:in @collection-exists? :timeout animation-length}
        [:> mui/Card
         [:> mui/CardContent
          [:> mui/Typography {:variant "h3"} title]
@@ -38,12 +42,10 @@
             ^{:key (:id score)}
             [score-view id score])]
          [:> mui/CardActions
-          [:> mui/Button  ; TODO to button class
+          [:> mui/Button
            {:variant "contained"
             :color "secondary"
-            :on-click (fn []
-                        (reset! state false)
-                        (js/setTimeout #(dispatch [:remove-collection id]) 100))}
+            :on-click (partial remove-collection id collection-exists? animation-length)}
            "DELETE collection" [:> mui-icons/Delete {:className "right-button"
                                                      :fontSize "small"}]]]]]])))
 
