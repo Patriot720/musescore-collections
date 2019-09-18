@@ -21,7 +21,7 @@
    [:> mui/Grid {:container true :alignItems "center" :justify "space-evenly"}
     [:> mui/Grid {:item true}
      [:h1 title]]
-    [:> mui/Grid {:item true :justify "flex-end"}
+    [:> mui/Grid {:item true}
      [:> mui/Button {:on-click
                      #(dispatch [:remove-score collection-id id])} "DELETE"]]]])
 
@@ -38,7 +38,8 @@
        [:> mui/Card
         [:> mui/CardContent
          [:> mui/Typography {:variant "h3"} title]
-         [inputs/add-score-form id]
+        ;  [inputs/add-score-form id]
+         [inputs/add-score-modal id]
          [:ul.scores
           (for [score (vals scores)]
             ^{:key (:id score)}

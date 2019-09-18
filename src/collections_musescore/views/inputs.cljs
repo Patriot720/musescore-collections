@@ -28,7 +28,30 @@
                        :color "primary"
                        :on-click #(save)} "ADD"]])))
 
-
+(defn add-score-modal [collection-id]
+  (let [open? (reagent/atom false)
+        tab-value (reagent/atom 0)]
+    (fn [collection-id]
+      [:div
+       [:> mui/Button {:variant "contained"
+                       :on-click #(reset! open? true)} "Open modal add score"]
+       [:> mui/Modal {:on-close #(reset! open? false)
+                      :open @open?}
+        [:> mui/Paper {:className "add-score-modal"}
+         [:> mui/Tabs {:value @tab-value :on-change #(reset! tab-value %2)}
+          [:> mui/Tab {:label "one"}]
+          [:> mui/Tab {:label "1one"}]
+          [:> mui/Tab {:label "2one"}]
+          [:> mui/Tab {:label "3one"}]]
+        ;  [:> mui/TabPanel {:value @tab-value :index 0}
+        ;   "Nice"]
+        ;  [:> mui/TabPanel {:value @tab-value :index 0}
+        ;   "Nice"]
+        ;  [:> mui/TabPanel {:value @tab-value :index 0}
+        ;   "Nice"]
+        ;  [:> mui/TabPanel {:value @tab-value :index 0}
+        ;   "Nice"]
+         ]]])))
 (defn add-score-form [collection-id]
   (let [title (reagent/atom  "")
         url (reagent/atom  "")
