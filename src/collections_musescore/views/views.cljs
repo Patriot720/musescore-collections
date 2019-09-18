@@ -17,11 +17,13 @@
 
 
 (defn score-view [collection-id {:keys [id title url]}]
-  [:li.score
-   [:a {:href url :target "_blank"}
-    [:h1 title]
-    [:button.button.is-danger {:on-click
-                               #(dispatch [:remove-score collection-id id])} "DELETE"]]])
+  [:a {:href url :target "_blank"}
+   [:> mui/Grid {:container true :alignItems "center" :justify "space-evenly"}
+    [:> mui/Grid {:item true}
+     [:h1 title]]
+    [:> mui/Grid {:item true :justify "flex-end"}
+     [:> mui/Button {:on-click
+                     #(dispatch [:remove-score collection-id id])} "DELETE"]]]])
 
 (defn remove-collection [id collection-exists? animation-length]
   (reset! collection-exists? false)
