@@ -27,31 +27,12 @@
        [:> mui/Button {:variant "contained"
                        :color "primary"
                        :on-click #(save)} "ADD"]])))
+(defn tab-panel [value index & children]
+  [:> mui/Typography {:component "div"
+                      :role "tabpanel"
+                      :hidden (not (= value index))}
+   (into [:> mui/Box {:p 3}] children)])
 
-(defn add-score-modal [collection-id]
-  (let [open? (reagent/atom false)
-        tab-value (reagent/atom 0)]
-    (fn [collection-id]
-      [:div
-       [:> mui/Button {:variant "contained"
-                       :on-click #(reset! open? true)} "Open modal add score"]
-       [:> mui/Modal {:on-close #(reset! open? false)
-                      :open @open?}
-        [:> mui/Paper {:className "add-score-modal"}
-         [:> mui/Tabs {:value @tab-value :on-change #(reset! tab-value %2)}
-          [:> mui/Tab {:label "one"}]
-          [:> mui/Tab {:label "1one"}]
-          [:> mui/Tab {:label "2one"}]
-          [:> mui/Tab {:label "3one"}]]
-        ;  [:> mui/TabPanel {:value @tab-value :index 0}
-        ;   "Nice"]
-        ;  [:> mui/TabPanel {:value @tab-value :index 0}
-        ;   "Nice"]
-        ;  [:> mui/TabPanel {:value @tab-value :index 0}
-        ;   "Nice"]
-        ;  [:> mui/TabPanel {:value @tab-value :index 0}
-        ;   "Nice"]
-         ]]])))
 (defn add-score-form [collection-id]
   (let [title (reagent/atom  "")
         url (reagent/atom  "")
@@ -75,3 +56,27 @@
        [:> mui/Grid {:item true} [:> mui/Button {:variant "contained"
                                                  :color "primary"
                                                  :on-click #(save)} "ADD"]]])))
+
+
+(defn add-score-modal [collection-id]
+  (let [open? (reagent/atom false)
+        tab-value (reagent/atom 0)]
+    (fn [collection-id]
+      [:div
+       [:> mui/Button {:variant "contained"
+                       :on-click #(reset! open? true)} "Open modal add score"]
+       [:> mui/Modal {:on-close #(reset! open? false)
+                      :open @open?}
+        [:> mui/Paper {:className "add-score-modal"}
+         [:div
+          [:> mui/Tabs {:value @tab-value :on-change #(reset! tab-value %2)}
+           [:> mui/Tab {:label "one"}]
+           [:> mui/Tab {:label "1one"}]
+           [:> mui/Tab {:label "2one"}]
+           [:> mui/Tab {:label "3one"}]]
+          [tab-panel @tab-value 0
+           [add-score-form collection-id]]
+          [tab-panel @tab-value 1
+           "Cool"]
+          [tab-panel @tab-value 2
+           "Toot"]]]]])))
