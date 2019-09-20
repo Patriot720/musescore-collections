@@ -57,6 +57,14 @@
                                                  :color "primary"
                                                  :on-click #(save)} "ADD"]]])))
 
+(defn add-score-by-url-form [collection-id]
+  (let [url (reagent/atom "")]
+    (fn [collection-id]
+      [:div
+       [:> mui/Typography {:component "h4"} "Title"]
+       [text-field {:value @url
+                    :label "URL"
+                    :on-change #(reset! url (-> % .-target .-value))}]])))
 
 (defn add-score-modal [collection-id]
   (let [open? (reagent/atom false)
@@ -70,13 +78,13 @@
         [:> mui/Paper {:className "add-score-modal"}
          [:div
           [:> mui/Tabs {:value @tab-value :on-change #(reset! tab-value %2)}
-           [:> mui/Tab {:label "one"}]
-           [:> mui/Tab {:label "1one"}]
+           [:> mui/Tab {:label "Manual"}]
+           [:> mui/Tab {:label "By URL"}]
            [:> mui/Tab {:label "2one"}]
            [:> mui/Tab {:label "3one"}]]
           [tab-panel @tab-value 0
            [add-score-form collection-id]]
           [tab-panel @tab-value 1
-           "Cool"]
+           [add-score-by-url-form collection-id]]
           [tab-panel @tab-value 2
            "Toot"]]]]])))

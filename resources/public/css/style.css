@@ -17,6 +17,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translate(-50%, -50%);
 }
 .paper-transition {
   transition: all 0.3s ease-out;
