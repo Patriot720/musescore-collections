@@ -1,10 +1,13 @@
 (ns collections-musescore.views.inputs
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require
    [reagent.core :as reagent]
    ["@material-ui/core" :as mui]
    ["@material-ui/core/colors" :as mui-colors]
    ["@material-ui/icons" :as mui-icons]
+   [cljs.core.async :refer [<!]]
    [collections-musescore.views.mui-fix :refer [text-field]]
+   [collections-musescore.api.musescore :refer [get-info-by-url]]
    [re-frame.core :refer [subscribe dispatch]]))
 
 
@@ -58,13 +61,18 @@
                                                  :on-click #(save)} "ADD"]]])))
 
 (defn add-score-by-url-form [collection-id]
-  (let [url (reagent/atom "")]
+  (let [url (reagent/atom "")
+        title (reagent/atom "")] ; TODO move to re-frame standart library
     (fn [collection-id]
       [:div
-       [:> mui/Typography {:component "h4"} "Title"]
+       [:> mui/Typography {:component "h4"} @title]
        [text-field {:value @url
                     :label "URL"
-                    :on-change #(reset! url (-> % .-target .-value))}]])))
+                    :on-change (fn [event]
+                                 (let [value (-> event .-target .-value)]
+                                   (reset! url value)
+                                   (go
+                                     (reset! title (:title (<! (get-info-by-url value)))))))}]])))
 
 (defn add-score-modal [collection-id]
   (let [open? (reagent/atom false)
