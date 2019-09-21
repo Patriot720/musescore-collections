@@ -17,6 +17,8 @@
                  [cljsjs/react-transition-group "4.2.1-0"]
                  [clj-commons/secretary "1.2.4"]
                  [cljs-http "0.1.46"]
+                 [day8.re-frame/http-fx "0.1.6"]
+                 [cljs-ajax "0.8.0"]
                  [org.clojure/core.async "0.4.500"]
                  [re-frame "0.10.9"]]
 
