@@ -16,6 +16,8 @@
                  [cljsjs/material-ui-icons "4.4.1-0"]
                  [cljsjs/react-transition-group "4.2.1-0"]
                  [clj-commons/secretary "1.2.4"]
+                 [cljs-http "0.1.46"]
+                 [org.clojure/core.async "0.4.500"]
                  [re-frame "0.10.9"]]
 
   :plugins [[lein-figwheel "0.5.19"]

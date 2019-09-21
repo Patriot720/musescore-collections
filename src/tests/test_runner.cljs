@@ -4,6 +4,7 @@
             [tests.views-test]
             [tests.db-spec-test]
             [tests.db-test]
+            [tests.api.api-test]
             [tests.events-test]))
 
 ;; This isn't strictly necessary, but is a good idea depending
@@ -17,6 +18,7 @@
    'tests.events-test
    'tests.views-test
    'tests.db-test
+   'tests.api.api-test
    'tests.db-spec-test))
 
 
