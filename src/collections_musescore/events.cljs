@@ -69,22 +69,7 @@
  collections-interceptors
  add-collection)
 
-(defn parse-url [url] (last (clojure.string/split url #"/")))
 
-; (reg-event-fx
-;  :get-url-info
-;  (fn [{:keys [db]} _ url]
-;    {:http-xhrio {:method :get
-;                  :url (str "https://cors-anywhere.herokuapp.com/http://api.musescore.com/services/rest/score/"
-;                            (parse-url url) ".json?oauth_consumer_key=" (slurp "api_key"))
-;                  :response-format (ajax/json-response-format {:keywords? true})
-;                  :on-success [:update-temp-url-info]}}))
-
-; (reg-event-db
-;  :update-temp-url-info
-;  [(path :temp-url-info)]
-;  (fn [temp-url-info [_ result]]
-;    (:body result)))
 
 (reg-event-fx                 ;; part of the re-frame API
  :initialise-db              ;; event id being handled
