@@ -11,15 +11,8 @@
 (defn get-request-url-from [url]
   (str "https://cors-anywhere.herokuapp.com/http://api.musescore.com/services/rest/score/"
        (parse-url url) ".json?oauth_consumer_key=" (slurp "api_key")))
-(defn get-stuff [url]
-  (http/get (get-request-url-from url)
-            {:with-credentials? false
-             :headers {}}))
 
-(defn get-info-by-url [url]
-  (go (:body (<! (get-stuff url)))))
-
-(defn new-get-info-by-url
+(defn get-info-by-url
   ([url callback]
    (new-get-info-by-url url callback js/console.log))
   ([url callback fail-callback]

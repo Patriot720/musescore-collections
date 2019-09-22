@@ -19,14 +19,8 @@
          (select-keys score1 keys)
          (select-keys score2 keys)))))
 
-; (deftest ^:async get_information_by_url
-;   (async done
-;          (go (let [result (<! (api/get-info-by-url url))]
-;                (are-scores-equal? expected-response result))
-;              (done))))
-
-(deftest new-get-information-by-url-test
+(deftest get-information-by-url-test
   (async done
-         (api/new-get-info-by-url url (fn [result]
-                                        (are-scores-equal? expected-response result)
-                                        (done)))))
+         (api/get-info-by-url url (fn [result]
+                                    (are-scores-equal? expected-response result)
+                                    (done)))))

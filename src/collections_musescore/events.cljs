@@ -3,6 +3,8 @@
   (:require [collections-musescore.db :as db]
             [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path]]
             [day8.re-frame.http-fx]
+            [re-frame.core :refer [dispatch dispatch-sync]]
+            [collections-musescore.api.musescore :refer [get-info-by-url]]
             [ajax.core :as ajax]
             [clojure.string]
             [cljs.spec.alpha :as s]))
@@ -19,7 +21,6 @@
 (def collections-interceptors [check-spec-interceptor
                                (path :collections)
                                ->local-store])
-
 
 (defrecord Collection [id title scores])
 (defn collection [id title scores]
@@ -69,7 +70,17 @@
  collections-interceptors
  add-collection)
 
+(reg-event-fx
+ :get-url-info
+ (fn [db [_ url]]
+   (get-info-by-url url #(dispatch :get-url-info-success %))
+   (assoc db :loading true)))
 
+(reg-event-db
+ :get-url-info-success
+ [(path :temp-url-info)]
+ (fn [temp-url-info [_ result]]
+   result))
 
 (reg-event-fx                 ;; part of the re-frame API
  :initialise-db              ;; event id being handled
