@@ -61,18 +61,16 @@
                                                  :on-click #(save)} "ADD"]]])))
 
 (defn add-score-by-url-form [collection-id]
-  (let [url (reagent/atom "")
-        title (reagent/atom "")] ; TODO move to re-frame standart library
+  (let [url (reagent/atom "")] ; TODO move to re-frame standart library
     (fn [collection-id]
       [:div
-       [:> mui/Typography {:component "h4"} @title]
+       [:> mui/Typography {:component "h4"} @(subscribe [:url-info])]
        [text-field {:value @url
                     :label "URL"
                     :on-change (fn [event]
                                  (let [value (-> event .-target .-value)]
                                    (reset! url value)
-                                   (go
-                                     (reset! title (:title (<! (get-info-by-url value)))))))}]])))
+                                   (dispatch [:get-url-info value])))}]])))
 
 (defn add-score-modal [collection-id]
   (let [open? (reagent/atom false)

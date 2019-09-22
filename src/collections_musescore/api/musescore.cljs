@@ -14,7 +14,7 @@
 
 (defn get-info-by-url
   ([url callback]
-   (new-get-info-by-url url callback js/console.log))
+   (get-info-by-url url callback js/console.log))
   ([url callback fail-callback]
    (GET
      (get-request-url-from url)

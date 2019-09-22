@@ -1,57 +1,24 @@
-(ns collections-musescore.events
-  (:require-macros [collections-musescore.macros :refer [slurp]])
+(ns collections-musescore.events.events
   (:require [collections-musescore.db :as db]
-            [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path]]
-            [day8.re-frame.http-fx]
-            [re-frame.core :refer [dispatch dispatch-sync]]
+            [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch]]
             [collections-musescore.api.musescore :refer [get-info-by-url]]
             [ajax.core :as ajax]
-            [clojure.string]
-            [cljs.spec.alpha :as s]))
+            [clojure.string]))
 
-(defn check-and-throw
-  "Throws an exception if `db` doesn't match the Spec `a-spec`."
-  [a-spec db]
-  (when-not (s/valid? a-spec db)
-    (throw (ex-info (str "spec check failed: " (s/explain-str a-spec db)) {}))))
 
-(def check-spec-interceptor (after (partial check-and-throw :collections-musescore.db/db)))
-
-(def ->local-store (after db/->local-store))
-(def collections-interceptors [check-spec-interceptor
-                               (path :collections)
-                               ->local-store])
 
 (defrecord Collection [id title scores])
 (defn collection [id title scores]
   (into {} (->Collection id title scores)))
-(defrecord Score [id title url])
-(defn score [id title url]
-  (into {} (->Score id title url)))
-(defn- get-next-id [array]
-  (count array))
 
-(defn allocate-next-id
-  "Returns the next todo id.
-  Assumes todos are sorted.
-  Returns one more than the current largest id."
-  [todos]
-  ((fnil inc 0) (last (keys todos))))
+
 
 (defn add-collection [collections [_ title]]
   (let [id (allocate-next-id collections)]
     (assoc collections id (collection id title {}))))
 
-(defn- add-score-to-collection [collection title url]
-  (let [id (allocate-next-id (:scores collection))]
-    (assoc-in collection [:scores id]  (score id title url))))
-
 ; (defn- collection-title-equals? [collection title]
 ;   (= (:title collection) title))
-
-(defn add-score [collections [_ id score-title url]]
-  (println id)
-  (update collections id add-score-to-collection score-title url))
 
 (defn remove-collection [collections [_ id]]
   (dissoc collections id))
@@ -73,8 +40,8 @@
 (reg-event-fx
  :get-url-info
  (fn [db [_ url]]
-   (get-info-by-url url #(dispatch :get-url-info-success %))
-   (assoc db :loading true)))
+   (get-info-by-url url #(dispatch [:get-url-info-success %]))
+   db))
 
 (reg-event-db
  :get-url-info-success

@@ -5,7 +5,8 @@
             [tests.db-spec-test]
             [tests.db-test]
             [tests.api.api-test]
-            [tests.events-test]))
+            [tests.events-test]
+            :reload-all))
 
 ;; This isn't strictly necessary, but is a good idea depending
 ;; upon your application's ultimate runtime engine.
