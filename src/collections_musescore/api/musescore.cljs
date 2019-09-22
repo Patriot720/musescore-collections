@@ -19,11 +19,14 @@
 (defn get-info-by-url [url]
   (go (:body (<! (get-stuff url)))))
 
-(defn new-get-info-by-url [url callback]
-  (GET
-    (get-request-url-from url)
-    {:with-credentials false
-     :handler callback
-     :response-format :json
-     :keywords? true
-     :error-handler js/console.log}))
+(defn new-get-info-by-url
+  ([url callback]
+   (new-get-info-by-url url callback js/console.log))
+  ([url callback fail-callback]
+   (GET
+     (get-request-url-from url)
+     {:with-credentials false
+      :handler callback
+      :response-format :json
+      :keywords? true
+      :error-handler fail-callback})))
