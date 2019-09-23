@@ -2,37 +2,8 @@
   (:require [collections-musescore.db :as db]
             [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch]]
             [collections-musescore.api.musescore :refer [get-info-by-url]]
-            [ajax.core :as ajax]
-            [clojure.string]))
+            [collections-musescore.events.interceptors :refer [collections-interceptors check-spec-interceptor]]))
 
-
-
-(defrecord Collection [id title scores])
-(defn collection [id title scores]
-  (into {} (->Collection id title scores)))
-
-
-
-(defn add-collection [collections [_ title]]
-  (let [id (allocate-next-id collections)]
-    (assoc collections id (collection id title {}))))
-
-; (defn- collection-title-equals? [collection title]
-;   (= (:title collection) title))
-
-(defn remove-collection [collections [_ id]]
-  (dissoc collections id))
-
-; TODO slow should really do ID map instead of array
-(reg-event-db
- :remove-collection
- collections-interceptors
- remove-collection)
-
-(reg-event-db
- :add-collection
- collections-interceptors
- add-collection)
 
 (reg-event-fx
  :get-url-info

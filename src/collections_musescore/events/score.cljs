@@ -1,5 +1,6 @@
 (ns collections-musescore.events.score
   (:require [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch]]
+            [collections-musescore.events.interceptors :refer [collections-interceptors]]
             [collections-musescore.events.util :refer [allocate-next-id]]))
 
 
@@ -8,27 +9,27 @@
   (into {} (->Score id title url)))
 
 
-(defn- add-score-to-collection [collection title url]
+(defn- add-to-collection [collection title url]
   (let [id (allocate-next-id (:scores collection))]
     (assoc-in collection [:scores id]  (score id title url))))
 
-(defn add-score [collections [_ id score-title url]]
+(defn add [collections [_ id score-title url]]
   (println id)
-  (update collections id add-score-to-collection score-title url))
+  (update collections id add-to-collection score-title url))
 
 
-(defn remove-score [scores score-id]
-  (dissoc scores score-id))
+; (defn remove-score [scores score-id]
+;   (dissoc scores score-id))
 
-(defn remove-score-from-collections [collections [_ collection-id score-id]]
+(defn remove-from-collections [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc score-id))
 
 (reg-event-db
  :add-score
  collections-interceptors
- add-score)
+ add)
 
 (reg-event-db
  :remove-score
  collections-interceptors
- remove-score-from-collections)
+ remove-from-collections)

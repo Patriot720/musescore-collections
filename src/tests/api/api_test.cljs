@@ -24,3 +24,9 @@
          (api/get-info-by-url url (fn [result]
                                     (are-scores-equal? expected-response result)
                                     (done)))))
+
+(deftest search-score-test
+  (async done
+         (api/search-score "Cool beans" (fn [result]
+                                          (is (seq? result))))
+         (done)))

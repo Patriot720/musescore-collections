@@ -1,5 +1,6 @@
 (ns collections-musescore.events.interceptors
   (:require [cljs.spec.alpha :as s]
+            [collections-musescore.db :as db]
             [re-frame.core :refer [after path]]))
 
 (defn- check-and-throw
