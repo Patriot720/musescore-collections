@@ -3,7 +3,7 @@
             [reagent.core :as reagent]
             [re-frame.core :refer [dispatch dispatch-sync]]
             [secretary.core :as secretary]
-            [collections-musescore.events] ;; These two are only required to make the compiler
+            [collections-musescore.events.events] ;; These two are only required to make the compiler
             [collections-musescore.subs]   ;; load them (see docs/App-Structure.md)
             [collections-musescore.api.musescore]
             [tests.test-runner] ;; TEST ONLY

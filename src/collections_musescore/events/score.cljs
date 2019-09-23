@@ -15,3 +15,20 @@
 (defn add-score [collections [_ id score-title url]]
   (println id)
   (update collections id add-score-to-collection score-title url))
+
+
+(defn remove-score [scores score-id]
+  (dissoc scores score-id))
+
+(defn remove-score-from-collections [collections [_ collection-id score-id]]
+  (update-in collections [collection-id :scores] dissoc score-id))
+
+(reg-event-db
+ :add-score
+ collections-interceptors
+ add-score)
+
+(reg-event-db
+ :remove-score
+ collections-interceptors
+ remove-score-from-collections)

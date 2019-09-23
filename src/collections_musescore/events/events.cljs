@@ -28,10 +28,7 @@
  :remove-collection
  collections-interceptors
  remove-collection)
-(reg-event-db
- :add-score
- collections-interceptors
- add-score)
+
 (reg-event-db
  :add-collection
  collections-interceptors
@@ -59,14 +56,3 @@
   ;; the event handler (function) being registered
  (fn [{:keys [db local-store-collections]} _]                  ;; take 2 values from coeffects. Ignore event vector itself.
    {:db (assoc db/default-db :collections  local-store-collections)}))   ;; all hail the new state to be put in app-db
-
-(defn remove-score [scores score-id]
-  (dissoc scores score-id))
-
-(defn remove-score-from-collections [collections [_ collection-id score-id]]
-  (update-in collections [collection-id :scores] dissoc score-id))
-
-(reg-event-db
- :remove-score
- collections-interceptors
- remove-score-from-collections)

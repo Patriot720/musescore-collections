@@ -1,6 +1,7 @@
 (ns tests.events-test
   (:require [cljs.test :refer-macros [deftest is]]
-            [collections-musescore.events :as events]))
+            [collections-musescore.events.events :as events]
+            [collections-musescore.events.score :as score]))
 (def dummy-collections (sorted-map))
 
 (deftest test-add-collection
@@ -15,7 +16,7 @@
                                       :scores {}}})
 
 (deftest add-score-to-collection-test
-  (is (= (#'events/add-score-to-collection
+  (is (= (#'score/add-score-to-collection
           (get dummy-collections-with-score 1)
           "some-score" "url")
          {:id 1
@@ -26,7 +27,7 @@
 
 ;forgot to tdd
 (deftest add-score-test
-  (is (= (events/add-score
+  (is (= (score/add-score
           dummy-collections-with-score
           [nil 1 "some_score" "url"])
          {1 {:id 1
@@ -53,7 +54,7 @@
                                    :url "nice"}}})
 
 (deftest remove-score-from-collection-test
-  (is (= (count (events/remove-score (:scores dummy-collection) 1)) 2)))
+  (is (= (count (score/remove-score (:scores dummy-collection) 1)) 2)))
 
 (deftest remove-score-from-collection
   (let [dummy-collections {1 {:id 1 :title "nice"
@@ -65,4 +66,4 @@
                                        3 {:id 3 :title ":url"
                                           :url "nice"}}}}]
 
-    (is (= (-> (events/remove-score-from-collections dummy-collections [nil 1 1]) (get 1) :scores count) 2))))
+    (is (= (-> (score/remove-score-from-collections dummy-collections [nil 1 1]) (get 1) :scores count) 2))))
