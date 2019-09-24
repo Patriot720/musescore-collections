@@ -19,7 +19,6 @@
                       :title "some-score"
                       :url "url"}}})))
 
-;forgot to tdd
 (deftest add-test
   (is (= (score/add
           dummy-collections-with-score

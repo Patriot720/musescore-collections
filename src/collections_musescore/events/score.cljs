@@ -18,8 +18,5 @@
   (update collections id add-to-collection score-title url))
 
 
-; (defn remove-score [scores score-id]
-;   (dissoc scores score-id))
-
 (defn remove-from-collections [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc score-id))
