@@ -14,14 +14,3 @@
 
 (defn remove [collections [_ id]]
   (dissoc collections id))
-
-; TODO slow should really do ID map instead of array
-(reg-event-db
- :remove-collection
- collections-interceptors
- remove)
-
-(reg-event-db
- :add-collection
- collections-interceptors
- add)

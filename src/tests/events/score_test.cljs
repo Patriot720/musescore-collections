@@ -47,10 +47,7 @@
                                    :title ":url"
                                    :url "nice"}}})
 
-; (deftest remove-score-from-collection-test
-;   (is (= (count (score/remove-score (:scores dummy-collection) 1)) 2)))
-
-(deftest remove-score-from-collection
+(deftest remove-from-collection
   (let [dummy-collections {1 {:id 1 :title "nice"
                               :scores {1 {:id 1
                                           :title "some_title"
@@ -60,4 +57,4 @@
                                        3 {:id 3 :title ":url"
                                           :url "nice"}}}}]
 
-    (is (= (-> (score/remove-score-from-collections dummy-collections [nil 1 1]) (get 1) :scores count) 2))))
+    (is (= (-> (score/remove-from-collections dummy-collections [nil 1 1]) (get 1) :scores count) 2))))

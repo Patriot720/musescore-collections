@@ -30,6 +30,7 @@
        [:> mui/Button {:variant "contained"
                        :color "primary"
                        :on-click #(save)} "ADD"]])))
+
 (defn tab-panel [value index & children]
   [:> mui/Typography {:component "div"
                       :role "tabpanel"
@@ -86,7 +87,7 @@
           [:> mui/Tabs {:value @tab-value :on-change #(reset! tab-value %2)}
            [:> mui/Tab {:label "Manual"}]
            [:> mui/Tab {:label "By URL"}]
-           [:> mui/Tab {:label "2one"}]
+           [:> mui/Tab {:label "Search"}]
            [:> mui/Tab {:label "3one"}]]
           [tab-panel @tab-value 0
            [add-score-form collection-id]]

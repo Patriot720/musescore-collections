@@ -23,13 +23,3 @@
 
 (defn remove-from-collections [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc score-id))
-
-(reg-event-db
- :add-score
- collections-interceptors
- add)
-
-(reg-event-db
- :remove-score
- collections-interceptors
- remove-from-collections)
