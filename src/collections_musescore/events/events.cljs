@@ -1,7 +1,7 @@
 (ns collections-musescore.events.events
   (:require [collections-musescore.db :as db]
             [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch]]
-            [collections-musescore.api.musescore :refer [get-info-by-url]]
+            [collections-musescore.api :refer [get-info-by-url]]
             [collections-musescore.events.score :as score]
             [collections-musescore.events.collection :as collection]
             [collections-musescore.events.interceptors :refer [collections-interceptors check-spec-interceptor]]))
@@ -30,6 +30,10 @@
  (fn [{:keys [db local-store-collections]} _]                  ;; take 2 values from coeffects. Ignore event vector itself.
    {:db (assoc db/default-db :collections  local-store-collections)}))   ;; all hail the new state to be put in app-db
 
+(reg-event-db
+ :get-suggestions
+ [(path :suggestions)]
+ (fn [suggestions [_ value]]))
 
 
 

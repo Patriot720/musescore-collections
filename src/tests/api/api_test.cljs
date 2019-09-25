@@ -1,11 +1,8 @@
 (ns tests.api.api-test
-  (:require-macros [cljs.core.async.macros :refer [go]]
-                   [collections-musescore.macros :refer [slurp]])
   (:require
    [tests.api.fixtures :refer [expected-response]]
    [cljs.test :refer-macros [async are is deftest testing]]
-   [collections-musescore.api.musescore :as api]
-   [cljs.core.async :refer [<!]]))
+   [collections-musescore.api :as api]))
 
 (def url "https://musescore.com/user/24625996/scores/4801654")
 

@@ -1,16 +1,36 @@
 (ns collections-musescore.views.inputs
-  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require
    [reagent.core :as reagent]
    ["@material-ui/core" :as mui]
    ["@material-ui/core/colors" :as mui-colors]
    ["@material-ui/icons" :as mui-icons]
-   [cljs.core.async :refer [<!]]
+   cljsjs.react-autosuggest
    [collections-musescore.views.mui-fix :refer [text-field]]
-   [collections-musescore.api.musescore :refer [get-info-by-url]]
+   [collections-musescore.api :refer [get-info-by-url]]
    [re-frame.core :refer [subscribe dispatch]]))
 
 
+(defn render-suggestion [text]
+  (reagent/as-element
+   [:div text]))
+
+(def Autosuggest (reagent/adapt-react-class js/Autosuggest)) ; TOdo refactor to :> ?
+
+(defn autosuggest-view []
+  (let [as-val (reagent/atom "")
+        update-state-val (fn [evt new-val method]
+                           (reset! as-val (.-newValue new-val))
+                           nil)]
+    (fn [{:keys [suggestions
+                 on-suggestion-update-requested
+                 render-suggestion]}]
+
+      [Autosuggest {:suggestions @suggestions
+                    :onSuggestionsUpdateRequested on-suggestion-update-requested
+                    :renderSuggestion render-suggestion
+                    :inputProps {:placeholder "Type 'c'"
+                                 :value @as-val
+                                 :onChange update-state-val}}])))
 
 (defn add-collection-form []
   (let [title (reagent/atom "")

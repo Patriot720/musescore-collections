@@ -1,10 +1,9 @@
-(ns collections-musescore.api.musescore
-  (:require-macros [cljs.core.async.macros :refer [go]]
-                   [collections-musescore.macros :refer [slurp]])
-  (:require [cljs-http.client :as http]
-            [clojure.string]
-            [ajax.core :refer [GET]]
-            [cljs.core.async :refer [<!]]))
+(ns collections-musescore.api
+  (:require-macros
+   [collections-musescore.macros :refer [slurp]])
+  (:require
+   [clojure.string]
+   [ajax.core :refer [GET]]))
 
 (def query-base "https://cors-anywhere.herokuapp.com/http://api.musescore.com/services/rest/")
 (defn parse-url [url] (last (clojure.string/split url #"/")))
