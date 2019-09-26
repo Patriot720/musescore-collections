@@ -33,7 +33,8 @@
 (reg-event-db
  :get-suggestions
  [(path :suggestions)]
- (fn [suggestions [_ value]]))
+ (fn [suggestions [_ value]]
+   [{:title "nice " :value "nice"}]))
 
 
 
@@ -41,7 +42,7 @@
 (reg-event-db
  :remove-collection
  collections-interceptors
- collection/remove)
+ collection/remove-collection)
 
 (reg-event-db
  :add-collection

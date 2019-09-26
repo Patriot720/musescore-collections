@@ -114,4 +114,4 @@
           [tab-panel @tab-value 1
            [add-score-by-url-form collection-id]]
           [tab-panel @tab-value 2
-           "Toot"]]]]])))
+           [autosuggest-view (subscribe [:suggestions]) #(dispatch [:get-suggestions %]) render-suggestion]]]]]])))

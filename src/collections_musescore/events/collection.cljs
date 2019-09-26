@@ -12,5 +12,5 @@
   (let [id (allocate-next-id collections)]
     (assoc collections id (collection id title {}))))
 
-(defn remove [collections [_ id]]
+(defn remove-collection [collections [_ id]]
   (dissoc collections id))

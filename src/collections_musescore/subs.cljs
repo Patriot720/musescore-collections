@@ -11,3 +11,8 @@
  :url-info
  (fn [db _]
    (:temp-url-info db)))
+
+(reg-sub
+ :suggestions
+ (fn [db _]
+   (:suggestions db)))
