@@ -13,7 +13,7 @@
   ([endpoint params callback fail-callback]
    (GET
      (str query-base endpoint)
-     {:params (into params {"oath_consumer_key" (slurp "api_key")})
+     {:params (into params {"oauth_consumer_key" (slurp "api_key")})
       :with-credentials false
       :handler callback
       :response-format :json
@@ -22,23 +22,13 @@
 
 (defn get-info-by-url
   ([url callback]
-   (get-info-by-url url callback js/console.log))
+   (query (str "score/" (parse-url url) ".json")
+          {}
+          callback))
   ([url callback fail-callback]
-   (GET
-     (str query-base "score/" (parse-url url) ".json") ; dif
-     {:params {"oauth_consumer_key" (slurp "api_key")}
-      :with-credentials false
-      :handler callback
-      :response-format :json
-      :keywords? true
-      :error-handler fail-callback})))
+   (query (str "score/" (parse-url url) ".json")
+          {}
+          callback)))
 
-(defn search-score [text callback]
-  (GET
-    (str query-base "score.json")
-    {:handler callback
-     :response-format :json
-     :keywords? true
-     :error-handler js/console.log
-     :params {"text" text ;dif
-              "oauth_consumer_key" (slurp "api_key")}}))
+(defn search-score ([text callback]
+                    (query "score.json" {"text" text} callback)))

@@ -10,3 +10,4 @@
          {1 {:id 1
              :title "nice"
              :scores {}}})))
+;; TODO collection remove test
