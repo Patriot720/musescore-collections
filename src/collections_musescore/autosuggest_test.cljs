@@ -14,19 +14,18 @@
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
 
 (defn auto-suggest [id]
-  (let [suggestions (subscribe [:suggestions])
-        as-val (r/atom "")
-        update-suggestions #(dispatch [:get-suggestions (.-value %)])
-        clear-suggestions #(dispatch [:clear-suggestions])
+  (let [as-val (r/atom "")
         update-state-val (fn [evt new-val method]
                            (reset! as-val (.-newValue new-val))
                            nil)]
     (fn [id]
       [Autosuggest {:id id
-                    :suggestions @suggestions
-                    :onSuggestionsFetchRequested update-suggestions
+                    :suggestions @(subscribe [:suggestions])
+                    :onSuggestionsFetchRequested
+                    #(dispatch [:get-suggestions (.-value %)])
                     :getSuggestionValue getSuggestionValue
-                    :onSuggestionsClearRequested clear-suggestions
+                    :onSuggestionsClearRequested
+                    #(dispatch [:clear-suggestions])
                     :renderSuggestion renderSuggestion
                     :inputProps {:placeholder "Type 'c'"
                                  :value @as-val

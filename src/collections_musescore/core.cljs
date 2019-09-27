@@ -36,6 +36,6 @@
   ;; your application
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
   )
-; (autosuggest/init!)
-(reagent/render-component [views/main]
-                          (. js/document (getElementById "app")))
+(autosuggest/init!)
+; (reagent/render-component [views/main]
+;                           (. js/document (getElementById "app")))
