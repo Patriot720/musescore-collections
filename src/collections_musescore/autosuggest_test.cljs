@@ -1,15 +1,21 @@
 (ns collections-musescore.autosuggest-test
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r :refer [atom]]
+            ["@material-ui/core" :as mui]
+            [collections-musescore.views.mui-fix :refer [text-field]]
             cljsjs.react-autosuggest))
 
 
 (defn getSuggestionValue [suggestion]
-  (.-name suggestion))
+  suggestion)
 
 (defn  renderSuggestion [suggestion]
   (r/as-element
-   [:span (.-name suggestion)]))
+   [:> mui/MenuItem {:component "div"}
+    [:span suggestion]]))
+
+(defn renderInput [props & children]
+  (r/as-element [text-field (js->clj props)]))
 
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
 
@@ -20,6 +26,7 @@
                            nil)]
     (fn [id]
       [Autosuggest {:id id
+                    :renderInputComponent renderInput
                     :suggestions @(subscribe [:suggestions])
                     :onSuggestionsFetchRequested
                     #(dispatch [:get-suggestions (.-value %)])
