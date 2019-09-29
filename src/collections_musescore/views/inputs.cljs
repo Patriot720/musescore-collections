@@ -10,28 +10,6 @@
    [re-frame.core :refer [subscribe dispatch]]))
 
 
-(defn render-suggestion [text]
-  (reagent/as-element
-   [:div text]))
-
-(def Autosuggest (reagent/adapt-react-class js/Autosuggest)) ; TOdo refactor to :> ?
-
-(defn autosuggest-view []
-  (let [as-val (reagent/atom "")
-        update-state-val (fn [evt new-val method]
-                           (reset! as-val (.-newValue new-val))
-                           nil)]
-    (fn [{:keys [suggestions
-                 on-suggestion-update-requested
-                 render-suggestion]}]
-
-      [Autosuggest {:suggestions @suggestions
-                    :onSuggestionsUpdateRequested on-suggestion-update-requested
-                    :renderSuggestion render-suggestion
-                    :inputProps {:placeholder "Type 'c'"
-                                 :value @as-val
-                                 :onChange update-state-val}}])))
-
 (defn add-collection-form []
   (let [title (reagent/atom "")
         save #(dispatch [:add-collection @title])
@@ -114,4 +92,4 @@
           [tab-panel @tab-value 1
            [add-score-by-url-form collection-id]]
           [tab-panel @tab-value 2
-           [autosuggest-view (subscribe [:suggestions]) #(dispatch [:get-suggestions %]) render-suggestion]]]]]])))
+           "TOOT"]]]]])))

@@ -2,6 +2,13 @@
 html {
   background: url("beige-tiles.png");
 }
+.autosuggest_test {
+  height: 250;
+  flex-grow: 1;
+}
+.autosuggest_test .input {
+  position: relative;
+}
 .collections {
   overflow: hidden;
   background: white;

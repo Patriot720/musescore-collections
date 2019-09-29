@@ -1,7 +1,8 @@
 (ns collections-musescore.events.events
   (:require [collections-musescore.db :as db]
             [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch]]
-            [collections-musescore.api :refer [get-info-by-url]]
+            [collections-musescore.api :as api]
+            ["@material-ui/core" :as mui]
             [clojure.string :as str]
             [collections-musescore.events.score :as score]
             [collections-musescore.events.collection :as collection]
@@ -11,7 +12,7 @@
 (reg-event-fx
  :get-url-info
  (fn [db [_ url]]
-   (get-info-by-url url #(dispatch [:get-url-info-success %]))
+   (api/get-info-by-url url #(dispatch [:get-url-info-success %]))
    db))
 
 (reg-event-db
@@ -50,15 +51,23 @@
   (let [escaped (str/replace a-str #"[\+\.\?\[\]\(\)\^\$]" (partial str "\\"))]
     (re-pattern (str "(?i)^" escaped ".*"))))
 
-(reg-event-db
+(defn language-suggestions [suggestions [_ val]]
+  (js/console.log val)
+  (let [trimmed-val (if (string? val) (str/trim val) "")]
+    (if (empty? trimmed-val)
+      []
+      (into [] (filter (comp #(re-matches  (str->regex trimmed-val) %) :name) languages)))))
+(reg-event-fx
  :get-suggestions
+ (fn [db [_ title]]
+   (api/search-score title #(dispatch [:update-suggestions %]))
+   db)) ;; TODO loading db status
+
+(reg-event-db
+ :update-suggestions
  [(path :suggestions)]
- (fn [suggestions [_ val]]
-   (js/console.log val)
-   (let [trimmed-val (if (string? val) (str/trim val) "")]
-     (if (empty? trimmed-val)
-       []
-       (into [] (filter (comp #(re-matches  (str->regex trimmed-val) %) :name) languages))))))
+ (fn [suggestions [_ result]]
+   (map #(:title %) result)))
 
 (reg-event-db
  :clear-suggestions
