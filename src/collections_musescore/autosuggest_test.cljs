@@ -39,14 +39,10 @@
 
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
 
-(defn auto-suggest [id]
-  (let [as-val (r/atom "")
-        update-state-val (fn [evt new-val method]
-                           (reset! as-val (.-newValue new-val))
-                           nil)]
-    (fn [id]
-      [Autosuggest {:id id
-                    :renderInputComponent renderInput
+(defn auto-suggest []
+  (let [input-val (r/atom "")]
+    (fn []
+      [Autosuggest {:renderInputComponent renderInput
                     :renderSuggestionsContainer renderSuggestionsContainer
                     :suggestions @(subscribe [:suggestions])
                     :onSuggestionsFetchRequested
@@ -56,17 +52,17 @@
                     #(dispatch [:clear-suggestions])
                     :renderSuggestion renderSuggestion
                     :inputProps {:placeholder "Type 'c'"
-                                 :value @as-val
-                                 :onChange update-state-val}}])))
+                                 :value @input-val
+                                 :onChange
+                                 #(reset! input-val (.-newValue %2))}}])))
 
 
 ;; -------------------------
 ;; Views
 
 (defn home-page []
-  [:div {:className "autosuggest-test"} [:h3 "Calling react-autosuggest from clojure"]
-   [:div [auto-suggest "my-auto"]]
-   [:div [:a {:href "http://react-autosuggest.js.org/"} "go to controls home page"]]])
+  [:div {:className "autosuggest-test"}
+   [:div [auto-suggest "my-auto"]]])
 
 (defn mount-root []
   (r/render [home-page] (.getElementById js/document "app")))
