@@ -2,12 +2,34 @@
 html {
   background: url("beige-tiles.png");
 }
-.autosuggest_test {
-  height: 250;
+.input.full-width {
+  width: 100%;
+}
+.autosuggest-test {
+  height: 250px;
   flex-grow: 1;
 }
-.autosuggest_test .input {
+.autosuggest-test .react-autosuggest__container {
   position: relative;
+  display: block;
+}
+.autosuggest-test .container-open {
+  position: absolute;
+  z-index: 1;
+  margin-top: 15px;
+  left: 0;
+  right: 0;
+}
+.autosuggest-test .container-open > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.autosuggest-test .container-open > ul li {
+  display: block;
+}
+.autosuggest-test .suggestion-render {
+  display: block;
 }
 .collections {
   overflow: hidden;

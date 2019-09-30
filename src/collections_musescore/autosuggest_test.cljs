@@ -21,7 +21,6 @@
                              :listStyleType 'none'}
        :divider #js {:height (.spacing theme 2)}})
 
-(def with-custom-styles (withStyles custom-styles))
 (defn getSuggestionValue [suggestion]
   suggestion)
 
@@ -30,11 +29,13 @@
    [:> mui/MenuItem {:component "div"
                      :className "suggestion-render"} ;; TODO useStyles
     [:span suggestion]]))
-(defn renderSuggestionsContainer [children]
-  (js/console.log children)
-  (r/as-element [:> mui/Paper [:> children]]))
+
+(defn renderSuggestionsContainer [props]
+  (r/as-element [:> mui/Paper (assoc (js->clj (.-containerProps props))
+                                     :className "container-open")
+                 (.-children props)]))
 (defn renderInput [props & children]
-  (r/as-element [text-field (assoc (js->clj props) :className "input")]))
+  (r/as-element [text-field (into {:className "input full-width"} (js->clj props))]))
 
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
 

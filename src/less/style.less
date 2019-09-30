@@ -3,12 +3,46 @@ html {
   background: url("beige-tiles.png");
 }
 
-.autosuggest_test {
-  height: 250;
+.input.full-width {
+  width: 100%;
+}
+
+.autosuggest-test {
+  height: 250px;
   flex-grow: 1;
 
+  .react-autosuggest__container {
+    position: relative;
+    display: block;
+  }
+
   .input {
-    position: relative
+    // position: relative
+  }
+
+  .container-open {
+
+    position: absolute;
+    z-index: 1;
+    margin-top: 15px;
+    left: 0;
+    right: 0;
+
+    &>ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        display: block;
+      }
+
+    }
+  }
+
+  .suggestion-render {
+    display: block;
+
   }
 }
 
