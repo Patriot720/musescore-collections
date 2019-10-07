@@ -42,7 +42,6 @@
                                                      :fontSize "small"}]]]]]])))
 
 (defn collections-view [collections-atom]
-
   [:section.section
    [:> mui/Container
     [inputs/add-collection-form]

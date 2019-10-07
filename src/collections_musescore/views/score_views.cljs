@@ -8,11 +8,11 @@
                           tags]}]
   [:> mui/Grid {:container true}
    [:> mui/Grid {:item true}
-    [mui-icons/Accessible] favorite-count]
+    [:> mui-icons/Accessible] favorite-count]
    [:> mui/Grid {:item true}
-    [mui-icons/Accessible] playback-count]
+    [:> mui-icons/Accessible] playback-count]
    [:> mui/Grid {:item true} ; TODO to a loop
-    [mui-icons/Accessible] tags]])
+    [:> mui-icons/Accessible] tags]])
 
 
 (defn score-view [collection-id {:keys [id title url
