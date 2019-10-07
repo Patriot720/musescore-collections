@@ -12,51 +12,22 @@
 (reg-event-fx
  :get-url-info
  (fn [db [_ url]]
-   (api/get-info-by-url url #(dispatch [:get-url-info-success %]))
+   (api/get-info-by-url url #(dispatch [:update-url-info %]))
    db))
 
 (reg-event-db
- :get-url-info-success
+ :update-url-info
  [(path :temp-url-info)]
  (fn [temp-url-info [_ result]]
    result))
 
-(reg-event-fx                 ;; part of the re-frame API
- :initialise-db              ;; event id being handled
+(reg-event-fx
+ :initialise-db
+ [(inject-cofx :local-store-collections)
+  check-spec-interceptor]
+ (fn [{:keys [db local-store-collections]}]
+   {:db (assoc db/default-db :collections  local-store-collections)}))
 
-  ;; the interceptor chain (a vector of 2 interceptors in this case)
- [(inject-cofx :local-store-collections) ;; gets todos from localstore, and puts value into coeffects arg
-  check-spec-interceptor]          ;; after event handler runs, check app-db for correctness. Does it still match Spec?
-
-  ;; the event handler (function) being registered
- (fn [{:keys [db local-store-collections]} _]                  ;; take 2 values from coeffects. Ignore event vector itself.
-   {:db (assoc db/default-db :collections  local-store-collections)}))   ;; all hail the new state to be put in app-db
-(def languages [{:name "C"   :year 1972}
-                {:name "C#" :year 2000}
-                {:name "C++" :year 1983}
-                {:name "Clojure" :year 2007}
-                {:name "Elm" :year 2012}
-                {:name "Go" :year 2009}
-                {:name "Haskell" :year 1990}
-                {:name "Java" :year 1995}
-                {:name "Javascript" :year 1995}
-                {:name "Perl" :year 1987}
-                {:name "PHP" :year 1995}
-                {:name "Python" :year 1991}
-                {:name "Ruby" :year 1995}
-                {:name "Scala" :year 2003}])
-
-
-(defn str->regex [a-str]
-  (let [escaped (str/replace a-str #"[\+\.\?\[\]\(\)\^\$]" (partial str "\\"))]
-    (re-pattern (str "(?i)^" escaped ".*"))))
-
-(defn language-suggestions [suggestions [_ val]]
-  (js/console.log val)
-  (let [trimmed-val (if (string? val) (str/trim val) "")]
-    (if (empty? trimmed-val)
-      []
-      (into [] (filter (comp #(re-matches  (str->regex trimmed-val) %) :name) languages)))))
 (reg-event-fx
  :get-suggestions
  (fn [db [_ title]]

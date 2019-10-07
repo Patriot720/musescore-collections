@@ -8,6 +8,7 @@
             [collections-musescore.api]
             [tests.test-runner] ;; TEST ONLY
             [collections-musescore.autosuggest-test :as autosuggest]
+            [collections-musescore.views.score-views]
             [collections-musescore.views.views :as views])
 
   (:import [goog History]
