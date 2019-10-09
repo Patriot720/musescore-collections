@@ -56,7 +56,7 @@
    [:> mui/Paper [score-view 1 {:title "Nice score"
                                 :id 2
                                 :url "some-url"
-                                :tags "cool stuff beans"
+                                ; :tags "cool stuff beans"
                                 :favorite-count 25
                                 :playback-count 300}]]])
 
