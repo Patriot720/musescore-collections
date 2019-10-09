@@ -53,12 +53,12 @@
                              :suggestions @(subscribe [:suggestions])
                              :update-suggestions  #(dispatch [:get-suggestions (.-value %)])
                              :clear-suggestions #(dispatch [:clear-suggestions])}]]
-   [:> mui/Paper [score-view 1 {:title "Nice score"
-                                :id 2
-                                :url "some-url"
+   [score-view 1 {:title "Nice score"
+                  :id 2
+                  :url "some-url"
                                 ; :tags "cool stuff beans"
-                                :favorite-count 25
-                                :playback-count 300}]]])
+                  :favorite-count 25
+                  :playback-count 300}]])
 
 (defn mount-root []
   (r/render [home-page] (.getElementById js/document "app")))
