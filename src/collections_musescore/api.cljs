@@ -31,4 +31,6 @@
           callback)))
 
 (defn search-score ([text callback]
-                    (query "score.json" {"text" text} callback)))
+                    (query "score.json" {"text" text} callback))
+  ([text callback fail-callback]
+   (query "score.json" {"text" text} callback fail-callback)))

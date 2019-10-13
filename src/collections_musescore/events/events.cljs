@@ -19,7 +19,7 @@
  :update-url-info
  [(path :temp-url-info)]
  (fn [temp-url-info [_ result]]
-   result))
+   (score/map->Score (js->clj result))))
 
 (reg-event-fx
  :initialise-db
@@ -38,7 +38,7 @@
  :update-suggestions
  [(path :suggestions)]
  (fn [suggestions [_ result]]
-   (map #(:title %) result)))
+   result))
 
 (reg-event-db
  :clear-suggestions

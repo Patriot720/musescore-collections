@@ -11,14 +11,18 @@
   (r/as-element
    [:> mui/MenuItem {:component "div"
                      :className "suggestion-render"} ;; TODO useStyles
-    [:span suggestion]]))
+    [:span (.-title suggestion)]]))
 
 (defn- renderSuggestionsContainer [props]
   (r/as-element [:> mui/Paper (assoc (js->clj (.-containerProps props))
                                      :className "container-open")
                  (.-children props)]))
+
 (defn- renderInput [props & children]
   (r/as-element [text-field (into {:className "input full-width"} (js->clj props))]))
+
+(defn- get-suggestion-value [suggestion]
+  (.-permalink suggestion))
 
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
 
@@ -28,10 +32,12 @@
                  update-suggestions
                  get-suggestion-value
                  render-suggestion
+                 on-suggestion-selected
                  clear-suggestions]}]
       [Autosuggest {:renderInputComponent renderInput
                     :renderSuggestionsContainer renderSuggestionsContainer
                     :suggestions suggestions
+                    :onSuggestionSelected on-suggestion-selected
                     :onSuggestionsFetchRequested update-suggestions
                     :getSuggestionValue (if get-suggestion-value
                                           get-suggestion-value
@@ -50,15 +56,19 @@
   [:div {:className "autosuggest-test"}
    [:div [auto-suggest-view {:placeholder "Type  stuff"
                              :render-suggestion  renderSuggestion
+                             :get-suggestion-value get-suggestion-value
                              :suggestions @(subscribe [:suggestions])
                              :update-suggestions  #(dispatch [:get-suggestions (.-value %)])
+                             :on-suggestion-selected #(dispatch   [:get-url-info (.-suggestionValue %2)])
                              :clear-suggestions #(dispatch [:clear-suggestions])}]]
-   [score-view 1 {:title "Nice score"
-                  :id 2
-                  :url "some-url"
+   [:div {:style {:padding :20px}} [score-view 1 {:title "Nice score"
+                                                  :id 2
+                                                  :creator "Torby Brand"
+                                                  :comment-count 128
+                                                  :url "some-url"
                                 ; :tags "cool stuff beans"
-                  :favorite-count 25
-                  :playback-count 300}]])
+                                                  :favorite-count "1250"
+                                                  :playback-count "300,000"}]]])
 
 (defn mount-root []
   (r/render [home-page] (.getElementById js/document "app")))
