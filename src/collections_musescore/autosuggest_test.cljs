@@ -2,6 +2,7 @@
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r :refer [atom]]
             ["@material-ui/core" :as mui]
+            [clojure.string :as string]
             [collections-musescore.views.mui-fix :refer [text-field]]
             [collections-musescore.views.score-views :refer [score-view]]
             cljsjs.react-autosuggest))
@@ -43,6 +44,7 @@
                     :suggestions suggestions
                     :onSuggestionSelected on-suggestion-selected
                     :onSuggestionsFetchRequested update-suggestions
+                    :shouldRenderSuggestions #((not (string/includes? %1 "http")))
                     :getSuggestionValue (if get-suggestion-value
                                           get-suggestion-value
                                           identity)
@@ -63,14 +65,8 @@
                              :update-suggestions  #(dispatch [:get-suggestions (.-value %)])
                              :on-suggestion-selected #(dispatch   [:get-url-info (.-suggestionValue %2)])
                              :clear-suggestions #(dispatch [:clear-suggestions])}]]
-   [:div {:style {:padding :20px}} [score-view 1 {:title "Nice score"
-                                                  :id 2
-                                                  :creator "Torby Brand"
-                                                  :comment-count 128
-                                                  :url "some-url"
-                                ; :tags "cool stuff beans"
-                                                  :favorite-count "1250"
-                                                  :playback-count "300,000"}]]])
+   [:div {:style {:padding :20px}} [score-view 1 @(subscribe [:url-info])]]])
+
 (defn mount-root []
   (r/render [home-page] (.getElementById js/document "app")))
 (defn init! []

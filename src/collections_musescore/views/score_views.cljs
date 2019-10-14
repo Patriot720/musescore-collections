@@ -6,24 +6,6 @@
 
 (def red (js->clj red-js))
 
-(defn score-info-item [type color value]
-  (js/console.log color)
-  [:> mui/Paper {:style {:padding 5 ; todo move to styles
-                         :display "inline-block"
-                         :background color :color "white"}}
-   [:span {:style {:padding-right 5}} type]
-   value])
-
-(defn score-info [{:keys [favorite-count
-                          playback-count
-                          tags]}]
-
-  [:> mui/Typography {:component "div" :variant "body2"}
-   [score-info-item "AR" (get red "500") favorite-count]
-   [:> mui-icons/Accessible] playback-count
-    ; [score-info-item [:> mui-icons/Accessible] tags]
-   ])
-
 (defn grid-item [props & children]
   (into [:> mui/Grid (into {:item true} props)] children))
 
@@ -40,10 +22,8 @@
 (defn score-view [collection-id {:keys [id title url
                                         creator
                                         favorite-count
-                                        playback-count
-                                        without-buttons
-                                        comment-count
-                                        tags]}]
+                                        views-count
+                                        comment-count]}]
   [:> mui/Card {:style {:display "inline-block"}}
    [:> mui/CardContent {:style {:max-width 200}}
     [:> mui/Typography {:variant "h4" :gutterBottom true}
@@ -52,7 +32,7 @@
      [grid-container {:spacing 1}
       [grid-item {:xs 6} [:strong creator]]
       [grid-item {:xs 6} [info-count mui-icons/FavoriteBorder favorite-count]]
-      [grid-item {:xs 6} [info-count mui-icons/VisibilityOutlined playback-count]]
+      [grid-item {:xs 6} [info-count mui-icons/VisibilityOutlined views-count]]
       [grid-item {:xs 6} [info-count mui-icons/QuestionAnswer comment-count]]]]]
    [:> mui/CardActions {:disable-spacing false}
     [:a {:href url :target "_blank"}

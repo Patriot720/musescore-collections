@@ -19,10 +19,6 @@
 
 ;; define your app data so that it doesn't get over-written on reload
 
-
-; (defroute "/" [] (dispatch [:set-showing :all]))
-; (defroute "/:filter" [filter] (dispatch [:set-showing (keyword filter)]))
-
 (dispatch-sync [:initialise-db])
 
 (def history
@@ -37,6 +33,6 @@
   ;; your application
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
   )
-(autosuggest/init!)
-; (reagent/render-component [views/main]
-;                           (. js/document (getElementById "app")))
+; (autosuggest/init!)
+(reagent/render-component [views/main]
+                          (. js/document (getElementById "app")))

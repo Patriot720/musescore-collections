@@ -7,6 +7,7 @@
    cljsjs.react-autosuggest
    [collections-musescore.views.mui-fix :refer [text-field]]
    [collections-musescore.api :refer [get-info-by-url]]
+   [collections-musescore.autosuggest-test :as autosuggest]
    [re-frame.core :refer [subscribe dispatch]]))
 
 
@@ -92,4 +93,4 @@
           [tab-panel @tab-value 1
            [add-score-by-url-form collection-id]]
           [tab-panel @tab-value 2
-           "TOOT"]]]]])))
+           [autosuggest/home-page]]]]]])))

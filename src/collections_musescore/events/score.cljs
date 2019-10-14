@@ -4,9 +4,15 @@
             [collections-musescore.events.util :refer [allocate-next-id]]))
 
 
-(defrecord Score [id title url])
-(defn score [id title url]
-  (into {} (->Score id title url)))
+(defrecord Score [id title url favorite-count
+                  comment-count
+                  views-count creator])
+
+(defn score
+  ([{:keys [title permalink id favoriting_count comment_count view_count metadata]}]
+   (into {} (->Score id title permalink favoriting_count comment_count view_count (:poet metadata))))
+  ([id title url]
+   {:id id :title title :url url}))
 
 
 (defn- add-to-collection [collection title url]
