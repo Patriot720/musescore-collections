@@ -5,9 +5,9 @@
    ["@material-ui/core/colors" :as mui-colors]
    ["@material-ui/icons" :as mui-icons]
    cljsjs.react-autosuggest
-   [collections-musescore\.views\.util :refer [text-field]]
+   [collections-musescore.views.util :refer [tab-panel text-field]]
    [collections-musescore.api :refer [get-info-by-url]]
-   [collections-musescore.autosuggest-test :as autosuggest]
+   [collections-musescore.autosuggest :as autosuggest]
    [re-frame.core :refer [subscribe dispatch]]))
 
 
@@ -29,12 +29,6 @@
        [:> mui/Button {:variant "contained"
                        :color "primary"
                        :on-click #(save)} "ADD"]])))
-
-(defn tab-panel [value index & children]
-  [:> mui/Typography {:component "div"
-                      :role "tabpanel"
-                      :hidden (not (= value index))}
-   (into [:> mui/Box {:p 3}] children)])
 
 (defn score-form [collection-id]
   (let [title (reagent/atom  "")
@@ -72,7 +66,7 @@
                                    (reset! url value)
                                    (dispatch [:get-url-info value])))}]])))
 
-(defn add-score-modal [collection-id]
+(defn score-modal [collection-id]
   (let [open? (reagent/atom false)
         tab-value (reagent/atom 0)]
     (fn [collection-id]
@@ -81,7 +75,7 @@
                        :on-click #(reset! open? true)} "Open modal add score"]
        [:> mui/Modal {:on-close #(reset! open? false)
                       :open @open?}
-        [:> mui/Paper {:className "add-score-modal"}
+        [:> mui/Paper {:className "score-modal"}
          [:div
           [:> mui/Tabs {:value @tab-value :on-change #(reset! tab-value %2)}
            [:> mui/Tab {:label "Manual"}]

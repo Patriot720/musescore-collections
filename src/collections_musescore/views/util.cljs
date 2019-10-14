@@ -1,9 +1,16 @@
-(ns collections-musescore\.views\.util
+(ns collections-musescore.views.util
   (:require   [reagent.core :as r]
               ["@material-ui/core" :as mui]
               ["@material-ui/core/colors" :as mui-colors]
               ["@material-ui/icons" :as mui-icons]
               [reagent.impl.template :as rtpl]))
+
+
+(defn tab-panel [value index & children]
+  [:> mui/Typography {:component "div"
+                      :role "tabpanel"
+                      :hidden (not (= value index))}
+   (into [:> mui/Box {:p 3}] children)])
 
 (def ^:private input-component
   (r/reactify-component

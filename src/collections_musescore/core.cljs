@@ -7,7 +7,7 @@
             [collections-musescore.subs]   ;; load them (see docs/App-Structure.md)
             [collections-musescore.api]
             [tests.test-runner] ;; TEST ONLY
-            [collections-musescore.autosuggest-test :as autosuggest]
+            [collections-musescore.autosuggest :as autosuggest]
             [collections-musescore.views.score-views]
             [collections-musescore.views.views :as views])
 

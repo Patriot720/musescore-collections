@@ -28,7 +28,7 @@
        [:> mui/Card
         [:> mui/CardContent
          [:> mui/Typography {:variant "h3"} title]
-         [inputs/add-score-modal id]
+         [inputs/score-modal id]
          [:ul.scores
           (for [score (vals scores)]
             ^{:key (:id score)}

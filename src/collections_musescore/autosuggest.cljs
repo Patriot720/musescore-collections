@@ -1,9 +1,9 @@
-(ns collections-musescore.autosuggest-test
+(ns collections-musescore.autosuggest
   (:require [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r :refer [atom]]
             ["@material-ui/core" :as mui]
             [clojure.string :as string]
-            [collections-musescore\.views\.util :refer [text-field]]
+            [collections-musescore.views.util :refer [text-field]]
             [collections-musescore.views.score-views :refer [score-view]]
             cljsjs.react-autosuggest))
 
@@ -56,7 +56,7 @@
 
 
 (defn home-page []
-  [:div {:className "autosuggest-test"}
+  [:div {:className "autosuggest"}
    [:div [auto-suggest-view {:placeholder "Type  stuff"
                              :render-suggestion  renderSuggestion
                              :get-suggestion-value get-suggestion-value
