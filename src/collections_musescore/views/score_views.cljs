@@ -1,17 +1,11 @@
 (ns collections-musescore.views.score-views
   (:require ["@material-ui/core" :as mui]
             [re-frame.core :refer [subscribe dispatch]]
+            [collections-musescore.views.util :refer [grid-item grid-container]]
             ["@material-ui/icons" :as mui-icons]
             ["@material-ui/core/colors" :refer [red-js]]))
 
 (def red (js->clj red-js))
-
-(defn grid-item [props & children]
-  (into [:> mui/Grid (into {:item true} props)] children))
-
-(defn grid-container [props & children]
-  (into [:> mui/Grid (into {:container true} props)] children))
-
 (defn info-count [icon text]
   [:span {:style {:display "inline-flex"
                   :align-items "center"}}
