@@ -11,6 +11,3 @@
 (deftest empty-local-store-test
   (db/->local-store nil)
   (is (= (db/get-from-local-store) {})))
-
-; (deftest localstore-test
-;   (is (= (db/get-from-local-store) [{:title "nice" :scores []}])))

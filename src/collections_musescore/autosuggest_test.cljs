@@ -7,11 +7,14 @@
             cljsjs.react-autosuggest))
 
 
+
 (defn-  renderSuggestion [suggestion]
   (r/as-element
    [:> mui/MenuItem {:component "div"
                      :className "suggestion-render"} ;; TODO useStyles
     [:span (.-title suggestion)]]))
+
+
 
 (defn- renderSuggestionsContainer [props]
   (r/as-element [:> mui/Paper (assoc (js->clj (.-containerProps props))
@@ -25,6 +28,7 @@
   (.-permalink suggestion))
 
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
+
 
 (defn auto-suggest-view []
   (let [input-val (r/atom "")]
@@ -49,8 +53,6 @@
                                  :onChange
                                  #(reset! input-val (.-newValue %2))}}])))
 
-;; -------------------------
-;; Views
 
 (defn home-page []
   [:div {:className "autosuggest-test"}
@@ -69,9 +71,7 @@
                                 ; :tags "cool stuff beans"
                                                   :favorite-count "1250"
                                                   :playback-count "300,000"}]]])
-
 (defn mount-root []
   (r/render [home-page] (.getElementById js/document "app")))
-
 (defn init! []
   (mount-root))
