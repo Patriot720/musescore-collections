@@ -44,7 +44,7 @@
 (defn collections-view [collections-atom]
   [:section.section
    [:> mui/Container
-    [inputs/add-collection-form]
+    [inputs/collection-form]
     [:> mui/Paper {:className "paper-transition"}
      [:> mui/Box {:p 4}
       [:<>

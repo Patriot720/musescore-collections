@@ -3,7 +3,7 @@
             [reagent.core :as r :refer [atom]]
             ["@material-ui/core" :as mui]
             [clojure.string :as string]
-            [collections-musescore.views.mui-fix :refer [text-field]]
+            [collections-musescore\.views\.util :refer [text-field]]
             [collections-musescore.views.score-views :refer [score-view]]
             cljsjs.react-autosuggest))
 
@@ -44,7 +44,6 @@
                     :suggestions suggestions
                     :onSuggestionSelected on-suggestion-selected
                     :onSuggestionsFetchRequested update-suggestions
-                    :shouldRenderSuggestions #((not (string/includes? %1 "http")))
                     :getSuggestionValue (if get-suggestion-value
                                           get-suggestion-value
                                           identity)

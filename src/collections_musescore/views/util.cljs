@@ -1,4 +1,4 @@
-(ns collections-musescore.views.mui-fix
+(ns collections-musescore\.views\.util
   (:require   [reagent.core :as r]
               ["@material-ui/core" :as mui]
               ["@material-ui/core/colors" :as mui-colors]

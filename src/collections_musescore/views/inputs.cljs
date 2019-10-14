@@ -5,13 +5,13 @@
    ["@material-ui/core/colors" :as mui-colors]
    ["@material-ui/icons" :as mui-icons]
    cljsjs.react-autosuggest
-   [collections-musescore.views.mui-fix :refer [text-field]]
+   [collections-musescore\.views\.util :refer [text-field]]
    [collections-musescore.api :refer [get-info-by-url]]
    [collections-musescore.autosuggest-test :as autosuggest]
    [re-frame.core :refer [subscribe dispatch]]))
 
 
-(defn add-collection-form []
+(defn collection-form []
   (let [title (reagent/atom "")
         save #(dispatch [:add-collection @title])
         stop #(reset! title "")]
@@ -36,7 +36,7 @@
                       :hidden (not (= value index))}
    (into [:> mui/Box {:p 3}] children)])
 
-(defn add-score-form [collection-id]
+(defn score-form [collection-id]
   (let [title (reagent/atom  "")
         url (reagent/atom  "")
         save #(dispatch [:add-score collection-id @title @url])
@@ -89,7 +89,7 @@
            [:> mui/Tab {:label "Search"}]
            [:> mui/Tab {:label "3one"}]]
           [tab-panel @tab-value 0
-           [add-score-form collection-id]]
+           [score-form collection-id]]
           [tab-panel @tab-value 1
            [add-score-by-url-form collection-id]]
           [tab-panel @tab-value 2
