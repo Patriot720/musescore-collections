@@ -28,7 +28,7 @@
        [:> mui/Card
         [:> mui/CardContent
          [:> mui/Typography {:variant "h3"} title]
-         [inputs/add-score-modal id]
+         [inputs/score-modal id]
          [:ul.scores
           (for [score (vals scores)]
             ^{:key (:id score)}
@@ -44,7 +44,9 @@
 (defn collections-view [collections-atom]
   [:section.section
    [:> mui/Container
-    [inputs/input-form :add-collection])]
+    [inputs/input-form {:dispatch-key :add-collection
+                        :label "Add collection"
+                        :button-text "Add"}]
     [:> mui/Paper {:className "paper-transition"}
      [:> mui/Box {:p 4}
       [:<>
