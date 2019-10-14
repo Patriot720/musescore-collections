@@ -1,6 +1,54 @@
 /* some style */
 html {
-  background: url("beige-tiles.png");
+  // background: url("beige-tiles.png");
+}
+
+.input.full-width {
+  width: 100%;
+}
+
+.autosuggest-test {
+  height: 250px;
+  flex-grow: 1;
+
+  .react-autosuggest__container {
+    position: relative;
+    display: block;
+  }
+
+  .input {
+    // position: relative
+  }
+
+  .container-open {
+
+    position: absolute;
+    z-index: 1;
+    margin-top: 15px;
+    left: 0;
+    right: 0;
+
+    &>ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        display: block;
+      }
+
+    }
+  }
+
+  .suggestion-render {
+    display: block;
+
+  }
+}
+
+// Card component
+#root>div>div {
+  display: inline-block;
 }
 
 body {
@@ -37,6 +85,16 @@ body {
   //     line-height: 100px;
   //   }
   // }
+}
+
+.score-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
 }
 
 .paper-transition {

@@ -2,10 +2,9 @@
   (:require
    [reagent.core :as reagent]
    ["@material-ui/core" :as mui]
-   ["@material-ui/core/styles" :refer [createMuiTheme withStyles]]
-   ["@material-ui/core/colors" :as mui-colors]
    ["@material-ui/icons" :as mui-icons]
    [collections-musescore.views.inputs :as inputs]
+   [collections-musescore.views.score-views :refer [score-view]]
    [re-frame.core :refer [subscribe dispatch]]))
 
 (set! *warn-on-infer* true)
@@ -16,18 +15,9 @@
     (.-value el)))
 
 
-(defn score-view [collection-id {:keys [id title url]}]
-  [:a {:href url :target "_blank"}
-   [:> mui/Grid {:container true :alignItems "center" :justify "space-evenly"}
-    [:> mui/Grid {:item true}
-     [:h1 title]]
-    [:> mui/Grid {:item true :justify "flex-end"}
-     [:> mui/Button {:on-click
-                     #(dispatch [:remove-score collection-id id])} "DELETE"]]]])
-
-(defn remove-collection [id collection-exists? animation-length]
+(defn remove-collection-with-animation [id collection-exists? animation-length]
   (reset! collection-exists? false)
-  (js/setTimeout #(dispatch [:remove-collection id]) animation-length))
+  (js/setTimeout #(dispatch [:remove-collection-with-animation id]) animation-length))
 
 (defn collection-view []
   (let [collection-exists? (reagent/atom true)
@@ -38,7 +28,7 @@
        [:> mui/Card
         [:> mui/CardContent
          [:> mui/Typography {:variant "h3"} title]
-         [inputs/add-score-form id]
+         [inputs/score-modal id]
          [:ul.scores
           (for [score (vals scores)]
             ^{:key (:id score)}
@@ -47,15 +37,16 @@
           [:> mui/Button
            {:variant "contained"
             :color "secondary"
-            :on-click (partial remove-collection id collection-exists? animation-length)}
+            :on-click (partial remove-collection-with-animation id collection-exists? animation-length)}
            "DELETE collection" [:> mui-icons/Delete {:className "right-button"
                                                      :fontSize "small"}]]]]]])))
 
 (defn collections-view [collections-atom]
-
   [:section.section
    [:> mui/Container
-    [inputs/add-collection-form]
+    [inputs/input-form {:dispatch-key :add-collection
+                        :label "Add collection"
+                        :button-text "Add"}]
     [:> mui/Paper {:className "paper-transition"}
      [:> mui/Box {:p 4}
       [:<>

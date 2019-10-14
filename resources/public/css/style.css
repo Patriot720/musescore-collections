@@ -1,6 +1,35 @@
 /* some style */
-html {
-  background: url("beige-tiles.png");
+.input.full-width {
+  width: 100%;
+}
+.autosuggest-test {
+  height: 250px;
+  flex-grow: 1;
+}
+.autosuggest-test .react-autosuggest__container {
+  position: relative;
+  display: block;
+}
+.autosuggest-test .container-open {
+  position: absolute;
+  z-index: 1;
+  margin-top: 15px;
+  left: 0;
+  right: 0;
+}
+.autosuggest-test .container-open > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.autosuggest-test .container-open > ul li {
+  display: block;
+}
+.autosuggest-test .suggestion-render {
+  display: block;
+}
+#root > div > div {
+  display: inline-block;
 }
 .collections {
   overflow: hidden;
@@ -9,6 +38,15 @@ html {
 }
 .collections ul.scores {
   overflow: hidden;
+}
+.add-score-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
 }
 .paper-transition {
   transition: all 0.3s ease-out;
