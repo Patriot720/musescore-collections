@@ -13,12 +13,11 @@
    (into [:> mui/Box {:p 3}] children)])
 
 
-(defmulti grid-item (fn [argument] (type argument)))
 (defmethod grid-item 'cljs.core/PersistentArrayMap
   [props & children]
   (into [:> mui/Grid (into {:item true} props)] children))
 
-(defmethod grid-item :default [& children]
+(defmethod grid-item 'cljs.core/PersistentVector [& children]
   (into [:> mui/Grid] children))
 
 (defn grid-container [props & children]
@@ -43,7 +42,7 @@
 ;; use wrapper input element created by Reagent instead of
 ;; letting Material-UI to create input element directly using React.
 ;; Create-element + convert-props-value is the same as what adapt-react-class does.
-(defn text-field [props & children]
+(defn- text-field [props & children]
   (let [props (-> props
                   (assoc-in [:InputProps :inputComponent] (cond
                                                             (and (:multiline props) (:rows props) (not (:maxRows props)))
