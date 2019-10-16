@@ -14,7 +14,6 @@
   (let [^js/HTMLInputElement el (.-target e)]
     (.-value el)))
 
-
 (defn remove-collection-with-animation [id collection-exists? animation-length]
   (reset! collection-exists? false)
   (js/setTimeout #(dispatch [:remove-collection-with-animation id]) animation-length))
@@ -44,9 +43,11 @@
 (defn collections-view [collections-atom]
   [:section.section
    [:> mui/Container
-    [inputs/input-form {:dispatch-key :add-collection
+    [inputs/input-form {
+                        :dispatch-key :add-collection
                         :label "Add collection"
-                        :button-text "Add"}]
+                        :button-text "Add"
+                        }]
     [:> mui/Paper {:className "paper-transition"}
      [:> mui/Box {:p 4}
       [:<>

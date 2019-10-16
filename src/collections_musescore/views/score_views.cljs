@@ -1,7 +1,6 @@
 (ns collections-musescore.views.score-views
   (:require ["@material-ui/core" :as mui]
             [re-frame.core :refer [subscribe dispatch]]
-            [collections-musescore.views.util :refer [grid-item grid-container]]
             ["@material-ui/icons" :as mui-icons]
             ["@material-ui/core/colors" :refer [red-js]]))
 
@@ -23,11 +22,11 @@
     [:> mui/Typography {:variant "h4" :gutterBottom true}
      title]
     [:> mui/Typography {:component "div" :variant "body1"}
-     [grid-container {:spacing 1}
-      [grid-item {:xs 6} [:strong creator]]
-      [grid-item {:xs 6} [info-count mui-icons/FavoriteBorder favorite-count]]
-      [grid-item {:xs 6} [info-count mui-icons/VisibilityOutlined views-count]]
-      [grid-item {:xs 6} [info-count mui-icons/QuestionAnswer comment-count]]]]]
+     [:> mui/Grid {:container true :spacing 1}
+      [:> mui/Grid {:item true :xs 6} [:strong creator]]
+      [:> mui/Grid {:item true :xs 6} [info-count mui-icons/FavoriteBorder favorite-count]]
+      [:> mui/Grid {:item true :xs 6} [info-count mui-icons/VisibilityOutlined views-count]]
+      [:> mui/Grid {:item true :xs 6} [info-count mui-icons/QuestionAnswer comment-count]]]]]
    [:> mui/CardActions {:disable-spacing false}
     [:a {:href url :target "_blank"}
      [:> mui/Button

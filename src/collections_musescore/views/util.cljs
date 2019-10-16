@@ -12,18 +12,6 @@
                       :hidden (not (= value index))}
    (into [:> mui/Box {:p 3}] children)])
 
-
-(defmethod grid-item 'cljs.core/PersistentArrayMap
-  [props & children]
-  (into [:> mui/Grid (into {:item true} props)] children))
-
-(defmethod grid-item 'cljs.core/PersistentVector [& children]
-  (into [:> mui/Grid] children))
-
-(defn grid-container [props & children]
-  (into [:> mui/Grid (into {:container true} props)] children))
-
-
 (def ^:private input-component
   (r/reactify-component
    (fn [props]
@@ -42,7 +30,7 @@
 ;; use wrapper input element created by Reagent instead of
 ;; letting Material-UI to create input element directly using React.
 ;; Create-element + convert-props-value is the same as what adapt-react-class does.
-(defn- text-field [props & children]
+(defn text-field [props & children]
   (let [props (-> props
                   (assoc-in [:InputProps :inputComponent] (cond
                                                             (and (:multiline props) (:rows props) (not (:maxRows props)))
