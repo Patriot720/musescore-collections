@@ -7,13 +7,12 @@
             [collections-musescore.views.score-views :refer [score-view]]
             cljsjs.react-autosuggest))
 
-
-
 (defn-  renderSuggestion [suggestion]
   (r/as-element
    [:> mui/MenuItem {:component "div"
                      :className "suggestion-render"} ;; TODO useStyles
     [:span (.-title suggestion)]]))
+
 
 (defn- renderSuggestionsContainer [props]
   (r/as-element [:> mui/Paper (assoc (js->clj (.-containerProps props))
@@ -27,7 +26,6 @@
   (.-permalink suggestion))
 
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
-
 
 (defn auto-suggest-view []
   (let [input-val (r/atom "")]
@@ -51,7 +49,6 @@
                                  :value @input-val
                                  :onChange
                                  #(reset! input-val (.-newValue %2))}}])))
-
 
 (defn home-page []
   [:div {:className "autosuggest"}
