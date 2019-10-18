@@ -15,8 +15,6 @@
                      :className "suggestion-render"} ;; TODO useStyles
     [:span (.-title suggestion)]]))
 
-
-
 (defn- renderSuggestionsContainer [props]
   (r/as-element [:> mui/Paper (assoc (js->clj (.-containerProps props))
                                      :className "container-open")

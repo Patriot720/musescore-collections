@@ -29,12 +29,6 @@
                          :title "some_score"
                          :url "url"}}}})))
 
-;; (deftest get-from-musescore-by-url-test
-;;   (let [dummy-url "https://musescore.com/user/24625996/scores/4801654"]
-;;     (is (= (score/get-from-musescore-by-url-test dummy-url)
-;;            (score/score  4801654
-;;                          "Game Of Thrones - Main Theme - Piano Arrangement"
-;;                          dummy-url)))))
 
 
 (defn count-equals [item expected-count]

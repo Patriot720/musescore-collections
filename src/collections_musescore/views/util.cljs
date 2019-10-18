@@ -26,10 +26,6 @@
                     (assoc :ref (:inputRef props))
                     (dissoc :inputRef))])))
 
-;; To fix cursor jumping when controlled input value is changed,
-;; use wrapper input element created by Reagent instead of
-;; letting Material-UI to create input element directly using React.
-;; Create-element + convert-props-value is the same as what adapt-react-class does.
 (defn text-field [props & children]
   (let [props (-> props
                   (assoc-in [:InputProps :inputComponent] (cond
