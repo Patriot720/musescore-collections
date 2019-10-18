@@ -1,6 +1,17 @@
 /* some style */
+.score-info-item {
+  display: inline-flex;
+  align-items: "center";
+}
+.score-info-item > svg {
+  font-size: inherit;
+  padding-right: 8;
+}
 .input.full-width {
   width: 100%;
+}
+div[inline-block] {
+  display: inline-block;
 }
 .autosuggest-test {
   height: 250px;
@@ -39,7 +50,7 @@
 .collections ul.scores {
   overflow: hidden;
 }
-.add-score-modal {
+.score-modal {
   position: absolute;
   top: 50%;
   left: 50%;

@@ -20,7 +20,7 @@
                                     nil)}
         ]
        [:> mui/Button {:variant "contained"
-                       :color "primary" ;; TODO button styles deconstruction
+                       :color "primary" 
                        :on-click #(save)} button-text]])))
 
 (defn score-form [collection-id]
