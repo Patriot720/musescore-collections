@@ -8,6 +8,7 @@
                   comment-count
                   views-count creator])
 
+
 (defn score
   ([{:keys [title permalink id favoriting_count comment_count view_count metadata]}]
    (into {} (->Score id title permalink favoriting_count comment_count view_count (:poet metadata))))
@@ -26,3 +27,6 @@
 
 (defn remove-from-collections [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc score-id))
+
+(defn update-score-info [temp-url-info [_ result]]
+  (score  (js->clj result)))
