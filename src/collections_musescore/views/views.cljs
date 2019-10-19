@@ -42,7 +42,7 @@
 (defn collections-view [collections-atom]
   [:section.section
    [:> mui/Container
-    [inputs/input-form {
+    [inputs/input-field {
                         :dispatch-key :add-collection
                         :label "Add collection"
                         :button-text "Add"

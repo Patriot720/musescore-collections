@@ -5,7 +5,7 @@
 
             [reagent.core :as reagent]))
 
-(defn input-form [{:keys [dispatch-key label button-text]}]
+(defn input-field [{:keys [dispatch-key label button-text]}]
   (let [title (reagent/atom "")
         stop #(reset! title "")
         save #(dispatch [dispatch-key @title])]
