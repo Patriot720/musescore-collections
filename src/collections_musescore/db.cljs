@@ -5,8 +5,6 @@
    [cljs.spec.alpha :as s]))
 
 (s/def ::title string?)
-; (ss//def url-regex
-; s/  #"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)")
 (s/def ::url string?)
 
 (s/def ::score (s/or :map (s/keys :req-un [::title ::url]) :nil nil?))
@@ -15,7 +13,7 @@
 (s/def ::collections
   (s/map-of number? ::collection))
 (s/def ::db (s/keys :req-un [::collections]))
-(def ls-key "collections-musescore")                         ;; localstore key
+(def localstore-key "collections-musescore")                         ;; localstore key
 
 (def default-db           ;; what gets put into app-db by default.
   {:collections   {}  ;; an empty list of todos. Use the (int) :id as the key
@@ -25,10 +23,10 @@
 (defn ->local-store
   "Puts collections into localStorage"
   [collections]
-  (.setItem js/localStorage ls-key (str collections)))     ;; sorted-map written as an EDN map
+  (.setItem js/localStorage localstore-key (str collections)))
 
 (defn get-from-local-store []
-  (into {} (some->> (.getItem js/localStorage ls-key)
+  (into {} (some->> (.getItem js/localStorage localstore-key)
                     (cljs.reader/read-string)    ;; EDN map -> map
                     )))
 
@@ -37,6 +35,10 @@
   (assoc cofx :local-store-collections
              ;; read in todos from localstore, and process into a sorted map
          (get-from-local-store)))
+
 (reg-cofx
  :local-store-collections
  local-store-collections-cofx)
+
+(defn initialize-db [{:keys [_ local-store-collections]}]
+  {:db (assoc default-db :collections  local-store-collections)})

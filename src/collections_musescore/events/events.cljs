@@ -25,8 +25,7 @@
  :initialise-db
  [(inject-cofx :local-store-collections)
   check-spec-interceptor]
- (fn [{:keys [db local-store-collections]}]
-   {:db (assoc db/default-db :collections  local-store-collections)}))
+ db/initialize-db)
 
 (reg-event-fx
  :get-suggestions
