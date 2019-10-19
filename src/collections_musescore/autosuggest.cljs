@@ -1,18 +1,15 @@
 (ns collections-musescore.autosuggest
-  (:require [re-frame.core :refer [subscribe dispatch]]
-            [reagent.core :as r :refer [atom]]
-            ["@material-ui/core" :as mui]
-            [clojure.string :as string]
-            [collections-musescore.views.util :refer [text-field]]
-            [collections-musescore.views.score-views :refer [score-view]]
-            cljsjs.react-autosuggest))
+  (:require
+   [reagent.core :as r :refer [atom]]
+   ["@material-ui/core" :as mui]
+   [collections-musescore.views.util :refer [text-field]]
+   cljsjs.react-autosuggest))
 
 (defn-  renderSuggestion [suggestion]
   (r/as-element
    [:> mui/MenuItem {:component "div"
                      :className "suggestion-render"} ;; TODO useStyles
     [:span (.-title suggestion)]]))
-
 
 (defn- renderSuggestionsContainer [props]
   (r/as-element [:> mui/Paper (assoc (js->clj (.-containerProps props))
@@ -22,9 +19,6 @@
 (defn- renderInput [props & children]
   (r/as-element [text-field (into {:className "input full-width"} (js->clj props))]))
 
-(defn- get-suggestion-value [suggestion]
-  (.-permalink suggestion))
-
 (def Autosuggest (r/adapt-react-class js/Autosuggest))
 
 (defn auto-suggest-view []
@@ -32,7 +26,6 @@
     (fn [{:keys [placeholder suggestions
                  update-suggestions
                  get-suggestion-value
-                 render-suggestion
                  on-suggestion-selected
                  clear-suggestions]}]
       [Autosuggest {:renderInputComponent renderInput
@@ -44,24 +37,8 @@
                                           get-suggestion-value
                                           identity)
                     :onSuggestionsClearRequested clear-suggestions
-                    :renderSuggestion render-suggestion
+                    :renderSuggestion renderSuggestion
                     :inputProps {:placeholder placeholder
                                  :value @input-val
                                  :onChange
                                  #(reset! input-val (.-newValue %2))}}])))
-
-(defn home-page []
-  [:div {:className "autosuggest"}
-   [:div [auto-suggest-view {:placeholder "Type  stuff"
-                             :render-suggestion  renderSuggestion
-                             :get-suggestion-value get-suggestion-value
-                             :suggestions @(subscribe [:suggestions])
-                             :update-suggestions  #(dispatch [:get-suggestions (.-value %)])
-                             :on-suggestion-selected #(dispatch   [:get-url-info (.-suggestionValue %2)])
-                             :clear-suggestions #(dispatch [:clear-suggestions])}]]
-   [:div {:style {:padding :20px}} [score-view 1 @(subscribe [:url-info])]]])
-
-(defn mount-root []
-  (r/render [home-page] (.getElementById js/document "app")))
-(defn init! []
-  (mount-root))

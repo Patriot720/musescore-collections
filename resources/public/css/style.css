@@ -7,36 +7,39 @@
   font-size: inherit;
   padding-right: 8;
 }
+.pull-right {
+  margin-left: auto;
+}
 .input.full-width {
   width: 100%;
 }
 div[inline-block] {
   display: inline-block;
 }
-.autosuggest-test {
+.autosuggest {
   height: 250px;
   flex-grow: 1;
 }
-.autosuggest-test .react-autosuggest__container {
+.autosuggest .react-autosuggest__container {
   position: relative;
   display: block;
 }
-.autosuggest-test .container-open {
+.autosuggest .container-open {
   position: absolute;
   z-index: 1;
   margin-top: 15px;
   left: 0;
   right: 0;
 }
-.autosuggest-test .container-open > ul {
+.autosuggest .container-open > ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.autosuggest-test .container-open > ul li {
+.autosuggest .container-open > ul li {
   display: block;
 }
-.autosuggest-test .suggestion-render {
+.autosuggest .suggestion-render {
   display: block;
 }
 #root > div > div {

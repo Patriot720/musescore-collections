@@ -1,11 +1,10 @@
 (ns collections-musescore.views.views
-  (:require
-   [reagent.core :as reagent]
-   ["@material-ui/core" :as mui]
-   ["@material-ui/icons" :as mui-icons]
-   [collections-musescore.views.inputs :as inputs]
-   [collections-musescore.views.score-views :refer [score-view]]
-   [re-frame.core :refer [subscribe dispatch]]))
+  (:require ["@material-ui/core" :as mui]
+            ["@material-ui/icons" :as mui-icons]
+            [collections-musescore.views.inputs :as inputs]
+            [collections-musescore.views.score-views :as score-views]
+            [re-frame.core :refer [dispatch subscribe]]
+            [reagent.core :as reagent]))
 
 (set! *warn-on-infer* true)
 
@@ -27,11 +26,11 @@
        [:> mui/Card
         [:> mui/CardContent
          [:> mui/Typography {:variant "h3"} title]
-         [inputs/score-modal id]
+         [score-views/add-score-modal id]
          [:ul.scores
           (for [score (vals scores)]
             ^{:key (:id score)}
-            [score-view id score])]
+            [score-views/score-view id score])]
          [:> mui/CardActions
           [:> mui/Button
            {:variant "contained"

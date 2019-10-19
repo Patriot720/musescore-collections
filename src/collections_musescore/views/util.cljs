@@ -5,7 +5,6 @@
               ["@material-ui/icons" :as mui-icons]
               [reagent.impl.template :as rtpl]))
 
-
 (defn tab-panel [value index & children]
   [:> mui/Typography {:component "div"
                       :role "tabpanel"
