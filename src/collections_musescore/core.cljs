@@ -7,7 +7,6 @@
             [collections-musescore.subs]   ;; load them (see docs/App-Structure.md)
             [collections-musescore.api]
             [tests.test-runner] ;; TEST ONLY
-            [collections-musescore.autosuggest :as autosuggest]
             [collections-musescore.views.score-views]
             [collections-musescore.views.views :as views])
 
@@ -28,11 +27,10 @@
     (.setEnabled true)))
 
 (defn on-js-reload []
-
   ;; optionally touch your app-state to force rerendering depending on
   ;; your application
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
   )
-; (autosuggest/init!)
+
 (reagent/render-component [views/main]
                           (. js/document (getElementById "app")))

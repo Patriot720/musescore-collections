@@ -2,8 +2,8 @@
   (:require ["@material-ui/core" :as mui]
             ["@material-ui/core/colors" :refer [red-js]]
             ["@material-ui/icons" :as mui-icons]
-            [collections-musescore.autosuggest :as autosuggest]
             [collections-musescore.views.util :refer [tab-panel text-field]]
+            [collections-musescore.views.inputs :as inputs]
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 
@@ -86,7 +86,7 @@
 
 (defn score-search-view []
   [:div {:className "autosuggest"}
-   [:div [autosuggest/auto-suggest-view {:placeholder "Type  stuff"
+   [:div [inputs/auto-suggest-view {:placeholder "Type  stuff"
                                          :get-suggestion-value get-suggestion-value
                                          :suggestions @(subscribe [:suggestions])
                                          :update-suggestions  #(dispatch [:get-suggestions (.-value %)])

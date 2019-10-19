@@ -16,3 +16,4 @@ pom.xml
 node-modules/
 node_modules
 api_key
+/*.el
