@@ -3,10 +3,10 @@
             [reagent.core :as reagent]
             [re-frame.core :refer [dispatch dispatch-sync]]
             [secretary.core :as secretary]
-            [collections-musescore.events.events] ;; These two are only required to make the compiler
-            [collections-musescore.subs]   ;; load them (see docs/App-Structure.md)
+            [collections-musescore.events.events] 
+            [collections-musescore.subs]   
             [collections-musescore.api]
-            [tests.test-runner] ;; TEST ONLY
+            [tests.test-runner] 
             [collections-musescore.views.score-views]
             [collections-musescore.views.views :as views])
 
@@ -26,11 +26,13 @@
                    (fn [event] (secretary/dispatch! (.-token event))))
     (.setEnabled true)))
 
-(defn on-js-reload []
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ;; (swap! app-state update-in [:__figwheel_counter] inc)
-  )
 
 (reagent/render-component [views/main]
                           (. js/document (getElementById "app")))
+
+
+;; (defn on-js-reload []
+;; optionally touch your app-state to force rerendering depending on
+;; your application
+;; (swap! app-state update-in [:__figwheel_counter] inc)
+;; )

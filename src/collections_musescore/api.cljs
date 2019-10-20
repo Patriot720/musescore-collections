@@ -5,6 +5,7 @@
    [clojure.string]
    [ajax.core :refer [GET]]))
 
+
 (def query-base "https://cors-anywhere.herokuapp.com/http://api.musescore.com/services/rest/")
 (defn parse-url [url] (last (clojure.string/split url #"/")))
 
@@ -28,7 +29,7 @@
   ([url callback fail-callback]
    (query (str "score/" (parse-url url) ".json")
           {}
-          callback)))
+          callback fail-callback)))
 
 (defn search-score ([text callback]
                     (query "score.json" {"text" text} callback))

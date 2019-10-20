@@ -7,13 +7,6 @@
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 
-(def red (js->clj red-js))
-
-(defn- score-info-item [icon text]
-  [:span {:className "score-info-item"}
-   [:> icon]
-   text])
-
 (defn score-form [collection-id]
   (let [title (reagent/atom  "")
         url (reagent/atom  "")
@@ -37,17 +30,11 @@
                                                  :color "primary"
                                                  :on-click #(save)} "ADD"]]])))
 
-(defn add-score-by-url-form [collection-id]
-  (let [url (reagent/atom "")] ; TODO move to re-frame standart library
-    (fn [collection-id]
-      [:div
-       [:> mui/Typography {:component "h4"} @(subscribe [:url-info])]
-       [text-field {:value @url
-                    :label "URL"
-                    :on-change (fn [event]
-                                 (let [value (-> event .-target .-value)]
-                                   (reset! url value)
-                                   (dispatch [:get-url-info value])))}]])))
+
+(defn- score-info-item [icon text]
+  [:span {:className "score-info-item"}
+   [:> icon]
+   text])
 
 (defn score-view [collection-id {:keys [id title url
                                         creator
@@ -87,11 +74,13 @@
 (defn score-search-view []
   [:div {:className "autosuggest"}
    [:div [inputs/auto-suggest-view {:placeholder "Type  stuff"
-                                         :get-suggestion-value get-suggestion-value
-                                         :suggestions @(subscribe [:suggestions])
-                                         :update-suggestions  #(dispatch [:get-suggestions (.-value %)])
-                                         :on-suggestion-selected #(dispatch   [:get-url-info (.-suggestionValue %2)])
-                                         :clear-suggestions #(dispatch [:clear-suggestions])}]]
+                                    :get-suggestion-value get-suggestion-value
+                                    :suggestions @(subscribe [:suggestions])
+                                    :update-suggestions
+                                    #(dispatch [:get-suggestions (.-value %)])
+                                    :on-suggestion-selected
+                                    #(dispatch   [:get-url-info (.-suggestionValue %2)])
+                                    :clear-suggestions #(dispatch [:clear-suggestions])}]]
    [:div {:style {:padding :20px}} [score-view 1 @(subscribe [:url-info])]]
    [:> mui/Button {:variant "contained"
                    :color "primary"
