@@ -25,11 +25,11 @@
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
   :less {:source-paths ["src/less/"]
          :target-path "resources/public/css/"}
-  :source-paths ["src"]
+  :source-paths ["src","tests"]
 
   :cljsbuild {:builds
               [{:id "dev"
-                :source-paths ["src"]
+                :source-paths ["src","tests"]
 
                 ;; The presence of a :figwheel configuration here
                 ;; will cause figwheel to inject the figwheel client
@@ -104,7 +104,7 @@
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [figwheel-sidecar "0.5.19"]]
                    ;; need to add dev source path here to get user.clj loaded
-                   :source-paths ["src" "dev"]
+                   :source-paths ["src" "dev" "tests"]
                    ;; need to add the compliled assets to the :clean-targets
                    :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                                      :target-path]}})

@@ -6,7 +6,7 @@
             [collections-musescore.events.events] 
             [collections-musescore.subs]   
             [collections-musescore.api]
-            [tests.test-runner] 
+            ;; [tests.test-runner] 
             [collections-musescore.views.score-views]
             [collections-musescore.views.views :as views])
 
