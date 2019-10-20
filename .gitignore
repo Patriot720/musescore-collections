@@ -17,3 +17,5 @@ node-modules/
 node_modules
 api_key
 /*.el
+*.*#
+*.org
