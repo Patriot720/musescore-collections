@@ -12,7 +12,7 @@
 (deftest add-to-collection-test
   (is (= (#'score/add-to-collection
           (get dummy-collections-with-score 1)
-          "some-score" "url")
+          1 "some-score" "url")
          {:id 1
           :title "nice"
           :scores {1 {:id 1
@@ -22,7 +22,7 @@
 (deftest add-test
   (is (= (score/add
           dummy-collections-with-score
-          [nil 1 "some_score" "url"])
+          [nil 1 1 "some_score" "url"])
          {1 {:id 1
              :title "nice"
              :scores {1 {:id 1
