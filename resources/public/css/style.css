@@ -17,7 +17,6 @@ div[inline-block] {
   display: inline-block;
 }
 .autosuggest {
-  height: 250px;
   flex-grow: 1;
 }
 .autosuggest .react-autosuggest__container {
