@@ -10,7 +10,7 @@
 
 (defn remove-collection-with-animation [id collection-exists? animation-length]
   (reset! collection-exists? false)
-  (js/setTimeout #(dispatch [:remove-collection-with-animation id]) animation-length))
+  (js/setTimeout #(dispatch [:remove-collection id]) animation-length))
 
 (defn collection-view []
   (let [collection-exists? (reagent/atom true)
