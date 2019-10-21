@@ -6,7 +6,7 @@
             [collections-musescore.events.events] 
             [collections-musescore.subs]   
             [collections-musescore.api]
-            ;; [tests.test-runner] 
+            ;;   [tests.test_runner]
             [collections-musescore.views.score-views]
             [collections-musescore.views.views :as views])
 
@@ -31,8 +31,8 @@
                           (. js/document (getElementById "app")))
 
 
-;; (defn on-js-reload []
+(defn on-js-reload []
 ;; optionally touch your app-state to force rerendering depending on
 ;; your application
 ;; (swap! app-state update-in [:__figwheel_counter] inc)
-;; )
+)

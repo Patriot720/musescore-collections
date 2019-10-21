@@ -1,4 +1,5 @@
-(ns collections-musescore.macros)
+(ns collections-musescore.macros
+(:require [environ.core :as environ ]))
 
-(defmacro slurp [file]
-  (clojure.core/slurp file))
+(defmacro env [file-key]
+  (environ/env file-key))

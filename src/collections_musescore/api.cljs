@@ -1,6 +1,6 @@
 (ns collections-musescore.api
   (:require-macros
-   [collections-musescore.macros :refer [slurp]])
+   [collections-musescore.macros :refer [env]])
   (:require
    [clojure.string]
    [ajax.core :refer [GET]]))
@@ -14,7 +14,7 @@
   ([endpoint params callback fail-callback]
    (GET
      (str query-base endpoint)
-     {:params (into params {"oauth_consumer_key" (slurp "api_key")})
+     {:params (into params {"oauth_consumer_key" (env :musescore-token)}) ;;
       :with-credentials false
       :handler callback
       :response-format :json
