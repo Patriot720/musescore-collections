@@ -1,40 +1,42 @@
 (ns tests.events.score-test
   (:require [cljs.test :refer-macros [deftest is]]
-            [collections-musescore.events.score :as score]))
-
-
-
+            [collections-musescore.events.score :as score]
+            [tests.api.fixtures :as fixtures]))
 
 (def dummy-collections-with-score {1 {:id 1
                                       :title "nice"
                                       :scores {}}})
 
+(def expected-score {:title
+                              "Game Of Thrones - Main Theme - Piano Arrangement"
+                              :favoriting_count 625
+                              :id 4801654
+                              :permalink (:permalink fixtures/expected-response)
+                              :view_count "25605"
+                              :comment_count 29
+                              :poet "Arranged by AmiAll"})
+
 (deftest add-to-collection-test
   (is (= (#'score/add-to-collection
           (get dummy-collections-with-score 1)
-          1 "some-score" "url")
+          fixtures/expected-response)
          {:id 1
           :title "nice"
-          :scores {1 {:id 1
-                      :title "some-score"
-                      :url "url"}}})))
+          :scores {(:id expected-score) expected-score}})))
 
-(deftest add-test
+#_(deftest add-test
   (is (= (score/add
           dummy-collections-with-score
-          [nil 1 1 "some_score" "url"])
+          [nil fixtures/expected-response])
          {1 {:id 1
              :title "nice"
-             :scores {1 {:id 1
-                         :title "some_score"
-                         :url "url"}}}})))
-
-
+             :scores {(:id expected-score) expected-score}}})))
 
 (defn count-equals [item expected-count]
   (= (count item)
      expected-count))
 
+;; SCORE REMOVAL
 (def dummy-collection {:id 1
                        :title "nice"
                        :scores {1 {:id 1

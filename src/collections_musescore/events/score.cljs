@@ -2,21 +2,21 @@
   (:require
    [collections-musescore.events.util :refer [allocate-next-id]]))
 
-(defrecord Score [id title url favorite-count
-                  comment-count
-                  views-count creator])
+(defrecord Score [id title permalink favoriting_count
+                  comment_count
+                  view_count poet])
 
 (defn score
-  ([{:keys [title permalink id favoriting_count comment_count view_count metadata]}]
-   (into {} (->Score id title permalink favoriting_count comment_count view_count (:poet metadata))))
+  ([{:keys [title permalink id favoriting_count comment_count view_count] {poet :poet} :metadata}]
+   (into {} (->Score (int id) title permalink favoriting_count comment_count view_count poet)))
   ([id title url]
    {:id id :title title :url url}))
 
-(defn- add-to-collection [collection id title url]
-  (assoc-in collection [:scores id]  (score id title url)))
+(defn- add-to-collection [collection score-info]
+  (assoc-in collection [:scores (int (:id score-info))]  (score score-info)))
 
-(defn add [collections [_ collection-id score-id score-title url]]
-  (update collections collection-id add-to-collection score-id score-title url))
+(defn add [collections [_ collection-id score-info]]
+  (update collections collection-id add-to-collection score-info))
 
 (defn remove-from-collections [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc score-id))
