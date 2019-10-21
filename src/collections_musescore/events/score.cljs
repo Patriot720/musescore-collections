@@ -12,13 +12,11 @@
   ([id title url]
    {:id id :title title :url url}))
 
-(defn- add-to-collection [collection title url]
-  (let [id (allocate-next-id (:scores collection))]
-    (assoc-in collection [:scores id]  (score id title url))))
+(defn- add-to-collection [collection id title url]
+  (assoc-in collection [:scores id]  (score id title url)))
 
-(defn add [collections [_ id score-title url]]
-  (println id)
-  (update collections id add-to-collection score-title url))
+(defn add [collections [_ collection-id score-id score-title url]]
+  (update collections collection-id add-to-collection score-id score-title url))
 
 (defn remove-from-collections [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc score-id))
