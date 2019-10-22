@@ -1,36 +1,38 @@
 (ns tests.events.score-test
   (:require [cljs.test :refer-macros [deftest is]]
             [collections-musescore.events.score :as score]
+            [cljs.spec.alpha :as s]
+            [collections-musescore.db :as db]
             [tests.api.fixtures :as fixtures]))
 
 (def dummy-collections-with-score {1 {:id 1
                                       :title "nice"
                                       :scores {}}})
 
-(def expected-score {:title
-                              "Game Of Thrones - Main Theme - Piano Arrangement"
-                              :favoriting_count 625
-                              :id 4801654
-                              :permalink (:permalink fixtures/expected-response)
-                              :view_count "25605"
-                              :comment_count 29
-                              :poet "Arranged by AmiAll"})
+(def expected-response (update fixtures/expected-response :id int))
 
 (deftest add-to-collection-test
   (is (= (#'score/add-to-collection
           (get dummy-collections-with-score 1)
-          fixtures/expected-response)
+          expected-response)
          {:id 1
           :title "nice"
-          :scores {(:id expected-score) expected-score}})))
+          :scores {(:id expected-response) expected-response}})))
 
-#_(deftest add-test
+(deftest add-test
   (is (= (score/add
           dummy-collections-with-score
-          [nil fixtures/expected-response])
+          [nil 1 expected-response])
          {1 {:id 1
              :title "nice"
-             :scores {(:id expected-score) expected-score}}})))
+             :scores {(:id expected-response) expected-response}}})))
+
+(deftest spec-test
+  (is (true? (s/valid? ::db/collections {1 {:id 1
+                                           :title "nice"
+                                            :scores {(:id expected-response)
+                                                     expected-response}}}
+                      ))))
 
 (defn count-equals [item expected-count]
   (= (count item)

@@ -31,9 +31,9 @@
   (is (true? (s/valid? ::db/collections {0 (collection/collection 1 "Nice" {})}))))
 
 (deftest scores-spec-test
-  (is (true? (s/valid? ::db/scores {1 {:title "some-title" :url "url"}}))))
+  (is (true? (s/valid? ::db/scores {1 {:title "some-title" :permalink "url"}}))))
 
 (deftest score-should-be-valid
-  (is (true? (s/valid? ::db/score {:title "some-title" :url "url"})))
+  (is (true? (s/valid? ::db/score {:title "some-title" :permalink "url"})))
   (testing "invalid score should fail"
     (is (false? (s/valid? ::db/score {:title 2})))))

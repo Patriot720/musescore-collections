@@ -5,9 +5,10 @@
    [cljs.spec.alpha :as s]))
 
 (s/def ::title string?)
-(s/def ::url string?)
+(s/def ::permalink string?)
 
-(s/def ::score (s/or :map (s/keys :req-un [::title ::url]) :nil nil?))
+(s/def ::score (s/or :map (s/keys :req-un
+                                  [::title ::permalink]) :nil nil?))
 (s/def ::scores (s/or  :empty empty? :map-of (s/map-of number? ::score)))
 (s/def ::collection (s/or  :empty empty? :coll-of (s/keys :req-un [::title ::scores])))
 (s/def ::collections

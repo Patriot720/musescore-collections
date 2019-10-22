@@ -16,6 +16,24 @@
 div[inline-block] {
   display: inline-block;
 }
+ul.scores {
+  justify-content: stretch;
+}
+.score-view {
+  margin: 0 10px;
+  margin-top: 10px;
+}
+.score-view .score-content {
+  min-height: 150px;
+  max-height: 200px;
+  justify-content: space-between;
+  align-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+}
+.collection {
+  width: 100%;
+}
 .autosuggest {
   flex-grow: 1;
 }

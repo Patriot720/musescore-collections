@@ -17,7 +17,7 @@
         animation-length 100]
     (fn [{:keys [id title scores]}]
       [:> mui/Fade {:in @collection-exists? :timeout animation-length}
-       [:> mui/Card
+       [:> mui/Card 
         [:> mui/CardContent
          [:> mui/Typography {:variant "h3"} title]
          [score-views/add-score-modal id]
@@ -47,7 +47,7 @@
         (for [collection (vals @collections-atom)
               :let [id (:id collection)]]
           ^{:key (str "collection_" id)}
-          [:> mui/Grid {:item true}
+          [:> mui/Grid {:className "collection" :item true}
            [collection-view collection]])]]]]]])
 
 (defn main []

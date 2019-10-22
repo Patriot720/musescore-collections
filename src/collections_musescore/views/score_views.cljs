@@ -11,19 +11,24 @@
    [:> icon]
    text])
 
+(defn trunc
+  [s n]
+  (if (> (count s) n)
+    (str (apply str (take n s)) "...")
+    s))
+
 (defn score-view [collection-id {:keys [id title permalink
-                                        poet
                                         favoriting_count
                                         view_count
-                                        comment_count]}]
-  [:> mui/Card {:style {:display "inline-block"}}
-
-   [:> mui/CardContent {:style {:max-width 200}}
-    [:> mui/Typography {:variant "h4" :gutterBottom true}
-     title]
+                                        comment_count]
+                                 {username :username} :user}]
+  [:> mui/Card {:className "score-view" :style {:display "inline-block"}}
+   [:> mui/CardContent {:className "score-content":style {:max-width 200}}
+    [:> mui/Typography {:variant "h6" :gutterBottom true}
+     (trunc title 20)]
     [:> mui/Typography {:component "div" :variant "body1"}
      [:> mui/Grid {:container true :spacing 1}
-      [:> mui/Grid {:item true :xs 6} [:strong poet]]
+      [:> mui/Grid {:item true :xs 6} [:strong username]]
       [:> mui/Grid {:item true :xs 6}
        [score-info-item mui-icons/FavoriteBorder favoriting_count]]
       [:> mui/Grid {:item true :xs 6}

@@ -49,9 +49,7 @@
  :add-collection
  collections-interceptors
  collection/add)
-(reg-event-db
- :update-score
-)
+
  
 (reg-event-db
  :add-score
