@@ -1,6 +1,5 @@
-(ns collections-musescore.events.score
-  (:require
-   [collections-musescore.events.util :refer [allocate-next-id]]))
+(ns collections-musescore.data.score
+  )
 
 
 (defn- add-to-collection [collection score-info]

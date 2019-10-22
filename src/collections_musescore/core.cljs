@@ -3,12 +3,12 @@
             [reagent.core :as reagent]
             [re-frame.core :refer [dispatch dispatch-sync]]
             [secretary.core :as secretary]
-            [collections-musescore.events.events] 
+            [collections-musescore.events] 
             [collections-musescore.subs]   
             [collections-musescore.api]
             ;;   [tests.test_runner]
-            [collections-musescore.views.score-views]
-            [collections-musescore.views.views :as views])
+            [collections-musescore.views.score]
+            [collections-musescore.views.main :as views])
 
   (:import [goog History]
            [goog.history EventType]))

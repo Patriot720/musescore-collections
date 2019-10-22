@@ -1,4 +1,4 @@
-(ns collections-musescore.views.score-views
+(ns collections-musescore.views.score
   (:require ["@material-ui/core" :as mui]
             ["@material-ui/core/colors" :refer [red-js]]
             ["@material-ui/icons" :as mui-icons]
@@ -23,7 +23,7 @@
                                         comment_count]
                                  {username :username} :user}]
   [:> mui/Card {:className "score-view" :style {:display "inline-block"}}
-   [:> mui/CardContent {:className "score-content":style {:max-width 200}}
+   [:> mui/CardContent {:className "score-content" :style {:max-width 200}}
     [:> mui/Typography {:variant "h6" :gutterBottom true}
      (trunc title 20)]
     [:> mui/Typography {:component "div" :variant "body1"}
@@ -66,6 +66,7 @@
        [:div {:style {:padding :20px}} [score-view 1 @url-info]]
        [:> mui/Button {:variant "contained"
                        :color "primary"
+                       :full-width true
                        :on-click #(dispatch [:add-score collection-id @url-info])} "ADD"]])))
 
 (defn add-score-modal [collection-id]
@@ -73,8 +74,12 @@
     (fn [collection-id]
       [:div
        [:> mui/Button {:variant "contained"
-                       :on-click #(reset! open? true)} "Open modal add score"]
+                       :color "primary"
+                       :className "float-right"
+                       :on-click #(reset! open? true)} "Add score"]
        [:> mui/Modal {:on-close #(reset! open? false)
                       :open @open?}
+
         [:> mui/Paper {:className "add-score-modal"}
+         [:> mui/AppBar  [:> mui/Toolbar {:elevation 0}[:> mui/Typography {:varinat "h4"} "Add score"]]]
          [score-search-form collection-id]]]])))

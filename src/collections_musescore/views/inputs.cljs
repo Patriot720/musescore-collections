@@ -1,11 +1,44 @@
 (ns collections-musescore.views.inputs
   (:require ["@material-ui/core" :as mui]
-            [collections-musescore.views.util :refer [tab-panel text-field]]
             [re-frame.core :refer [dispatch subscribe]]
+            [reagent.impl.template :as rtpl]
             [reagent.core :as reagent]
             cljsjs.react-autosuggest
             ))
 
+
+(def ^:private input-component
+  (reagent/reactify-component
+   (fn [props]
+     [:input (-> props
+                 (assoc :ref (:inputRef props))
+                 (dissoc :inputRef))])))
+
+(def ^:private textarea-component
+  (reagent/reactify-component
+   (fn [props]
+     [:textarea (-> props
+                    (assoc :ref (:inputRef props))
+                    (dissoc :inputRef))])))
+
+(defn text-field [props & children]
+  (let [props (-> props
+                  (assoc-in [:InputProps :inputComponent] (cond
+                                                            (and (:multiline props) (:rows props) (not (:maxRows props)))
+                                                            textarea-component
+
+                                                            ;; FIXME: Autosize multiline field is broken.
+                                                            (:multiline props)
+                                                            nil
+
+                                                            ;; Select doesn't require cursor fix so default can be used.
+                                                            (:select props)
+                                                            nil
+
+                                                            :else
+                                                            input-component))
+                  rtpl/convert-prop-value)]
+    (apply reagent/create-element mui/TextField props (map reagent/as-element children))))
 (defn input-field [{:keys [dispatch-key label button-text]}]
   (let [title (reagent/atom "")
         stop #(reset! title "")

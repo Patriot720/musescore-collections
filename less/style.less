@@ -11,7 +11,7 @@ html {
     }
 }
 .pull-right{
-    margin-left: auto;
+    margin-left: auto!important;
 }
 
 .input.full-width {
@@ -22,12 +22,15 @@ div[inline-block]{
 }
 
 ul.scores{
-    justify-content:stretch;    
+    display:flex;
+    justify-content: space-evenly;
+    padding:32px 0;
+    .clear-both;
 }
 
 .score-view{
-    margin: 0 10px;
-    margin-top:10px;
+    // margin: 0 10px;
+    // margin-top:10px;
     .score-content{
         min-height:150px;
         max-height:200px;
@@ -38,13 +41,23 @@ ul.scores{
         // flex-direction:column;
     }
 }
+.float-right{
+    float:right;
+}
+.float-left{
+    float:left;
+}
+.clear-both{
+    clear:both;
+}
 
 .collection{
     width:100%;
 }
 .autosuggest{
   flex-grow: 1;
-
+  padding: 32px;
+  margin-top: 64px;
   .react-autosuggest__container {
     position: relative;
     display: block;

@@ -2,4 +2,4 @@
   (:require
    [reagent.core :as reagent]
    [cljs.test :refer-macros [deftest is]]
-   [collections-musescore.views.views :as views]))
+   [collections-musescore.views.main :as views]))

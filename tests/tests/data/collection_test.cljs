@@ -1,6 +1,6 @@
-(ns tests.events.collection-test
+(ns tests.data.collection-test
   (:require [cljs.test :refer-macros [deftest is]]
-            [collections-musescore.events.collection :as collection]))
+            [collections-musescore.data.collection :as collection]))
 
 
 (def dummy-collections (sorted-map))

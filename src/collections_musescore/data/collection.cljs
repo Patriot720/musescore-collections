@@ -1,12 +1,16 @@
-(ns collections-musescore.events.collection
-  (:require [collections-musescore.events.util :refer [allocate-next-id]]
-            [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch]]))
+(ns collections-musescore.data.collection)
 
 (defrecord Collection [id title scores])
 (defn collection [id title scores]
   (into {} (->Collection id title scores)))
 
 
+(defn allocate-next-id
+  "Returns the next todo id.
+  Assumes todos are sorted.
+  Returns one more than the current largest id."
+  [todos]
+  ((fnil inc 0) (last (keys todos))))
 
 (defn add [collections [_ title]]
   (let [id (allocate-next-id collections)]

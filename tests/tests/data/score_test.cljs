@@ -1,6 +1,6 @@
-(ns tests.events.score-test
+(ns tests.data.score-test
   (:require [cljs.test :refer-macros [deftest is]]
-            [collections-musescore.events.score :as score]
+            [collections-musescore.data.score :as score]
             [cljs.spec.alpha :as s]
             [collections-musescore.db :as db]
             [tests.api.fixtures :as fixtures]))

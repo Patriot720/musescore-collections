@@ -1,11 +1,23 @@
-(ns collections-musescore.events.events
+(ns collections-musescore.events
   (:require [collections-musescore.db :as db]
             [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch]]
             [collections-musescore.api :as api]
-            [collections-musescore.events.score :as score]
-            [collections-musescore.events.collection :as collection]
-            [collections-musescore.events.interceptors :refer [collections-interceptors check-spec-interceptor]]))
+            [collections-musescore.data.score :as score]
+            [collections-musescore.data.collection :as collection]
+            [cljs.spec.alpha :as s]))
 
+(defn- check-and-throw
+  "Throws an exception if `db` doesn't match the Spec `a-spec`."
+  [a-spec db]
+  (when-not (s/valid? a-spec db)
+    (throw (ex-info (str "spec check failed: " (s/explain-str a-spec db)) {}))))
+
+(def check-spec-interceptor (after (partial check-and-throw :collections-musescore.db/db)))
+
+(def ->local-store (after db/->local-store))
+(def collections-interceptors [check-spec-interceptor
+                               (path :collections)
+                               ->local-store])
 
 (reg-event-fx
  :get-suggestions
@@ -50,7 +62,6 @@
  collections-interceptors
  collection/add)
 
- 
 (reg-event-db
  :add-score
  collections-interceptors
