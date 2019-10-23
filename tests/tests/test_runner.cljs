@@ -7,7 +7,6 @@
             [tests.api.api-test]
             [tests.data.score-test]
             [tests.data.collection-test]
-            [tests.events-test]
             :reload))
 
 
@@ -17,7 +16,6 @@
   []
   (run-tests
    'tests.core
-   'tests.events-test
    'tests.views-test
    'tests.db-test
    'tests.api.api-test

@@ -39,6 +39,25 @@
                                                             input-component))
                   rtpl/convert-prop-value)]
     (apply reagent/create-element mui/TextField props (map reagent/as-element children))))
+(defn input-base [props & children]
+  (let [props (-> props
+                  (assoc-in [:InputProps :inputComponent] (cond
+                                                            (and (:multiline props) (:rows props) (not (:maxRows props)))
+                                                            textarea-component
+
+                                                            ;; FIXME: Autosize multiline field is broken.
+                                                            (:multiline props)
+                                                            nil
+
+                                                            ;; Select doesn't require cursor fix so default can be used.
+                                                            (:select props)
+                                                            nil
+
+                                                            :else
+                                                            input-component))
+                  rtpl/convert-prop-value)]
+    (apply reagent/create-element mui/InputBase props (map reagent/as-element children))))
+
 (defn input-field [{:keys [dispatch-key label button-text]}]
   (let [title (reagent/atom "")
         stop #(reset! title "")
@@ -77,9 +96,12 @@
     (fn [{:keys [placeholder suggestions
                  update-suggestions
                  get-suggestion-value
+                 render-suggestion
+                 render-input
                  on-suggestion-selected
                  clear-suggestions]}]
-      [Autosuggest {:renderInputComponent renderInput
+      [Autosuggest {
+                    :renderInputComponent (if render-input render-input renderInput)
                     :renderSuggestionsContainer renderSuggestionsContainer
                     :suggestions suggestions
                     :onSuggestionSelected on-suggestion-selected
@@ -88,7 +110,7 @@
                                           get-suggestion-value
                                           identity)
                     :onSuggestionsClearRequested clear-suggestions
-                    :renderSuggestion renderSuggestion
+                    :renderSuggestion (if render-suggestion render-suggestion renderSuggestion)
                     :inputProps {:placeholder placeholder
                                  :value @input-val
                                  :onChange

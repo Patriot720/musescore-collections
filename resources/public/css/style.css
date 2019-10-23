@@ -1,4 +1,48 @@
 /* some style */
+body {
+  margin: 0;
+}
+.header {
+  min-height: 300px;
+  background: linear-gradient(rgba(63, 81, 181, 0.9), rgba(63, 81, 181, 0.9)), url('header.jpg');
+}
+.header h1 {
+  color: white;
+}
+.header .search-suggest {
+  margin: 0 auto;
+  width: 75%;
+  position: relative;
+}
+.header .search-suggest div[role=listbox] {
+  position: absolute;
+  width: 100%;
+}
+.header .search {
+  position: relative;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-right: 16px;
+  width: 100%;
+}
+.header .search:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+.header .search .search-input {
+  padding: 8px 8px 8px 32px;
+  width: 100%;
+  color: inherit;
+}
+.header .search .searchIcon {
+  width: 24px;
+  height: 100%;
+  left: 5px;
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .score-info-item {
   display: inline-flex;
   align-items: "center";

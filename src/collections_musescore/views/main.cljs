@@ -8,23 +8,46 @@
 
 (set! *warn-on-infer* true)
 
-
 (defn collections-view [collections-atom]
   [:section.section
    [:> mui/Container
     [inputs/input-field {:dispatch-key :add-collection
                          :label "Add collection"
                          :button-text "Add"}]
-     [:> mui/Box {:p 4}
-       [:> mui/Grid {:container true :spacing 3}
-        (for [collection (vals @collections-atom)
-              :let [id (:id collection)]]
-          ^{:key id}
-          [:> mui/Grid {:className "collection" :item true}
-           [collection-view collection]])]]]])
+    [:> mui/Box {:p 4}
+     [:> mui/Grid {:container true :spacing 3}
+      (for [collection (vals @collections-atom)
+            :let [id (:id collection)]]
+        ^{:key id}
+        [:> mui/Grid {:className "collection" :item true}
+         [collection-view collection]])]]]])
+
+(defn- render-search-suggestion [suggestion]
+  (reagent/as-element
+   [:> mui/MenuItem {:component "div"
+                     :className "suggestion-render"} ;; TODO useStyles
+    [:span  suggestion]]))
+
+(defn render-search-input
+  [props & children]
+  (reagent/as-element
+   [:div {:className "search"}
+    [:> mui-icons/Search {:className "searchIcon"}]
+    [inputs/input-base (into {:className "search-input" :full-width true :variant "filled"} (js->clj props))]]))
 
 (defn header []
-  [:div])
+  [:div {:className "header"}
+   [:> mui/AppBar {:position "static"}
+    [:> mui/Toolbar
+     [:div {:className "search-suggest"}
+     [inputs/auto-suggest-view {:placeholder "WAT"
+                                :suggestions  ["cool" "cool" "cool" "cool"]
+                                :render-suggestion render-search-suggestion
+                                :render-input render-search-input
+                                :update-suggestions #()
+                                :clear-suggestions #()}]]]]
+   [:> mui/Typography {:variant "h1"}
+    "Musescore collections"]])
 
 (defn main []
   [:div

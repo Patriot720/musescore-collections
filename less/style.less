@@ -2,6 +2,57 @@
 html {
   // background: url("beige-tiles.png");
 }
+body{
+    margin:0;
+}
+
+.header{
+    min-height: 300px;
+    background: linear-gradient(rgba(63,81,181,.9), rgba(63,81,181,.9)), url('header.jpg');
+    h1{
+        color:white;
+    }
+    .search-suggest{
+        margin: 0 auto;
+        width:75%;
+        position: relative;
+        div[role=listbox]{
+            position:absolute;
+            width:100%;
+        }
+    }
+    .search{
+        position: relative;
+        border-radius: 5px;
+        background-color: fade(white, 10%);
+        &:hover {
+            background-color: fade(white,35%);
+        };
+        margin-right: 16px;
+        // margin-left: 0;
+        width: 100%;
+        // [theme.breakpoints.up('sm')]: {
+        //     marginLeft: theme.spacing(3);
+        //                 width: 'auto';
+        // };
+        .search-input{
+            padding: 8px 8px 8px 32px;
+            // transition: width;
+            width: 100%;
+            color:inherit;
+        }
+        .searchIcon {
+            width: 24px;
+            height: 100%;
+            left:5px;
+            position: absolute;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
 .score-info-item{
     display: inline-flex;
     align-items: "center";
@@ -10,6 +61,7 @@ html {
         padding-right: 8;
     }
 }
+
 .pull-right{
     margin-left: auto!important;
 }
@@ -17,6 +69,7 @@ html {
 .input.full-width {
   width: 100%;
 }
+
 div[inline-block]{
     display: inline-block;
 }
@@ -41,12 +94,15 @@ ul.scores{
         // flex-direction:column;
     }
 }
+
 .float-right{
     float:right;
 }
+
 .float-left{
     float:left;
 }
+
 .clear-both{
     clear:both;
 }
@@ -54,6 +110,7 @@ ul.scores{
 .collection{
     width:100%;
 }
+
 .autosuggest{
   flex-grow: 1;
   padding: 32px;
