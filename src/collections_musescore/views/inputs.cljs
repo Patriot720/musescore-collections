@@ -3,9 +3,7 @@
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.impl.template :as rtpl]
             [reagent.core :as reagent]
-            cljsjs.react-autosuggest
-            ))
-
+            cljsjs.react-autosuggest))
 
 (def ^:private input-component
   (reagent/reactify-component
@@ -76,15 +74,15 @@
                        :on-click #(save)} button-text]])))
 
 (defn-  renderSuggestion [suggestion]
-  (reagent/as-element
-   [:> mui/MenuItem {:component "div"
-                     :className "suggestion-render"} ;; TODO useStyles
-    [:span (.-title suggestion)]]))
+  (when (.-title suggestion) (reagent/as-element
+                              [:> mui/MenuItem {:component "div"
+                                                :className "suggestion-render"} ;; TODO useStyles
+                               [:span (.-title suggestion)]])))
 
 (defn- renderSuggestionsContainer [props]
   (reagent/as-element [:> mui/Paper (assoc (js->clj (.-containerProps props))
-                                     :className "container-open")
-                 (.-children props)]))
+                                           :className "container-open")
+                       (.-children props)]))
 
 (defn- renderInput [props & children]
   (reagent/as-element [text-field (into {:className "input full-width"} (js->clj props))]))
@@ -100,17 +98,15 @@
                  render-input
                  on-suggestion-selected
                  clear-suggestions]}]
-      [Autosuggest {
-                    :renderInputComponent (if render-input render-input renderInput)
+      [Autosuggest {:renderInputComponent (or render-input renderInput)
                     :renderSuggestionsContainer renderSuggestionsContainer
                     :suggestions suggestions
                     :onSuggestionSelected on-suggestion-selected
                     :onSuggestionsFetchRequested update-suggestions
-                    :getSuggestionValue (if get-suggestion-value
-                                          get-suggestion-value
-                                          identity)
+                    :getSuggestionValue (or get-suggestion-value
+                                            identity)
                     :onSuggestionsClearRequested clear-suggestions
-                    :renderSuggestion (if render-suggestion render-suggestion renderSuggestion)
+                    :renderSuggestion (or render-suggestion renderSuggestion)
                     :inputProps {:placeholder placeholder
                                  :value @input-val
                                  :onChange

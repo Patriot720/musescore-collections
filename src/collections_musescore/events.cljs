@@ -21,9 +21,16 @@
 
 (reg-event-fx
  :get-suggestions
- (fn [db [_ title]]
-   (api/search-score title #(dispatch [:update-suggestions %]))
-   db)) ;; TODO loading db status
+ (fn [status [_ title]]
+   (api/search-score title (fn [result]
+                             (dispatch [:update-suggestions result])
+                             (dispatch [:stop-loading])
+                             ))
+   (assoc-in status [:db :loading] true))) ;; TODO loading db status
+
+(reg-event-db
+ :stop-loading
+ #(assoc % :loading false))
 
 (reg-event-db
  :update-suggestions
@@ -37,9 +44,13 @@
 
 (reg-event-fx
  :get-url-info
- (fn [db [_ url]]
-   (api/get-info-by-url url #(dispatch [:update-url-info %]))
-   db))
+ (fn [status [_ url]]
+   (api/get-info-by-url url (fn [result]
+                              (dispatch [:update-url-info result])
+                              (dispatch [:stop-loading])
+                              ))
+
+   (assoc-in status [:db :loading] true)))
 
 (reg-event-db
  :update-url-info

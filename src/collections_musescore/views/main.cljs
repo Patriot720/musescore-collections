@@ -14,13 +14,12 @@
     [inputs/input-field {:dispatch-key :add-collection
                          :label "Add collection"
                          :button-text "Add"}]
-    [:> mui/Box {:p 4}
      [:> mui/Grid {:container true :spacing 3}
       (for [collection (vals @collections-atom)
             :let [id (:id collection)]]
         ^{:key id}
         [:> mui/Grid {:className "collection" :item true}
-         [collection-view collection]])]]]])
+         [collection-view collection]])]]])
 
 (defn- render-search-suggestion [suggestion]
   (reagent/as-element
@@ -37,7 +36,7 @@
 
 (defn header []
   [:div {:className "header"}
-   [:> mui/AppBar {:position "static"}
+   [:> mui/AppBar 
     [:> mui/Toolbar
      [:div {:className "search-suggest"}
      [inputs/auto-suggest-view {:placeholder "WAT"
@@ -46,8 +45,9 @@
                                 :render-input render-search-input
                                 :update-suggestions #()
                                 :clear-suggestions #()}]]]]
-   [:> mui/Typography {:variant "h1"}
-    "Musescore collections"]])
+   [:> mui/Container
+   [:> mui/Typography {:variant "h2" :gutterBottom true :component "h1"}
+    "Musescore collections"]]])
 
 (defn main []
   [:div

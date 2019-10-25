@@ -22,10 +22,13 @@
                                         view_count
                                         comment_count]
                                  {username :username} :user}]
-  [:> mui/Card {:className "score-view" :style {:display "inline-block"}}
-   [:> mui/CardContent {:className "score-content" :style {:max-width 200}}
+
+  [:> mui/Card {:className "score-view"}
+   (when @(subscribe [:is-loading?])
+     [:div {:className "loading-score"}  [:> mui/CircularProgress]])
+   [:> mui/CardContent {:className "score-content"}
     [:> mui/Typography {:variant "h6" :gutterBottom true}
-     (trunc title 20)]
+     title]
     [:> mui/Typography {:component "div" :variant "body1"}
      [:> mui/Grid {:container true :spacing 1}
       [:> mui/Grid {:item true :xs 6} [:strong username]]
@@ -63,7 +66,8 @@
                                         :on-suggestion-selected
                                         #(dispatch   [:get-url-info (.-suggestionValue %2)])
                                         :clear-suggestions #(dispatch [:clear-suggestions])}]]
-       [:div {:style {:padding :20px}} [score-view 1 @url-info]]
+       [:div {:style {:padding :20px}}
+        [score-view 1 @url-info]]
        [:> mui/Button {:variant "contained"
                        :color "primary"
                        :full-width true
@@ -81,5 +85,5 @@
                       :open @open?}
 
         [:> mui/Paper {:className "add-score-modal"}
-         [:> mui/AppBar  [:> mui/Toolbar {:elevation 0}[:> mui/Typography {:varinat "h4"} "Add score"]]]
+         [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add score"]]]
          [score-search-form collection-id]]]])))

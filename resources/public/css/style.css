@@ -2,9 +2,21 @@
 body {
   margin: 0;
 }
+.collapse-icon {
+  transition: transform 3s ease-in-out;
+  margin-top: 15px;
+  margin-left: 10px;
+  transform-origin: center center;
+}
+.collapse-icon.open {
+  transform: rotate(90deg);
+}
 .header {
   min-height: 300px;
   background: linear-gradient(rgba(63, 81, 181, 0.9), rgba(63, 81, 181, 0.9)), url('header.jpg');
+  vertical-align: text-bottom;
+  display: flex;
+  align-items: flex-end;
 }
 .header h1 {
   color: white;
@@ -66,9 +78,24 @@ ul.scores {
   padding: 32px 0;
   clear: both;
 }
+.loading-score {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.score-view {
+  display: inline-block;
+  position: relative;
+}
 .score-view .score-content {
   min-height: 150px;
   max-height: 200px;
+  min-width: 250px;
+  max-width: 300px;
   justify-content: space-between;
   align-content: space-between;
   display: flex;

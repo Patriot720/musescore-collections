@@ -9,7 +9,10 @@
  :url-info
  (fn [db _]
    (:temp-url-info db)))
-
+(reg-sub
+ :is-loading?
+ (fn [db _]
+   (:loading db)))
 (reg-sub
  :suggestions
  (fn [db _]

@@ -8,17 +8,20 @@
 
 (def animation-length 100)
 
-
 (defn card-content [collection-id title scores]
-  [:> mui/CardContent
-   [:> mui/Typography {:variant "h3" :className "float-left"} title]
-
-   [score-views/add-score-modal collection-id]
-
-   [:ul.scores
-    (for [score (vals scores)]
-      ^{:key (:id score)}
-      [score-views/score-view collection-id score])]])
+  (let [open? (reagent/atom true)]
+    (fn [collection-id title scores]
+      [:> mui/CardContent
+       [:> mui/Grid {:container true :spacing 2}
+        [:> mui/Grid {:item true :md "auto"}[:> mui/Typography {:variant "h3"} title]]
+       [:> mui/Grid {:item true :xs 6 :md "auto"}[:> mui-icons/ArrowForwardIos {:class ["collapse-icon" (when @open? "open")] :on-click #(swap! open? not)}]]
+       [:> mui/Grid {:item true :xs 12 :md 10 :lg 10 :justify "flex-end" :container true} [score-views/add-score-modal collection-id]]
+        [:> mui/Grid {:item true :container true :justify "center" :xs 12}
+       [:> mui/Collapse {:in @open? :timeout animation-length}
+        [:> mui/Grid {:spacing 2 :justify "space-evenly" :container true}
+         (for [score (vals scores)]
+           ^{:key (:id score)}
+           [:> mui/Grid {:item true} [score-views/score-view collection-id score]])]]]]])))
 
 (defn- delete-collection-with-animation [collection-id collection-exists?]
   (reset! collection-exists? false)

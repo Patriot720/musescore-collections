@@ -5,10 +5,21 @@ html {
 body{
     margin:0;
 }
-
+.collapse-icon{
+    transition: transform 3s ease-in-out;
+    margin-top:15px;
+    margin-left:10px;
+    transform-origin: center center;
+    &.open{
+        transform: rotate(90deg);
+    }
+}
 .header{
     min-height: 300px;
     background: linear-gradient(rgba(63,81,181,.9), rgba(63,81,181,.9)), url('header.jpg');
+    vertical-align: text-bottom;
+    display:flex;
+    align-items: flex-end;
     h1{
         color:white;
     }
@@ -80,13 +91,25 @@ ul.scores{
     padding:32px 0;
     .clear-both;
 }
-
+.loading-score{
+    position: absolute;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,.2);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 .score-view{
     // margin: 0 10px;
+    display:inline-block;
+    position:relative;
     // margin-top:10px;
     .score-content{
         min-height:150px;
         max-height:200px;
+        min-width:250px;
+        max-width: 300px;
         justify-content:  space-between;
         align-content: space-between;
         display:flex;
