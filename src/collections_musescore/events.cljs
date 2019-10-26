@@ -12,13 +12,13 @@
   (when-not (s/valid? a-spec db)
     (throw (ex-info (str "spec check failed: " (s/explain-str a-spec db)) {}))))
 
-(def check-spec-interceptor (after (partial check-and-throw :collections-musescore.db/db)))
+(def check-spec (after (partial check-and-throw :collections-musescore.db/db)))
 
-(def start-score-loading-interceptor (enrich #(assoc % :score-loading true)))
-(def stop-score-loading-interceptor (enrich #(assoc % :score-loading false)))
+(def add-score-loading-status (enrich #(assoc % :score-loading true)))
+(def remove-score-loading-status (enrich #(dissoc % :score-loading)))
 
 (def ->local-store (after db/->local-store))
-(def collections-interceptors [check-spec-interceptor
+(def collections-interceptors [check-spec
                                (path :collections)
                                ->local-store])
 
@@ -45,7 +45,7 @@
 
 (reg-event-fx
  :get-url-info
- [start-score-loading-interceptor]
+ [add-score-loading-status]
  (fn [status [_ url]]
    (api/get-info-by-url url (fn [result]
                               (dispatch [:update-url-info result])))
@@ -53,14 +53,14 @@
 
 (reg-event-db
  :update-url-info
- [stop-score-loading-interceptor
+ [remove-score-loading-status
   (path :temp-url-info)]
  score/update-url-info)
 
 (reg-event-fx
  :initialise-db
  [(inject-cofx :local-store-collections)
-  check-spec-interceptor]
+  check-spec]
  db/initialize-db)
 
 (reg-event-db
@@ -78,6 +78,11 @@
  collections-interceptors
  score/add)
 
+(reg-event-db
+ :search
+ (fn [db [_ phrase]]
+   
+   ))
 (reg-event-db
  :remove-score
  collections-interceptors

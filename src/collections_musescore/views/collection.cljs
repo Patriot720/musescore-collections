@@ -13,15 +13,15 @@
     (fn [collection-id title scores]
       [:> mui/CardContent
        [:> mui/Grid {:container true :spacing 2}
-        [:> mui/Grid {:item true :md "auto"}[:> mui/Typography {:variant "h3"} title]]
-       [:> mui/Grid {:item true :xs 6 :md "auto"}[:> mui-icons/ArrowForwardIos {:class ["collapse-icon" (when @open? "open")] :on-click #(swap! open? not)}]]
-       [:> mui/Grid {:item true :xs 12 :md 10 :lg 10 :justify "flex-end" :container true} [score-views/add-score-modal collection-id]]
+        [:> mui/Grid {:item true :md "auto"} [:> mui/Typography {:variant "h3"} title]]
+        [:> mui/Grid {:item true :xs 6 :md "auto"} [:> mui-icons/ArrowForwardIos {:class ["collapse-icon" (when @open? "open")] :on-click #(swap! open? not)}]]
+        [:> mui/Grid {:item true :xs 12 :md 10 :lg 10 :justify "flex-end" :container true} [score-views/add-score-modal collection-id]]
         [:> mui/Grid {:item true :container true :justify "center" :xs 12}
-       [:> mui/Collapse {:in @open? :timeout animation-length}
-        [:> mui/Grid {:spacing 2 :justify "space-evenly" :container true}
-         (for [score (vals scores)]
-           ^{:key (:id score)}
-           [:> mui/Grid {:item true} [score-views/score-view collection-id score]])]]]]])))
+         [:> mui/Collapse {:in @open? :timeout animation-length}
+          [:> mui/Grid {:spacing 2 :justify "space-evenly" :container true}
+           (for [score (vals scores)]
+             ^{:key (:id score)}
+             [:> mui/Grid {:item true} [score-views/score-view collection-id score]])]]]]])))
 
 (defn- delete-collection-with-animation [collection-id collection-exists?]
   (reset! collection-exists? false)
@@ -45,3 +45,21 @@
        [:> mui/Card
         [card-content collection-id title scores]
         [card-actions collection-id collection-exists?]]])))
+
+(defn add-collection-modal [] ;; TODO refactor to base-modal
+  (let [open? (reagent/atom false)]
+    (fn []
+      [:div
+       [:> mui/Fab
+        {:color "secondary"
+         :className "add-collection-fab"
+         :on-click #(reset! open? true)} [:> mui-icons/Add]]
+       [:> mui/Modal {:on-close #(reset! open? false)
+                      :open @open?}
+        [:> mui/Paper {:className "add-score-modal"}
+         [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add Collection"]]]
+         [:div {:className "autosuggest"}
+          [inputs/input-field {:dispatch-key :add-collection :label "COol" :button-text "add"}]]]]])))
+
+;; (defn add-collection-modal []
+;;   [:> mui/Fab {:color "secondary" :className "add-collection-fab"} [:> mui-icons/Add]])

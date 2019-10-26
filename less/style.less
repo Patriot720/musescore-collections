@@ -15,11 +15,21 @@ body{
     }
 }
 .header{
+    position:relative;
     min-height: 300px;
     background: linear-gradient(rgba(63,81,181,.9), rgba(63,81,181,.9)), url('header.jpg');
     vertical-align: text-bottom;
     display:flex;
     align-items: flex-end;
+    margin-bottom: 64px;
+    .add-collection-fab{
+        position: absolute!important;
+        bottom: -28px;
+        right: 10%;
+        @media screen and (min-width: 1600px){
+            right: 20%;
+        }
+    }
     h1{
         color:white;
     }
@@ -62,14 +72,6 @@ body{
             align-items: center;
             justify-content: center;
         }
-    }
-}
-.score-info-item{
-    display: inline-flex;
-    align-items: "center";
-    &>svg{
-        font-size: inherit;
-        padding-right: 8;
     }
 }
 
@@ -116,6 +118,18 @@ ul.scores{
         display:flex;
         flex-wrap: wrap;
         // flex-direction:column;
+        .username{
+            word-break: break-all;
+        }
+
+        .score-info-item{
+            display: inline-flex;
+            align-items: center;
+            &>svg{
+                font-size: inherit;
+                padding-right: 8px;
+            }
+        }
     }
 }
 

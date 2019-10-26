@@ -29,7 +29,7 @@
      title]
     [:> mui/Typography {:component "div" :variant "body1"}
      [:> mui/Grid {:container true :spacing 1}
-      [:> mui/Grid {:item true :xs 6} [:strong username]]
+      [:> mui/Grid {:item true :xs 6 } [:strong {:className "username"} username]]
       [:> mui/Grid {:item true :xs 6}
        [score-info-item mui-icons/FavoriteBorder favoriting_count]]
       [:> mui/Grid {:item true :xs 6}
@@ -45,13 +45,11 @@
     [:> mui/Button
      {:color "secondary"
       :className "pull-right"
-      :on-click
-      #(dispatch [:remove-score collection-id id])}
+      :on-click #(dispatch [:remove-score collection-id id])}
      "DELETE"]]])
 
 (defn- get-suggestion-value [suggestion]
   (.-permalink suggestion))
-
 (defn score-search-form []
   (let [url-info (subscribe [:url-info])]
     (fn [collection-id]

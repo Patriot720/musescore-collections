@@ -8,6 +8,8 @@
 
 (defn remove-from-collections [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc (int score-id)))
+(defn search-scores [collections [_ query]]
 
+  )
 (defn update-url-info [temp-url-info [_ result]]
   (js->clj result))

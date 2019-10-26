@@ -2,7 +2,7 @@
   (:require ["@material-ui/core" :as mui]
             ["@material-ui/icons" :as mui-icons]
             [collections-musescore.views.inputs :as inputs]
-            [collections-musescore.views.collection :refer [collection-view]]
+            [collections-musescore.views.collection :refer [collection-view add-collection-modal]]
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 
@@ -11,9 +11,9 @@
 (defn collections-view [collections-atom]
   [:section.section
    [:> mui/Container
-    [inputs/input-field {:dispatch-key :add-collection
-                         :label "Add collection"
-                         :button-text "Add"}]
+    ;; [inputs/input-field {:dispatch-key :add-collection
+    ;;                      :label "Add collection"
+    ;;                      :button-text "Add"}]
      [:> mui/Grid {:container true :spacing 3}
       (for [collection (vals @collections-atom)
             :let [id (:id collection)]]
@@ -46,10 +46,12 @@
                                 :update-suggestions #()
                                 :clear-suggestions #()}]]]]
    [:> mui/Container
+   [add-collection-modal] 
    [:> mui/Typography {:variant "h2" :gutterBottom true :component "h1"}
-    "Musescore collections"]]])
+    "MuseScore collections"]]])
 
 (defn main []
   [:div
    [header]
-   [collections-view (subscribe [:collections])]])
+   [collections-view (subscribe [:collections])]
+   ])
