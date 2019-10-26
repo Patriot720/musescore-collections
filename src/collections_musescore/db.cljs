@@ -19,6 +19,7 @@
 (def default-db           ;; what gets put into app-db by default.
   {:collections   {}  ;; an empty list of todos. Use the (int) :id as the key
    :temp-url-info {}
+   :search-results '()
    :suggestions []})
 
 (defn ->local-store

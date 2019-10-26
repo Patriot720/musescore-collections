@@ -79,10 +79,9 @@
  score/add)
 
 (reg-event-db
- :search
- (fn [db [_ phrase]]
-   
-   ))
+ :search-scores
+ score/search-scores
+ )
 (reg-event-db
  :remove-score
  collections-interceptors

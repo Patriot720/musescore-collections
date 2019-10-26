@@ -6,7 +6,7 @@
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 
-(set! *warn-on-infer* true)
+(set! *warn-on-infer* false)
 
 (defn collections-view [collections-atom]
   [:section.section
@@ -14,18 +14,18 @@
     ;; [inputs/input-field {:dispatch-key :add-collection
     ;;                      :label "Add collection"
     ;;                      :button-text "Add"}]
-     [:> mui/Grid {:container true :spacing 3}
-      (for [collection (vals @collections-atom)
-            :let [id (:id collection)]]
-        ^{:key id}
-        [:> mui/Grid {:className "collection" :item true}
-         [collection-view collection]])]]])
+    [:> mui/Grid {:container true :spacing 3}
+     (for [collection (vals @collections-atom)
+           :let [id (:id collection)]]
+       ^{:key id}
+       [:> mui/Grid {:className "collection" :item true}
+        [collection-view collection]])]]])
 
 (defn- render-search-suggestion [suggestion]
   (reagent/as-element
    [:> mui/MenuItem {:component "div"
                      :className "suggestion-render"} ;; TODO useStyles
-    [:span  suggestion]]))
+    [:span  (.-title suggestion)]]))
 
 (defn render-search-input
   [props & children]
@@ -34,24 +34,28 @@
     [:> mui-icons/Search {:className "searchIcon"}]
     [inputs/input-base (into {:className "search-input" :full-width true :variant "filled"} (js->clj props))]]))
 
+(defn- get-suggestion-value [suggestion]
+  (.-id suggestion))
+
 (defn header []
   [:div {:className "header"}
-   [:> mui/AppBar 
+   [:> mui/AppBar
     [:> mui/Toolbar
      [:div {:className "search-suggest"}
-     [inputs/auto-suggest-view {:placeholder "WAT"
-                                :suggestions  ["cool" "cool" "cool" "cool"]
-                                :render-suggestion render-search-suggestion
-                                :render-input render-search-input
-                                :update-suggestions #()
-                                :clear-suggestions #()}]]]]
+      [inputs/auto-suggest-view {:placeholder "WAT"
+                                 :suggestions  @(subscribe [:search-results])
+                                 :get-suggestion-value get-suggestion-value
+                                 :render-suggestion render-search-suggestion
+                                 :render-input render-search-input
+                                 :update-suggestions #(dispatch [:search-scores
+                                                                 (.-value %)])
+                                 :clear-suggestions #()}]]]]
    [:> mui/Container
-   [add-collection-modal] 
-   [:> mui/Typography {:variant "h2" :gutterBottom true :component "h1"}
-    "MuseScore collections"]]])
+    [add-collection-modal]
+    [:> mui/Typography {:variant "h2" :gutterBottom true :component "h1"}
+     "MuseScore collections"]]])
 
 (defn main []
   [:div
    [header]
-   [collections-view (subscribe [:collections])]
-   ])
+   [collections-view (subscribe [:collections])]])

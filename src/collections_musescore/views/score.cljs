@@ -50,6 +50,7 @@
 
 (defn- get-suggestion-value [suggestion]
   (.-permalink suggestion))
+
 (defn score-search-form []
   (let [url-info (subscribe [:url-info])]
     (fn [collection-id]

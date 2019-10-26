@@ -29,27 +29,26 @@
 
 (deftest spec-test
   (is (true? (s/valid? ::db/collections {1 {:id 1
-                                           :title "nice"
+                                            :title "nice"
                                             :scores {(:id expected-response)
-                                                     expected-response}}}
-                      ))))
+                                                     expected-response}}}))))
 
 (defn count-equals [item expected-count]
   (= (count item)
      expected-count))
 
 ;; SCORE REMOVAL
-(def dummy-collection {:id 1
-                       :title "nice"
-                       :scores {1 {:id 1
-                                   :title "url"
-                                   :url "nice"}
-                                2 {:id 2
-                                   :title ":url"
-                                   :url "nice"}
-                                3 {:id 3
-                                   :title ":url"
-                                   :url "nice"}}})
+(def dummy-db  {:collections {1 {:id 1
+                                 :title "nice"
+                                 :scores {1 {:id 1
+                                             :title "Krappa"
+                                             :url "nice"}
+                                          2 {:id 2
+                                             :title "nice score"
+                                             :url "2nice"}
+                                          3 {:id 3
+                                             :title "nice Krappa"
+                                             :url "3nice"}}}}})
 
 (deftest remove-from-collection
   (let [dummy-collections {1 {:id 1 :title "nice"
@@ -61,4 +60,14 @@
                                        3 {:id 3 :title ":url"
                                           :url "nice"}}}}]
 
-    (is (= (-> (score/remove-from-collections dummy-collections [nil 1 1]) (get 1) :scores count) 2))))
+    (is (= (-> (score/remove-from-collections dummy-collections [nil 1 1])
+               (get 1) :scores count) 2))))
+
+(deftest  score-title-contains?-test
+  (is (true? (#'score/score-title-contains?  "krappa" {:title "krappa"}))))
+
+(deftest search-collections
+  (is (= (score/search-scores dummy-db [nil "Krappa"])
+         (assoc dummy-db :search-results '({:id 1 :title "Krappa" :url "nice"}
+                                           {:id 3 :title "nice Krappa" :url "3nice"}
+                                           )))))
