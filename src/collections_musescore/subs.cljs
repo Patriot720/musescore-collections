@@ -10,9 +10,9 @@
  (fn [db _]
    (:temp-url-info db)))
 (reg-sub
- :is-loading?
+ :is-score-loading?
  (fn [db _]
-   (:loading db)))
+   (:score-loading db)))
 (reg-sub
  :suggestions
  (fn [db _]

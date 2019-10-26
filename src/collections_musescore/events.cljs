@@ -1,6 +1,6 @@
 (ns collections-musescore.events
   (:require [collections-musescore.db :as db]
-            [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch]]
+            [re-frame.core :refer [reg-event-fx reg-event-db inject-cofx after path dispatch enrich]]
             [collections-musescore.api :as api]
             [collections-musescore.data.score :as score]
             [collections-musescore.data.collection :as collection]
@@ -14,6 +14,9 @@
 
 (def check-spec-interceptor (after (partial check-and-throw :collections-musescore.db/db)))
 
+(def start-score-loading-interceptor (enrich #(assoc % :score-loading true)))
+(def stop-score-loading-interceptor (enrich #(assoc % :score-loading false)))
+
 (def ->local-store (after db/->local-store))
 (def collections-interceptors [check-spec-interceptor
                                (path :collections)
@@ -23,10 +26,8 @@
  :get-suggestions
  (fn [status [_ title]]
    (api/search-score title (fn [result]
-                             (dispatch [:update-suggestions result])
-                             (dispatch [:stop-loading])
-                             ))
-   (assoc-in status [:db :loading] true))) ;; TODO loading db status
+                             (dispatch [:update-suggestions result])))
+   status)) ;; TODO loading db status
 
 (reg-event-db
  :stop-loading
@@ -44,17 +45,16 @@
 
 (reg-event-fx
  :get-url-info
+ [start-score-loading-interceptor]
  (fn [status [_ url]]
    (api/get-info-by-url url (fn [result]
-                              (dispatch [:update-url-info result])
-                              (dispatch [:stop-loading])
-                              ))
-
-   (assoc-in status [:db :loading] true)))
+                              (dispatch [:update-url-info result])))
+   status))
 
 (reg-event-db
  :update-url-info
- [(path :temp-url-info)]
+ [stop-score-loading-interceptor
+  (path :temp-url-info)]
  score/update-url-info)
 
 (reg-event-fx

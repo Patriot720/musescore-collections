@@ -83,7 +83,7 @@
                       :open @open?}
 
         [:> mui/Paper {:className "add-score-modal"}
-         (when @(subscribe [:is-loading?])
+         (when @(subscribe [:is-score-loading?])
            [:div {:className "loading-score"}  [:> mui/CircularProgress]])
          [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add score"]]]
          [score-search-form collection-id]]]])))
