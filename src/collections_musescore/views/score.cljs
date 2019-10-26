@@ -24,8 +24,6 @@
                                  {username :username} :user}]
 
   [:> mui/Card {:className "score-view"}
-   (when @(subscribe [:is-loading?])
-     [:div {:className "loading-score"}  [:> mui/CircularProgress]])
    [:> mui/CardContent {:className "score-content"}
     [:> mui/Typography {:variant "h6" :gutterBottom true}
      title]
@@ -85,5 +83,7 @@
                       :open @open?}
 
         [:> mui/Paper {:className "add-score-modal"}
+         (when @(subscribe [:is-loading?])
+           [:div {:className "loading-score"}  [:> mui/CircularProgress]])
          [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add score"]]]
          [score-search-form collection-id]]]])))
