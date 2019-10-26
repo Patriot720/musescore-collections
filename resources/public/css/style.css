@@ -13,7 +13,7 @@ body {
 }
 .header {
   position: relative;
-  min-height: 300px;
+  min-height: 400px;
   background: linear-gradient(rgba(63, 81, 181, 0.9), rgba(63, 81, 181, 0.9)), url('header.jpg');
   vertical-align: text-bottom;
   display: flex;

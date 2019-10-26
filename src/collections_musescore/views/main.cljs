@@ -6,14 +6,11 @@
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 
-(set! *warn-on-infer* false)
+(set! *warn-on-infer* false) ;; TODO fix infer errors
 
 (defn collections-view [collections-atom]
   [:section.section
    [:> mui/Container
-    ;; [inputs/input-field {:dispatch-key :add-collection
-    ;;                      :label "Add collection"
-    ;;                      :button-text "Add"}]
     [:> mui/Grid {:container true :spacing 3}
      (for [collection (vals @collections-atom)
            :let [id (:id collection)]]
