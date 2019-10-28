@@ -23,13 +23,13 @@
                                         comment_count]
                                  {username :username} :user}]
 
-  [:> mui/Card {:className "score-view"}
+  [:> mui/Card {:className "score-view" :id id}
    [:> mui/CardContent {:className "score-content"}
     [:> mui/Typography {:variant "h6" :gutterBottom true}
      title]
     [:> mui/Typography {:component "div" :variant "body1"}
      [:> mui/Grid {:container true :spacing 1}
-      [:> mui/Grid {:item true :xs 6 } [:strong {:className "username"} username]]
+      [:> mui/Grid {:item true :xs 6} [:strong {:className "username"} username]]
       [:> mui/Grid {:item true :xs 6}
        [score-info-item mui-icons/FavoriteBorder favoriting_count]]
       [:> mui/Grid {:item true :xs 6}

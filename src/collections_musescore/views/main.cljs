@@ -3,6 +3,7 @@
             ["@material-ui/icons" :as mui-icons]
             [collections-musescore.views.inputs :as inputs]
             [collections-musescore.views.collection :refer [collection-view add-collection-modal]]
+            [collections-musescore.views.search :as search]
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 
@@ -17,36 +18,13 @@
        ^{:key id}
        [:> mui/Grid {:className "collection" :item true}
         [collection-view collection]])]]])
-
-(defn- render-search-suggestion [suggestion]
-  (reagent/as-element
-   [:> mui/MenuItem {:component "div"
-                     :className "suggestion-render"} ;; TODO useStyles
-    [:span  (.-title suggestion)]]))
-
-(defn render-search-input
-  [props & children]
-  (reagent/as-element
-   [:div {:className "search"}
-    [:> mui-icons/Search {:className "searchIcon"}]
-    [inputs/input-base (into {:className "search-input" :full-width true :variant "filled"} (js->clj props))]]))
-
-(defn- get-suggestion-value [suggestion]
-  (.-id suggestion))
-
 (defn header []
+
   [:div {:className "header"}
    [:> mui/AppBar
     [:> mui/Toolbar
      [:div {:className "search-suggest"}
-      [inputs/auto-suggest-view {:placeholder "WAT"
-                                 :suggestions  @(subscribe [:search-results])
-                                 :get-suggestion-value get-suggestion-value
-                                 :render-suggestion render-search-suggestion
-                                 :render-input render-search-input
-                                 :update-suggestions #(dispatch [:search-scores
-                                                                 (.-value %)])
-                                 :clear-suggestions #()}]]]]
+      [search/search-view]]]]
    [:> mui/Container
     [add-collection-modal]
     [:> mui/Typography {:variant "h2" :gutterBottom true :component "h1"}
