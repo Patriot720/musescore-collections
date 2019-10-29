@@ -37,6 +37,7 @@
                                                             input-component))
                   rtpl/convert-prop-value)]
     (apply reagent/create-element mui/TextField props (map reagent/as-element children))))
+
 (defn input-base [props & children]
   (let [props (-> props
                   (assoc-in [:InputProps :inputComponent] (cond

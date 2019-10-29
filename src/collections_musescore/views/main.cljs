@@ -9,6 +9,7 @@
 
 (set! *warn-on-infer* false) ;; TODO fix infer errors
 
+
 (defn collections-view [collections-atom]
   [:section.section
    [:> mui/Container
