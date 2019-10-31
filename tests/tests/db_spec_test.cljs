@@ -2,7 +2,7 @@
   (:require
    [cljs.test :refer-macros [testing deftest is]]
    [collections-musescore.db :as db]
-   [collections-musescore.data.collection :as collection]
+   [collections-musescore.collection.events :as collection]
    [cljs.spec.alpha :as s]))
 
 (deftest this_spec_should_not_throw_errors

@@ -4,10 +4,12 @@
             [re-frame.core :refer [dispatch dispatch-sync]]
             [secretary.core :as secretary]
             [collections-musescore.events] 
+            collections-musescore.score.events
+            collections-musescore.collection.events
             [collections-musescore.subs]   
             [collections-musescore.api]
             ;;   [tests.test_runner]
-            [collections-musescore.views.score]
+            [collections-musescore.score.views]
             [collections-musescore.views.main :as views])
 
   (:import [goog History]

@@ -93,20 +93,20 @@
 (defn auto-suggest-view []
   (let [input-val (reagent/atom "")]
     (fn [{:keys [placeholder suggestions
-                 update-suggestions
+                 on-suggestions-fetch-requested
                  get-suggestion-value
                  render-suggestion
                  render-input
                  on-suggestion-selected
-                 clear-suggestions]}]
+                 on-suggestions-clear-requested]}]
       [Autosuggest {:renderInputComponent (or render-input renderInput)
                     :renderSuggestionsContainer renderSuggestionsContainer
                     :suggestions suggestions
                     :onSuggestionSelected on-suggestion-selected
-                    :onSuggestionsFetchRequested update-suggestions
+                    :onSuggestionsFetchRequested on-suggestions-fetch-requested
                     :getSuggestionValue (or get-suggestion-value
                                             identity)
-                    :onSuggestionsClearRequested clear-suggestions
+                    :onSuggestionsClearRequested on-suggestions-clear-requested
                     :renderSuggestion (or render-suggestion renderSuggestion)
                     :inputProps {:placeholder placeholder
                                  :value @input-val

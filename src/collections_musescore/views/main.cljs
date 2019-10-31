@@ -2,8 +2,8 @@
   (:require ["@material-ui/core" :as mui]
             ["@material-ui/icons" :as mui-icons]
             [collections-musescore.views.inputs :as inputs]
-            [collections-musescore.views.collection :refer [collection-view add-collection-modal]]
-            [collections-musescore.views.search :as search]
+            [collections-musescore.collection.views :refer [collection-view add-collection-modal]]
+            [collections-musescore.search.views :as search]
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 

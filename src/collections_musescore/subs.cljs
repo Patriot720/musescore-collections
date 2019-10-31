@@ -19,6 +19,7 @@
  (fn [db _]
 (:search-results db)
    ))
+
 (reg-sub
  :suggestions
  (fn [db _]
