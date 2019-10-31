@@ -60,8 +60,8 @@
        [:div [inputs/auto-suggest-view {:placeholder "Type  stuff"
                                         :get-suggestion-value get-suggestion-value
                                         :suggestions @(subscribe [:suggestions])
-                                        :on-suggestions-fetch-requested
-                                        #(dispatch [:get-suggestions (.-value %)])
+                                        :on-suggestions-fetch-requested 
+                                        #(dispatch [:get-search-suggestions (.-value %)])
                                         :on-suggestion-selected
                                         #(dispatch   [:get-score-by-url (.-suggestionValue %2)])
                                         :on-suggestions-clear-requested #(dispatch [:clear-score-suggestions])}]]

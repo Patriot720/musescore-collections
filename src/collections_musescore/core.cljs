@@ -4,9 +4,11 @@
             [re-frame.core :refer [dispatch dispatch-sync]]
             [secretary.core :as secretary]
             [collections-musescore.events] 
-            collections-musescore.score.events
-            collections-musescore.collection.events
+            [collections-musescore.score.events]
+            [collections-musescore.collection.events]
             [collections-musescore.subs]   
+            [collections-musescore.score.subs]
+            [collections-musescore.search.subs]
             [collections-musescore.api]
             ;;   [tests.test_runner]
             [collections-musescore.score.views]

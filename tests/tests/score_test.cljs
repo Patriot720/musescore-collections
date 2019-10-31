@@ -49,5 +49,5 @@
                                        3 {:id 3 :title ":url"
                                           :url "nice"}}}}]
 
-    (is (= (-> (score/remove-score-from-collections dummy-collections [nil 1 1])
+    (is (= (-> (score/remove-score dummy-collections [nil 1 1])
                (get 1) :scores count) 2))))
