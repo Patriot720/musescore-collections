@@ -9,6 +9,7 @@
             [collections-musescore.subs]   
             [collections-musescore.score.subs]
             [collections-musescore.search.subs]
+            [collections-musescore.search.events]
             [collections-musescore.api]
             ;;   [tests.test_runner]
             [collections-musescore.score.views]
