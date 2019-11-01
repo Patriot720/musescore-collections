@@ -6,7 +6,7 @@
             [collections-musescore.events] 
             [collections-musescore.score.events]
             [collections-musescore.collection.events]
-            [collections-musescore.subs]   
+            [collections-musescore.collection.subs]
             [collections-musescore.score.subs]
             [collections-musescore.search.subs]
             [collections-musescore.search.events]
