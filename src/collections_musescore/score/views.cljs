@@ -10,6 +10,15 @@
   [:span {:className "score-info-item"}
    [:> icon]
    text])
+(defn move-score-modal []
+  (let [open? (reagent/atom false)]
+    (fn [score]
+      [:div
+       [:> mui/Button {:on-click #(reset! open? true)} "Move score"]
+       [:> mui/Modal {:on-close #(reset! open? false)
+                      :open @open?}
+        [:> mui/Paper {:className "score-modal"}
+         [inputs/text-field {:select true}]]]])))
 
 (defn score-view []
   (let [score-exists? (reagent/atom true)]
@@ -38,9 +47,10 @@
           [:> mui/Button
            {:color "primary"}
            "Go to score"]]
+         [move-score-modal]
          [:> mui/Button
           {:color "secondary"
-           :className "pull-right"
+           ;; :className "pull-right"
            :on-click (partial animation-util/delete-with-animation #(dispatch [:remove-score collection-id id]) score-exists?)}
           "DELETE"]]]])))
 
@@ -69,7 +79,6 @@
 (defn add-score-modal [collection-id]
   (let [open? (reagent/atom false)]
     (fn [collection-id]
-
       [:div
        [:> mui/Button {:variant "contained"
                        :color "primary"
