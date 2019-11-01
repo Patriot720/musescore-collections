@@ -10,15 +10,28 @@
   [:span {:className "score-info-item"}
    [:> icon]
    text])
+
+(defn move-to-collection []
+  (let [new-collection-id (reagent/atom 0)]
+    (fn [old-collection-id score-id]
+      [:div
+       [inputs/text-field {:value @new-collection-id
+                           :on-change #(reset! new-collection-id (.-value (.-props %2)))
+                           :select true}
+        (for [{:keys [id title]} (vals @(subscribe [:collections]))]
+          ^{:key (str "coll-modal-" id)}
+          [:> mui/MenuItem {:value id} title])]
+       [:> mui/Button {:on-click #(dispatch [:move-score score-id old-collection-id @new-collection-id])} "Move"]])))
+
 (defn move-score-modal []
   (let [open? (reagent/atom false)]
-    (fn [score]
+    (fn [collection-id score-id]
       [:div
        [:> mui/Button {:on-click #(reset! open? true)} "Move score"]
        [:> mui/Modal {:on-close #(reset! open? false)
                       :open @open?}
         [:> mui/Paper {:className "score-modal"}
-         [inputs/text-field {:select true}]]]])))
+         [move-to-collection collection-id score-id]]]])))
 
 (defn score-view []
   (let [score-exists? (reagent/atom true)]
@@ -47,7 +60,7 @@
           [:> mui/Button
            {:color "primary"}
            "Go to score"]]
-         [move-score-modal]
+         [move-score-modal collection-id id]
          [:> mui/Button
           {:color "secondary"
            ;; :className "pull-right"

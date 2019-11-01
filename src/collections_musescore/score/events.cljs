@@ -1,10 +1,19 @@
 (ns collections-musescore.score.events
   (:require [collections-musescore.api :as api]
             [collections-musescore.events-util :as util]
-            [re-frame.core :refer [dispatch enrich path reg-event-db reg-event-fx]]))
+            [collections-musescore.search.events :as search]
+            [re-frame.core :refer [->interceptor dispatch enrich path reg-event-db reg-event-fx]]))
 
 (def ^:private add-score-loading-status (enrich #(assoc % :score-loading true)))
 (def ^:private remove-score-loading-status (enrich #(dissoc % :score-loading)))
+(def params->int
+  (->interceptor
+   :id params->int
+   :before (fn [context]
+             (update-in context [:coeffects :event]
+                        (fn [event]
+                          (map
+                           (fn [item] (if (js/parseInt item) (int item))) event))))))
 
 (defn get-search-suggestions [status [_ title]]
   (api/search-score title #(dispatch [:update-search-suggestions %]))
@@ -23,10 +32,30 @@
   (assoc-in collection [:scores (int (:id score-info))]  score-info))
 
 (defn add-score [collections [_ collection-id score-info]]
-  (update collections collection-id add-score-to-collection score-info))
+  (if (get collections collection-id)
+    (update collections collection-id add-score-to-collection score-info)
+    collections))
 
 (defn remove-score [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc (int score-id)))
+;; TODO check for undefined
+;; TODO don't write into db if spec is failed
+;; TODO to-integer interceptors
+
+(defn move-score [collections [_  score-id old-collection-id new-collection-id]]
+    (if (get collections new-collection-id)
+      (if-let [score (get-in collections [old-collection-id :scores (int score-id)])]
+        (-> collections
+            (remove-score [nil old-collection-id score-id])
+            (add-score [nil new-collection-id score]))
+        (throw (js/Error. (str score-id " score Not found")))) collections))
+
+(def score-manipulation-interceptors [util/check-spec (path :collections) util/->local-store])
+
+(reg-event-db
+ :move-score
+ (conj score-manipulation-interceptors params->int)
+ move-score)
 
 (reg-event-fx
  :get-search-suggestions
@@ -44,12 +73,12 @@
 
 (reg-event-db
  :add-score
- [util/check-spec (path :collections) util/->local-store]
+ score-manipulation-interceptors
  add-score)
 
 (reg-event-db
  :remove-score
- [util/check-spec (path :collections) util/->local-store]
+ score-manipulation-interceptors
  remove-score)
 
 (reg-event-db

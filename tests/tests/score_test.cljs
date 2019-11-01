@@ -51,3 +51,25 @@
 
     (is (= (-> (score/remove-score dummy-collections [nil 1 1])
                (get 1) :scores count) 2))))
+
+(let [dummy-collections {1 {:id 1 :title "nice" :scores {}}
+                         2 {:id 2 :title "cool" :scores {23 {:id 23 :title "some-title" :url "url"}}}}]
+  (deftest move-score-test
+    (let [expected-collections {1 {:id 1 :title "nice" :scores {23 {:id 23 :title "some-title" :url "url"}}}
+                                2 {:id 2 :title "cool" :scores {}}}]
+      (is (= (score/move-score dummy-collections [nil 23 2 1])
+             expected-collections))))
+
+  (deftest move-score-with-wrong-variables
+    (is (= (score/move-score dummy-collections [nil 23 nil 1])
+           dummy-collections))
+    (is (= (score/move-score dummy-collections [nil nil 2 1])
+           dummy-collections))
+
+    (is (= (score/move-score dummy-collections [nil 23 2 nil])
+           dummy-collections)))
+
+  (deftest move-score-test-within-same-collection
+    (is (= (score/move-score dummy-collections [nil 23 1 1])
+           dummy-collections))))
+

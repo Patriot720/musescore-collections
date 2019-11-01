@@ -11,4 +11,3 @@
          (assoc dummy-db :search-results '({:id 1 :title "Krappa" :url "nice"}
                                            {:id 3 :title "nice Krappa" :url "3nice"}
                                            )))))
-
