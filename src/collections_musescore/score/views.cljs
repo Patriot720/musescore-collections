@@ -11,12 +11,6 @@
    [:> icon]
    text])
 
-(defn trunc
-  [s n]
-  (if (> (count s) n)
-    (str (apply str (take n s)) "...")
-    s))
-
 (defn score-view []
   (let [score-exists? (reagent/atom true)]
     (fn [collection-id {:keys [id title permalink
@@ -60,7 +54,7 @@
        [:div [inputs/auto-suggest-view {:placeholder "Type  stuff"
                                         :get-suggestion-value get-suggestion-value
                                         :suggestions @(subscribe [:suggestions])
-                                        :on-suggestions-fetch-requested 
+                                        :on-suggestions-fetch-requested
                                         #(dispatch [:get-search-suggestions (.-value %)])
                                         :on-suggestion-selected
                                         #(dispatch   [:get-score-by-url (.-suggestionValue %2)])
@@ -84,8 +78,15 @@
 
        [:> mui/Modal {:on-close #(reset! open? false)
                       :open @open?}
-         [:> mui/Paper {:className "add-score-modal"}
-          (when @(subscribe [:is-score-loading?])
-            [:div {:className "loading-score"}  [:> mui/CircularProgress]])
-          [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add score"]]]
-          [score-search-form collection-id]]]])))
+        [:> mui/Paper {:className "add-score-modal"}
+         (when @(subscribe [:is-score-loading?])
+           [:div {:className "loading-score"}  [:> mui/CircularProgress]])
+         [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add score"]]]
+         [score-search-form collection-id]]]])))
+
+(defn expanded-score-modal []
+  (fn [open? score]
+    [:> mui/Modal {:on-close #(reset! open? false)
+                   :open @open?}
+     [:> mui/Zoom {:in @open? :timeout animation-util/animation-length}
+      [:> mui/Paper {:className "score-modal"}]]]))

@@ -40,20 +40,6 @@
 
 (defn input-base [props & children]
   (let [props (-> props
-                  (assoc-in [:InputProps :inputComponent] (cond
-                                                            (and (:multiline props) (:rows props) (not (:maxRows props)))
-                                                            textarea-component
-
-                                                            ;; FIXME: Autosize multiline field is broken.
-                                                            (:multiline props)
-                                                            nil
-
-                                                            ;; Select doesn't require cursor fix so default can be used.
-                                                            (:select props)
-                                                            nil
-
-                                                            :else
-                                                            input-component))
                   rtpl/convert-prop-value)]
     (apply reagent/create-element mui/InputBase props (map reagent/as-element children))))
 
