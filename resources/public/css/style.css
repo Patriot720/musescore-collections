@@ -2,6 +2,13 @@
 body {
   margin: 0;
 }
+.score-modal {
+  padding: 32px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+}
 .collapse-icon {
   transition: transform 3s ease-in-out;
   margin-top: 15px;
@@ -174,7 +181,7 @@ ul.scores {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) !important;
 }
 .paper-transition {
   transition: all 0.3s ease-out;
