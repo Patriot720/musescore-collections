@@ -6,11 +6,11 @@
             [collections-musescore.events] 
             [collections-musescore.score.events]
             [collections-musescore.collection.events]
+            [collections-musescore.search.events]
             [collections-musescore.subs]   
             [collections-musescore.score.subs]
             [collections-musescore.search.subs]
             [collections-musescore.api]
-            ;;   [tests.test_runner]
             [collections-musescore.score.views]
             [collections-musescore.views.main :as views])
 
