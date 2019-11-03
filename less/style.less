@@ -169,7 +169,14 @@ ul.scores{
     // position: relative
   }
 
-  .container-open {
+  
+
+  .suggestion-render {
+    display: block;
+
+  }
+}
+.react-autosuggest__suggestions-container--open {
 
     position: absolute;
     z-index: 1;
@@ -178,22 +185,17 @@ ul.scores{
     right: 0;
 
     &>ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
+        margin: 0;
+        padding: 0;
+        list-style: none;
 
-      li {
-        display: block;
-      }
+        li {
+            display: block;
+        }
 
     }
-  }
-
-  .suggestion-render {
-    display: block;
-
-  }
 }
+
 
 // Card component
 #root>div>div {

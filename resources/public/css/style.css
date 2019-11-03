@@ -145,22 +145,22 @@ ul.scores {
   position: relative;
   display: block;
 }
-.autosuggest .container-open {
+.autosuggest .suggestion-render {
+  display: block;
+}
+.react-autosuggest__suggestions-container--open {
   position: absolute;
   z-index: 1;
   margin-top: 15px;
   left: 0;
   right: 0;
 }
-.autosuggest .container-open > ul {
+.react-autosuggest__suggestions-container--open > ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.autosuggest .container-open > ul li {
-  display: block;
-}
-.autosuggest .suggestion-render {
+.react-autosuggest__suggestions-container--open > ul li {
   display: block;
 }
 #root > div > div {
