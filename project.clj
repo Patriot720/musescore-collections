@@ -15,7 +15,6 @@
                  [cljsjs/react-dom "16.11.0-0"]
                  [cljsjs/material-ui "4.5.1-0"]
                  [cljsjs/material-ui-icons "4.4.1-0"]
-                ;  [cljsjs/react-transition-group "4.2.1-0"]
                  [clj-commons/secretary "1.2.4"]
                  [cljs-ajax "0.8.0"]
                  [cljsjs/react-autosuggest "9.4.3-0"]
@@ -60,7 +59,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/collections_musescore.js"
                            :main collections-musescore.core
-                           :optimizations :advanced
+                           :optimizations :simple
                            :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
