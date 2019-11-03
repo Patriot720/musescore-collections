@@ -59,7 +59,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/collections_musescore.js"
                            :main collections-musescore.core
-                           :optimizations :simple
+                           :optimizations :advanced
                            :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"

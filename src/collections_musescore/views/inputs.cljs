@@ -67,9 +67,11 @@
                                [:span (.-title suggestion)]])))
 
 (defn- renderSuggestionsContainer [props]
-  (reagent/as-element [:> mui/Paper (assoc (js->clj (.-containerProps props))
-                                           :className "container-open")
-                       (.-children props)]))
+  (reagent/as-element
+   [:div (assoc (js->clj (.-containerProps props))
+                :className "container-open")
+    [:> mui/Paper
+     (.-children props)]]))
 
 (defn- renderInput [props & children]
   (reagent/as-element [text-field (into {:className "input full-width"} (js->clj props))]))

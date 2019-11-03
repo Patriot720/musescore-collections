@@ -35,17 +35,19 @@
         [:> mui/Paper {:className "score-modal"}
          [move-to-collection collection-id score-id]]]])))
 
-(defn add-score-modal []
+(defn expand-score-modal []
   (let [open? (reagent/atom false)]
-    (fn [score & children]
-      {:pre [(s/valid? ::db/score score)]}
-      (into [:div {:on-click #(reset! open? true)}
+    (fn [{:keys [title description] :as score} & children]
+      [:div
        [:> mui/Modal {:on-close #(reset! open? false)
                       :open @open?}
-
-        ]
-             ] children)
-      )))
+        [:> mui/Fade {:in @open? :timeout animation-util/animation-length}
+         [:> mui/Paper {:className "score-modal"}
+          [:> mui/Typography {:variant "h3" :gutterBottom true}
+           title]
+          [:> mui/Typography {:variant "body1"}
+           description]]]]
+       (into [:div {:on-click #(reset! open? true)}] children)])))
 
 (defn score-view []
   (let [score-exists? (reagent/atom true)]
@@ -53,33 +55,34 @@
                                favoriting_count
                                view_count
                                comment_count]
-                        {username :username} :user}]
+                        {username :username} :user :as score}]
       [:> mui/Zoom {:in @score-exists? :timeout animation-util/animation-length}
-       [:> mui/Card {:className "score-view" :id id}
-        [:> mui/CardContent {:className "score-content"}
-         [:> mui/Typography {:variant "h6" :gutterBottom true}
-          title]
-         [:> mui/Typography {:component "div" :variant "body1"}
-          [:> mui/Grid {:container true :spacing 1}
-           [:> mui/Grid {:item true :xs 6} [:strong {:className "username"} username]]
-           [:> mui/Grid {:item true :xs 6}
-            [score-info-item mui-icons/FavoriteBorder favoriting_count]]
-           [:> mui/Grid {:item true :xs 6}
-            [score-info-item mui-icons/VisibilityOutlined view_count]]
-           [:> mui/Grid {:item true :xs 6}
-            [score-info-item mui-icons/QuestionAnswer comment_count]]]]]
+       [expand-score-modal score
+        [:> mui/Card {:className "score-view" :id id}
+         [:> mui/CardContent {:className "score-content"}
+          [:> mui/Typography {:variant "h6" :gutterBottom true}
+           title]
+          [:> mui/Typography {:component "div" :variant "body1"}
+           [:> mui/Grid {:container true :spacing 1}
+            [:> mui/Grid {:item true :xs 6} [:strong {:className "username"} username]]
+            [:> mui/Grid {:item true :xs 6}
+             [score-info-item mui-icons/FavoriteBorder favoriting_count]]
+            [:> mui/Grid {:item true :xs 6}
+             [score-info-item mui-icons/VisibilityOutlined view_count]]
+            [:> mui/Grid {:item true :xs 6}
+             [score-info-item mui-icons/QuestionAnswer comment_count]]]]]
 
-        [:> mui/CardActions {:disable-spacing false}
-         [:a {:href permalink :target "_blank"}
+         [:> mui/CardActions {:disable-spacing false}
+          [:a {:href permalink :target "_blank"}
+           [:> mui/Button
+            {:color "primary"}
+            "Go to score"]]
+          [move-score-modal collection-id id]
           [:> mui/Button
-           {:color "primary"}
-           "Go to score"]]
-         [move-score-modal collection-id id]
-         [:> mui/Button
-          {:color "secondary"
+           {:color "secondary"
            ;; :className "pull-right"
-           :on-click (partial animation-util/delete-with-animation #(dispatch [:remove-score collection-id id]) score-exists?)}
-          "DELETE"]]]])))
+            :on-click (partial animation-util/delete-with-animation #(dispatch [:remove-score collection-id id]) score-exists?)}
+           "DELETE"]]]]])))
 
 (defn- get-suggestion-value [suggestion]
   (.-permalink suggestion))
@@ -97,7 +100,7 @@
                                         #(dispatch   [:get-score-by-url (.-suggestionValue %2)])
                                         :on-suggestions-clear-requested #(dispatch [:clear-score-suggestions])}]]
        [:div {:style {:padding :20px}}
-        [score-view 1 @url-info]]
+         [score-view 1 @url-info]]
        [:> mui/Button {:variant "contained"
                        :color "primary"
                        :full-width true
@@ -120,9 +123,3 @@
          [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add score"]]]
          [score-search-form collection-id]]]])))
 
-(defn expanded-score-modal []
-  (fn [open? score]
-    [:> mui/Modal {:on-close #(reset! open? false)
-                   :open @open?}
-     [:> mui/Zoom {:in @open? :timeout animation-util/animation-length}
-      [:> mui/Paper {:className "score-modal"}]]]))
