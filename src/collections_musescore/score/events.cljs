@@ -38,23 +38,24 @@
 
 (defn remove-score [collections [_ collection-id score-id]]
   (update-in collections [collection-id :scores] dissoc (int score-id)))
+
+;; TODO preconditions postconditions
 ;; TODO check for undefined
 ;; TODO don't write into db if spec is failed
-;; TODO to-integer interceptors
 
 (defn move-score [collections [_  score-id old-collection-id new-collection-id]]
-    (if (get collections new-collection-id)
-      (if-let [score (get-in collections [old-collection-id :scores (int score-id)])]
-        (-> collections
-            (remove-score [nil old-collection-id score-id])
-            (add-score [nil new-collection-id score]))
-        (throw (js/Error. (str score-id " score Not found")))) collections))
+  {:pre [(int? score-id)]}
+  (if (get collections new-collection-id)
+    (if-let [score (get-in collections [old-collection-id :scores (int score-id)])]
+      (-> collections
+          (remove-score [nil old-collection-id score-id])
+          (add-score [nil new-collection-id score]))
+      (throw (js/Error. (str score-id " score Not found")))) collections))
 
-(def score-manipulation-interceptors [util/check-spec (path :collections) util/->local-store])
 
 (reg-event-db
  :move-score
- (conj score-manipulation-interceptors params->int)
+ (conj util/db-manipulation-interceptors params->int)
  move-score)
 
 (reg-event-fx
@@ -73,12 +74,12 @@
 
 (reg-event-db
  :add-score
- score-manipulation-interceptors
+ util/db-manipulation-interceptors
  add-score)
 
 (reg-event-db
  :remove-score
- score-manipulation-interceptors
+ util/db-manipulation-interceptors
  remove-score)
 
 (reg-event-db

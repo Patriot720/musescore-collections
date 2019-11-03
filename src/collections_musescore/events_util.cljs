@@ -7,13 +7,9 @@
   "Throws an exception if `db` doesn't match the Spec `a-spec`."
   [a-spec db]
   (when-not (s/valid? a-spec db)
-    (throw (ex-info (str "spec check failed: " (s/explain-str a-spec db)) {}))))
+    (throw (ex-info (str "spec check failed: " (s/explain-str a-spec db)) {}))
+    nil))
 
-(def check-spec (after (partial check-and-throw :collections-musescore.db/db)))
+(def check-spec (partial check-and-throw :collections-musescore.db/db))
 
-
-(def ->local-store (after db/->local-store))
-
-(def check-spec->path:collections->local-store [check-spec
-                               (path :collections)
-                               ->local-store])
+(def db-manipulation-interceptors [(after check-spec) (path :collections) (after db/->local-store)])

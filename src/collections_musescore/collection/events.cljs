@@ -8,6 +8,7 @@
   (into {} (->Collection id title scores)))
 
 
+
 (defn allocate-next-id
   "Returns the next todo id.
   Assumes todos are sorted.
@@ -24,10 +25,10 @@
 
 (reg-event-db
  :remove-collection
- [util/check-spec (path :collections) util/->local-store]
+ util/db-manipulation-interceptors
  remove-collection)
 
 (reg-event-db
  :add-collection
- [util/check-spec (path :collections) util/->local-store]
+ util/db-manipulation-interceptors
  add-collection)

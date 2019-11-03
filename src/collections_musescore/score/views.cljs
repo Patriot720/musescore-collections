@@ -3,6 +3,8 @@
             ["@material-ui/icons" :as mui-icons]
             [collections-musescore.views.animation-util :as animation-util]
             [collections-musescore.views.inputs :as inputs]
+            [collections-musescore.db :as db]
+            [cljs.spec.alpha :as s]
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 
@@ -32,6 +34,18 @@
                       :open @open?}
         [:> mui/Paper {:className "score-modal"}
          [move-to-collection collection-id score-id]]]])))
+
+(defn add-score-modal []
+  (let [open? (reagent/atom false)]
+    (fn [score & children]
+      {:pre [(s/valid? ::db/score score)]}
+      (into [:div {:on-click #(reset! open? true)}
+       [:> mui/Modal {:on-close #(reset! open? false)
+                      :open @open?}
+
+        ]
+             ] children)
+      )))
 
 (defn score-view []
   (let [score-exists? (reagent/atom true)]
