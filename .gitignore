@@ -20,3 +20,4 @@ api_key
 *.*#
 *.org
 todo*
+/.lein-failures

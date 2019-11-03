@@ -10,6 +10,6 @@
     (throw (ex-info (str "spec check failed: " (s/explain-str a-spec db)) {}))
     nil))
 
-(def check-spec (partial check-and-throw :collections-musescore.db/db))
+(def check-spec (after (partial check-and-throw :collections-musescore.db/db)))
 
-(def db-manipulation-interceptors [(after check-spec) (path :collections) (after db/->local-store)])
+(def db-manipulation-interceptors [check-spec (path :collections) (after db/->local-store)])
