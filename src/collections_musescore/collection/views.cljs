@@ -7,6 +7,7 @@
             [re-frame.core :refer [dispatch]]
             [reagent.core :as reagent]))
 
+(set! *warn-on-infer* true) ;; TODO fix infer errors
 (defn card-content [collection-id title scores]
   (let [open? (reagent/atom true)]
     (fn [collection-id title scores]
@@ -54,7 +55,7 @@
         [:> mui/Paper {:className "add-score-modal"}
          [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add Collection"]]]
          [:div {:className "autosuggest"}
-          [inputs/input-field {:dispatch-key :add-collection :label "COol" :button-text "add"}]]]]])))
+          [inputs/input-field {:dispatch-key :add-collection :label "Add Collection" :button-text "add"}]]]]])))
 
 ;; (defn add-collection-modal []
 ;;   [:> mui/Fab {:color "secondary" :className "add-collection-fab"} [:> mui-icons/Add]])

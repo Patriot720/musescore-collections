@@ -1,20 +1,22 @@
 (ns collections-musescore.search.views
   (:require [collections-musescore.views.inputs :as inputs]
-   [reagent.core :as reagent]
-   ["@material-ui/core" :as mui]
-   ["@material-ui/icons" :as mui-icons]
-   [re-frame.core :refer [dispatch subscribe]]))
+            [reagent.core :as reagent]
+            [oops.core :refer [oget oset! ocall oapply ocall! oapply!
+                               oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
+            ["@material-ui/core" :as mui]
+            ["@material-ui/icons" :as mui-icons]
+            [re-frame.core :refer [dispatch subscribe]]))
 
+(set! *warn-on-infer* true) ;; TODO fix infer errors
 (defn- scroll-to [item-id]
-  (js/window.scrollTo #js {:top (.-offsetTop
-                                 (js/document.getElementById item-id))
+  (ocall js/window "scrollTo" #js {:top (oget (ocall js/document "getElementById" item-id) "offsetTop")
                            :behavior "smooth"}))
 
 (defn- render-search-suggestion [suggestion]
   (reagent/as-element
    [:> mui/MenuItem {:component "div"
                      :className "suggestion-render"} ;; TODO useStyles
-    [:span  (.-title suggestion)]]))
+    [:span  (oget suggestion "title")]]))
 
 (defn render-search-input
   [props & children]
@@ -24,7 +26,7 @@
     [inputs/input-base (into {:className "search-input" :full-width true :variant "filled"} (js->clj props))]]))
 
 (defn on-suggestion-select [event suggestion]
-  (scroll-to (.-id (.-suggestion suggestion))))
+  (scroll-to (oget suggestion "suggestion.id")))
 
 (defn search-view []
   [inputs/auto-suggest-view {:placeholder "Search scores"
@@ -34,5 +36,5 @@
                              :render-suggestion render-search-suggestion
                              :render-input render-search-input
                              :on-suggestions-fetch-requested #(dispatch [:search-local-scores
-                                                             (.-value %)])
+                                                                         (oget  % "value")])
                              :on-suggestions-clear-requested #()}])

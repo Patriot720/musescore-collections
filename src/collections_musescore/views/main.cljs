@@ -7,7 +7,7 @@
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as reagent]))
 
-(set! *warn-on-infer* false) ;; TODO fix infer errors
+(set! *warn-on-infer* true) ;; TODO fix infer errors
 
 
 (defn collections-view [collections-atom]
@@ -19,6 +19,7 @@
        ^{:key id}
        [:> mui/Grid {:className "collection" :item true}
         [collection-view collection]])]]])
+
 (defn header []
 
   [:div {:className "header"}

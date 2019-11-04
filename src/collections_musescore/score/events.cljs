@@ -91,4 +91,4 @@
 (reg-event-db
  :clear-score-suggestions
  [(path :suggestions)]
- [])
+ (fn [& args] []))

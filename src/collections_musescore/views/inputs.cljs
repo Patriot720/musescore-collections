@@ -1,10 +1,13 @@
 (ns collections-musescore.views.inputs
   (:require ["@material-ui/core" :as mui]
             [re-frame.core :refer [dispatch subscribe]]
+            [oops.core :refer [oget oset! ocall oapply ocall! oapply!
+                               oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [reagent.impl.template :as rtpl]
             [reagent.core :as reagent]
             cljsjs.react-autosuggest))
 
+(set! *warn-on-infer* true) ;; TODO fix infer errors
 (def ^:private input-component
   (reagent/reactify-component
    (fn [props]
@@ -51,8 +54,8 @@
       [:> mui/Grid {:item true}
        [text-field
         {:value @title :label label :rows 10
-         :on-change #(reset! title (-> % .-target .-value))
-         :on-key-down #(case (.-which %)
+         :on-change #(reset! title  (oget % "target.value"))
+         :on-key-down #(case (oget % "which")
                          13 (save)
                          27 (stop)
                          nil)}]
@@ -61,21 +64,21 @@
                        :on-click #(save)} button-text]])))
 
 (defn-  renderSuggestion [suggestion]
-  (when (.-title suggestion) (reagent/as-element
+  (when (oget suggestion "title") (reagent/as-element
                               [:> mui/MenuItem {:component "div"
                                                 :className "suggestion-render"} ;; TODO useStyles
-                               [:span (.-title suggestion)]])))
+                               [:span (oget suggestion "title")]])))
 
 (defn- renderSuggestionsContainer [props]
   (reagent/as-element
-   [:> mui/Paper (js->clj (.-containerProps props))
-    (.-children props)]))
+   [:> mui/Paper (js->clj (oget props "containerProps"))
+    (oget props "children")]))
 
 (defn- renderInput [props & children]
   (reagent/as-element [text-field (into {:className "input full-width"} (js->clj props))]))
 
 (def Autosuggest (reagent/adapt-react-class js/Autosuggest))
-
+;; fs
 (defn auto-suggest-view []
   (let [input-val (reagent/atom "")]
     (fn [{:keys [placeholder suggestions
@@ -97,4 +100,4 @@
                     :inputProps {:placeholder placeholder
                                  :value @input-val
                                  :onChange
-                                 #(reset! input-val (.-newValue %2))}}])))
+                                 #(reset! input-val (oget %2 "newValue"))}}])))

@@ -9,6 +9,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/clojurescript "1.10.520"]
                  [org.clojure/core.async  "0.4.500"]
+                 [binaryage/oops "0.7.0"]
                  [environ "1.1.0"]
                  [reagent "0.8.1"]
                  [cljsjs/react "16.11.0-0"]
@@ -60,7 +61,10 @@
                 :compiler {:output-to "resources/public/js/compiled/collections_musescore.js"
                            :main collections-musescore.core
                            :optimizations :advanced
-                           :pretty-print false}}]}
+                           ;; :pseudo-names true
+                           :pretty-print true
+
+                           }}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default

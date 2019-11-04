@@ -5,6 +5,7 @@
    [clojure.string]
    [ajax.core :refer [GET]]))
 
+(set! *warn-on-infer* true) ;; TODO fix infer errors
 (def query-base "https://cors-anywhere.herokuapp.com/http://api.musescore.com/services/rest/")
 (defn parse-url [url] (last (clojure.string/split url #"/")))
 
