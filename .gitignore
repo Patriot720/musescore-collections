@@ -1,7 +1,7 @@
 /resources/public/js/compiled/**
 .joker
 *.psd
-/resources/public/css/**/*.css
+/resources/public/css/*.css
 figwheel_server.log
 pom.xml
 *jar
@@ -12,13 +12,13 @@ pom.xml
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
+\#*
 .repl
 .nrepl-port
 node-modules/
 node_modules
 api_key
 /*.el
-*.*#
 *.org
 todo*
 /.lein-failures
