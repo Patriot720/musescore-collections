@@ -1,7 +1,6 @@
 # collections-musescore
 
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8eb788bf-39ef-459a-b5fb-7e5307b0a64c/deploy-status)](https://app.netlify.com/sites/musescore-collections/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8eb788bf-39ef-459a-b5fb-7e5307b0a64c/deploy-status)](https://app.netlify.com/sites/musescore-collections/deploys) [![demo website](https://img.shields.io/badge/website-up-green)](https://musescore-collections.netlify.com) 
 
 ## Overview
 
