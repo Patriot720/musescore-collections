@@ -1,6 +1,8 @@
 /resources/public/js/compiled/**
 .joker
-*.psd
+./*.psd
+./*.png
+./*.jpg
 /resources/public/css/*.css
 figwheel_server.log
 pom.xml
@@ -23,3 +25,4 @@ api_key
 todo*
 /.lein-failures
 style.css
+
