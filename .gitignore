@@ -1,6 +1,5 @@
 /resources/public/js/compiled/**
 .joker
-./*.psd
 ./*.png
 ./*.jpg
 /resources/public/css/*.css
@@ -25,4 +24,5 @@ api_key
 todo*
 /.lein-failures
 style.css
-
+*.psd
+/*.jpg
