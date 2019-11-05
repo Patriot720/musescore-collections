@@ -46,7 +46,7 @@
                   rtpl/convert-prop-value)]
     (apply reagent/create-element mui/InputBase props (map reagent/as-element children))))
 
-(defn input-field [{:keys [dispatch-function label button-text]}]
+(defn input-field [{:keys [dispatch-function label button-text]}] ;; TODO only one move somewhere
   (let [title (reagent/atom "")
         stop #(reset! title "")
         save ;; #(dispatch [dispatch-key @title])

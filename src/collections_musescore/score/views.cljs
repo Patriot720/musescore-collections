@@ -39,15 +39,15 @@
          [move-to-collection collection-id score-id]]]])))
 
 (defn expand-score-modal []
-    (fn [open? {:keys [title description] }]
-      [:> mui/Modal {:on-close #(reset! open? false)
-                     :open @open?}
-       [:> mui/Fade {:in @open? :timeout animation-util/animation-length}
-        [:> mui/Paper {:className "score-modal"}
-         [:> mui/Typography {:variant "h3" :gutterBottom true}
-          title]
-         [:> mui/Typography {:variant "body1"}
-          description]]]]))
+  (fn [open? {:keys [title description]}]
+    [:> mui/Modal {:on-close #(reset! open? false)
+                   :open @open?}
+     [:> mui/Fade {:in @open? :timeout animation-util/animation-length}
+      [:> mui/Paper {:className "score-modal"}
+       [:> mui/Typography {:variant "h3" :gutterBottom true}
+        title]
+       [:> mui/Typography {:variant "body1"}
+        description]]]]))
 
 (defn score-view []
   (let [score-exists? (reagent/atom true)
@@ -62,7 +62,7 @@
         [expand-score-modal expanded? score]
         [:> mui/CardContent {:className "score-content"}
          [:> mui/Typography {:variant "h6"  :on-click #(reset! expanded? true) :gutterBottom true}
-           title]
+          title]
          [:> mui/Typography {:component "div" :variant "body1"}
           [:> mui/Grid {:container true :spacing 1}
            [:> mui/Grid {:item true :xs 6} [:strong {:className "username"} username]]
@@ -101,6 +101,8 @@
                                         #(dispatch   [:get-score-by-url (oget %2 "suggestionValue")])
                                         :on-suggestions-clear-requested
                                         #(dispatch [:clear-score-suggestions])}]]
+       (when @(subscribe [:is-search-score-loading?])
+         [:div {:class "progress-search-score"} [:> mui/CircularProgress]])
        [:div {:style {:padding :20px}}
         [score-view 1 @url-info]]
        [:> mui/Button {:variant "contained"

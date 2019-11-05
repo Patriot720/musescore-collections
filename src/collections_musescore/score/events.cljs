@@ -14,6 +14,8 @@
                         (fn [event]
                           (map
                            (fn [item] (if (js/parseInt item) (int item))) event))))))
+(def ^:private add-search-score-loading-status (enrich #(assoc % :search-score-loading true)))
+(def ^:private remove-search-score-loading-status (enrich #(dissoc % :search-score-loading)))
 
 (defn get-search-suggestions [status [_ title]]
   (api/search-score title #(dispatch [:update-search-suggestions %]))
@@ -60,11 +62,12 @@
 
 (reg-event-fx
  :get-search-suggestions
+ [add-search-score-loading-status]
  get-search-suggestions)
 
 (reg-event-db
  :update-search-suggestions
- [(path :suggestions)]
+ [remove-search-score-loading-status (path :suggestions) ]
  update-search-suggestions)
 
 (reg-event-fx

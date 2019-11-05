@@ -15,3 +15,8 @@
  :is-score-loading?
  (fn [db _]
    (:score-loading db)))
+(reg-sub
+ :is-search-score-loading?
+ (fn [db _]
+   (:search-score-loading db))
+ )
