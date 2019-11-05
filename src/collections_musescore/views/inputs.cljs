@@ -46,28 +46,31 @@
                   rtpl/convert-prop-value)]
     (apply reagent/create-element mui/InputBase props (map reagent/as-element children))))
 
-(defn input-field [{:keys [dispatch-key label button-text]}]
+(defn input-field [{:keys [dispatch-function label button-text]}]
   (let [title (reagent/atom "")
         stop #(reset! title "")
-        save #(dispatch [dispatch-key @title])]
+        save ;; #(dispatch [dispatch-key @title])
+        #((partial dispatch-function @title))
+        ]
     (fn []
-      [:> mui/Grid {:item true}
-       [text-field
-        {:value @title :label label :rows 10
-         :on-change #(reset! title  (oget % "target.value"))
-         :on-key-down #(case (oget % "which")
-                         13 (save)
-                         27 (stop)
-                         nil)}]
-       [:> mui/Button {:variant "contained"
-                       :color "primary"
-                       :on-click #(save)} button-text]])))
+      [:> mui/Grid {:item true :container true :spacing 2}
+       [:> mui/Grid {:item true} [text-field
+                                  {:value @title :label label :rows 10
+                                   :on-change #(reset! title  (oget % "target.value"))
+                                   :on-key-down #(case (oget % "which")
+                                                   13 (save)
+                                                   27 (stop)
+                                                   nil)}]]
+       [:> mui/Grid {:item true}
+        [:> mui/Button {:variant "contained"
+                        :color "primary"
+                        :on-click #(save)} button-text]]])))
 
 (defn-  renderSuggestion [suggestion]
   (when (oget suggestion "title") (reagent/as-element
-                              [:> mui/MenuItem {:component "div"
-                                                :className "suggestion-render"} ;; TODO useStyles
-                               [:span (oget suggestion "title")]])))
+                                   [:> mui/MenuItem {:component "div"
+                                                     :className "suggestion-render"} ;; TODO useStyles
+                                    [:span (oget suggestion "title")]])))
 
 (defn- renderSuggestionsContainer [props]
   (reagent/as-element

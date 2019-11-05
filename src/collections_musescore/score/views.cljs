@@ -90,7 +90,7 @@
 
 (defn score-search-form []
   (let [url-info (subscribe [:url-info])]
-    (fn [collection-id]
+    (fn [modal-open? collection-id]
       [:div {:className "autosuggest"}
        [:div [inputs/auto-suggest-view {:placeholder "Type  stuff"
                                         :get-suggestion-value get-suggestion-value
@@ -106,7 +106,9 @@
        [:> mui/Button {:variant "contained"
                        :color "primary"
                        :full-width true
-                       :on-click #(dispatch [:add-score collection-id @url-info])} "ADD"]])))
+                       :on-click (fn []
+                                   (reset! modal-open? false)
+                                   (dispatch [:add-score collection-id @url-info]))} "ADD"]])))
 
 (defn add-score-modal [collection-id]
   (let [open? (reagent/atom false)]
@@ -123,5 +125,5 @@
          (when @(subscribe [:is-score-loading?])
            [:div {:className "loading-score"}  [:> mui/CircularProgress]])
          [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add score"]]]
-         [score-search-form collection-id]]]])))
+         [score-search-form open? collection-id]]]])))
 

@@ -55,7 +55,11 @@
         [:> mui/Paper {:className "add-score-modal"}
          [:> mui/AppBar  [:> mui/Toolbar {:elevation 0} [:> mui/Typography {:varinat "h4"} "Add Collection"]]]
          [:div {:className "autosuggest"}
-          [inputs/input-field {:dispatch-key :add-collection :label "Add Collection" :button-text "add"}]]]]])))
+          [inputs/input-field {:dispatch-function (fn [title & args]
+                                                    {:pre [(string? title) (seq title)]}
+                                                    (reset! open? false)
+                                                    (dispatch [:add-collection title]))
+                               :label "Add Collection" :button-text "add"}]]]]])))
 
 ;; (defn add-collection-modal []
 ;;   [:> mui/Fab {:color "secondary" :className "add-collection-fab"} [:> mui-icons/Add]])
