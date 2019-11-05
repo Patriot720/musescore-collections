@@ -5,6 +5,7 @@
             [collections-musescore.views.inputs :as inputs]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
+            clojure.string
             [collections-musescore.db :as db]
             [cljs.spec.alpha :as s]
             [re-frame.core :refer [dispatch subscribe]]
@@ -88,6 +89,9 @@
 (defn- get-suggestion-value [suggestion]
   (oget suggestion "permalink"))
 
+(defn is-a-link? [value] {:pre [(string? value)]}
+  (clojure.string/includes? value "http"))
+
 (defn score-search-form []
   (let [url-info (subscribe [:url-info])]
     (fn [modal-open? collection-id]
@@ -96,7 +100,11 @@
                                         :get-suggestion-value get-suggestion-value
                                         :suggestions @(subscribe [:suggestions])
                                         :on-suggestions-fetch-requested
-                                        #(dispatch [:get-search-suggestions (oget % "value")])
+                                        (fn [value]
+                                          (let [value (oget value "value")]
+                                            (if (is-a-link? value)
+                                              (dispatch   [:get-score-by-url value])
+                                              (dispatch [:get-search-suggestions  value]))))
                                         :on-suggestion-selected
                                         #(dispatch   [:get-score-by-url (oget %2 "suggestionValue")])
                                         :on-suggestions-clear-requested
