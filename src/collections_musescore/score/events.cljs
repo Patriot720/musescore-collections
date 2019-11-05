@@ -24,7 +24,7 @@
 (defn update-search-suggestions [suggestions [_ result]] result)
 
 (defn get-score-by-url [status [_ url]]
-  (api/get-info-by-url url #(dispatch [:update-temp-score %]))
+  (api/get-info-by-url url #(dispatch [:update-temp-score %]) #(dispatch [:fail-link-temp-score %]))
   {})
 
 (defn update-temp-score [temp-url-info [_ result]]
@@ -54,7 +54,6 @@
           (add-score [nil new-collection-id score]))
       (throw (js/Error. (str score-id " score Not found")))) collections))
 
-
 (reg-event-db
  :move-score
  (conj util/db-manipulation-interceptors params->int)
@@ -67,7 +66,7 @@
 
 (reg-event-db
  :update-search-suggestions
- [remove-search-score-loading-status (path :suggestions) ]
+ [remove-search-score-loading-status (path :suggestions)]
  update-search-suggestions)
 
 (reg-event-fx
@@ -90,6 +89,11 @@
  [remove-score-loading-status
   (path :temp-url-info)]
  update-temp-score)
+
+(reg-event-db
+ :fail-link-temp-score
+ [remove-score-loading-status]
+ (fn [db &args] db))
 
 (reg-event-db
  :clear-score-suggestions
